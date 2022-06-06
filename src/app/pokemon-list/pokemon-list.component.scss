@@ -1,0 +1,58 @@
+@use "../../styles.scss" as *;
+
+.container {
+  margin: 5rem;
+}
+
+.listContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  list-style: none;
+  justify-content: center;
+  align-self: center;
+  padding-left: 0;
+}
+
+.cardContainer {
+  width: 25%;
+  border: 0.5px solid $borderColor;
+  border-radius: 10px;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.cardImage {
+  width: 100%;
+  min-height: 200px;
+  @include backgroundSetting;
+}
+
+.pokemonName {
+  text-transform: capitalize;
+  color: $mainTextColor;
+  font-family: $fontFamily;
+  font-size: large;
+  margin: 0;
+  padding-top: 0.8rem;
+}
+
+.pokemonNumber {
+  color: $secondColor;
+  font-family: $fontFamily;
+  font-weight: 600;
+  font-size: small;
+}
+
+.pokemonType {
+  display: flex;
+  gap: 0.5rem;
+  text-transform: capitalize;
+  font-family: $fontFamily;
+  p {
+    border-radius: 5px;
+    width: 35%;
+    text-align: center;
+    padding: 2% 0;
+  }
+}

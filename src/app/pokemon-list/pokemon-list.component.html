@@ -1,0 +1,23 @@
+<div class="container">
+  <ul class="listContainer">
+    <li
+      *ngFor="let pokemon of pokemonList"
+      [routerLink]="['/card', pokemon.name]"
+      class="cardContainer"
+    >
+      <div class="cardImage" [ngStyle]="getBackground(pokemon)"></div>
+      <span class="pokemonNumber">N° {{ pokemon.id }}</span>
+      <h4 class="pokemonName">{{ pokemon.name }}</h4>
+      <div class="pokemonType">
+        <p
+          *ngFor="let type of pokemon.types"
+          appTypesBackground
+          [type]="type.type.name"
+        >
+          {{ type.type.name }}
+        </p>
+      </div>
+    </li>
+  </ul>
+  <button (click)="onLoadPokemon()">Load other Pokemons</button>
+</div>
