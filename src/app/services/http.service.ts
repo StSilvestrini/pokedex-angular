@@ -7,8 +7,8 @@ export class HttpPokedexService {
 
   requestList = () => this.http.get<any>('https://pokeapi.co/api/v2/pokemon');
 
-  requstSingleCard = (pokemonName) =>
-    this.http.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+  requstSingleCard = (pokemonId) =>
+    this.http.get(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
 
   genericGetRequest = (url: string) => this.http.get<any>(url);
 

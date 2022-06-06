@@ -1,1 +1,36 @@
-<p>pokemon-card works!</p>
+<div class="container">
+  <div class="titleContainer">
+    <h1>{{ pokemonCard?.name + " " }}</h1>
+    <h1>N°{{ formatNumber(pokemonCard?.id) }}</h1>
+  </div>
+  <div class="contentContainer">
+    <div class="cardImage" [ngStyle]="getBackground(pokemonCard)"></div>
+    <div class="cardStats">
+      <ul class="cardContainer">
+        <li>
+          <div class="statName">Weight</div>
+          <div>{{ pokemonCard?.weight }} Kg</div>
+        </li>
+        <li>
+          <div class="statName">Height</div>
+          <div>{{ pokemonCard?.height }} m</div>
+        </li>
+        <app-pokemon-stats-list-item
+          heading="Abilities"
+          [list]="pokemonCard?.abilities"
+          key="ability"
+        ></app-pokemon-stats-list-item>
+        <app-pokemon-stats-list-item
+          heading="Moves"
+          [list]="pokemonCard?.moves.slice(0, 10)"
+          key="move"
+        ></app-pokemon-stats-list-item>
+        <app-pokemon-stats-list-item
+          heading="Types"
+          [list]="pokemonCard?.types"
+          key="type"
+        ></app-pokemon-stats-list-item>
+      </ul>
+    </div>
+  </div>
+</div>

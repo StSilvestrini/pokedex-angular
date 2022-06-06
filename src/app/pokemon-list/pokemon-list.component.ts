@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormatService } from '../services/format.service';
 import { HttpPokedexService } from '../services/http.service';
 
 @Component({
@@ -7,7 +8,10 @@ import { HttpPokedexService } from '../services/http.service';
   styleUrls: ['./pokemon-list.component.scss'],
 })
 export class PokemonListComponent implements OnInit {
-  constructor(private httpService: HttpPokedexService) {}
+  constructor(
+    private httpService: HttpPokedexService,
+    private formatService: FormatService
+  ) {}
   pokemonList: any[] = [];
   nextLink: string;
 
@@ -62,6 +66,5 @@ export class PokemonListComponent implements OnInit {
     return { backgroundImage: `url(${image})` };
   }
 
-  getPrettyNumber = (pokemonNumber: number) =>
-    pokemonNumber.toString().padStart(3, '0');
+  formatNumber = this.formatService.getPrettyNumber;
 }

@@ -1,0 +1,21 @@
+@use "../../styles.scss" as *;
+
+.flex-item {
+  display: flex;
+  text-transform: capitalize;
+  gap: 1rem;
+  flex-wrap: wrap;
+  p {
+    margin: 0;
+  }
+}
+
+.statName {
+  color: #fff;
+  font-weight: 400;
+  padding: 1rem 0;
+  font-family: $fontFamily;
+  font-size: large;
+  margin: 0;
+  text-transform: capitalize;
+}

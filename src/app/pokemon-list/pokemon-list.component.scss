@@ -1,8 +1,7 @@
 @use "../../styles.scss" as *;
 
 .container {
-  margin: 5rem;
-  background-color: rgba(253, 255, 236, 0.493);
+  @include containerSettings;
 }
 
 .listContainer {

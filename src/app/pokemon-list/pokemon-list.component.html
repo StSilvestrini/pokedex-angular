@@ -2,12 +2,12 @@
   <ul class="listContainer">
     <li
       *ngFor="let pokemon of pokemonList"
-      [routerLink]="['/card', pokemon.name]"
+      [routerLink]="['/card', pokemon.id]"
       class="cardContainer"
     >
       <div class="cardImage" [ngStyle]="getBackground(pokemon)"></div>
       <hr />
-      <span class="pokemonNumber">N° {{ getPrettyNumber(pokemon.id) }}</span>
+      <span class="pokemonNumber">N° {{ formatNumber(pokemon.id) }}</span>
       <h4 class="pokemonName">{{ pokemon.name }}</h4>
       <div class="pokemonType">
         <p

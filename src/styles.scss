@@ -3,6 +3,7 @@ $mainTextColor: #313131;
 $borderColor: #bdb9b8;
 $secondColor: #919191;
 $buttonBackgroundColor: #30a7d7;
+$containerBackgroundColor: rgba(253, 255, 236, 0.493);
 
 $fontFamily: "Flexo-Bold", "arial", "sans-serif";
 
@@ -29,4 +30,9 @@ $fontFamily: "Flexo-Bold", "arial", "sans-serif";
 @mixin borderManager() {
   border: 0.5px solid $borderColor;
   border-radius: 10px;
+}
+
+@mixin containerSettings {
+  margin: 5rem;
+  background-color: $containerBackgroundColor;
 }

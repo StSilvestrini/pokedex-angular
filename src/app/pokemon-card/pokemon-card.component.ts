@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FormatService } from '../services/format.service';
 import { HttpPokedexService } from '../services/http.service';
 
 @Component({
@@ -12,14 +13,16 @@ export class PokemonCardComponent implements OnInit {
 
   constructor(
     private httpService: HttpPokedexService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private formatService: FormatService
   ) {}
 
-  getPokemonCard = (pokemonName) => {
+  getPokemonCard = (pokemonId) => {
     const { requstSingleCard, errorManager } = this.httpService;
 
-    requstSingleCard(pokemonName).subscribe({
+    requstSingleCard(pokemonId).subscribe({
       next: (res) => {
+        console.log('res', res);
         this.pokemonCard = res;
       },
       error: errorManager,
@@ -27,11 +30,19 @@ export class PokemonCardComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    const pokemonName = this.route.snapshot.params['pokemonName'];
-    this.getPokemonCard(pokemonName);
+    const pokemonId = this.route.snapshot.params['pokemonId'];
+    this.getPokemonCard(pokemonId);
 
     this.route.params.subscribe((params) => {
-      this.getPokemonCard(params['pokemonName']);
+      this.getPokemonCard(params['pokemonId']);
     });
   }
+
+  formatNumber = this.formatService.getPrettyNumber;
+
+  getBackground = (pokemonCard) => {
+    return {
+      backgroundImage: `url(${pokemonCard?.sprites?.front_default})`,
+    };
+  };
 }

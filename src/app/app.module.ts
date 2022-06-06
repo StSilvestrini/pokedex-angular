@@ -9,6 +9,8 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { HttpPokedexService } from './services/http.service';
 import { HttpClientModule } from '@angular/common/http';
 import { TypesBackgroundDirective } from './types-background.directive';
+import { PokemonStatsListComponent } from './pokemon-stats-list-item/pokemon-stats-list.component';
+import { CardNavigationComponent } from './card-navigation/card-navigation.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { TypesBackgroundDirective } from './types-background.directive';
     PokemonCardComponent,
     ErrorPageComponent,
     TypesBackgroundDirective,
+    PokemonStatsListComponent,
+    CardNavigationComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],
