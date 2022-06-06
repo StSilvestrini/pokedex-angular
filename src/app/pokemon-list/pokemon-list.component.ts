@@ -15,7 +15,7 @@ export class PokemonListComponent implements OnInit {
     let { errorManager, genericGetRequest } = this.httpService;
 
     res.results.forEach((result, index) => {
-      if (result.id) return;
+      if (result?.id) return;
       genericGetRequest(result?.url).subscribe({
         next: (card) => {
           res.results[index] = card;
@@ -24,7 +24,6 @@ export class PokemonListComponent implements OnInit {
       });
     });
     this.nextLink = res?.next;
-    console.log(res.results);
     return res?.results;
   };
 
@@ -62,4 +61,7 @@ export class PokemonListComponent implements OnInit {
     if (!image) return;
     return { backgroundImage: `url(${image})` };
   }
+
+  getPrettyNumber = (pokemonNumber: number) =>
+    pokemonNumber.toString().padStart(3, '0');
 }

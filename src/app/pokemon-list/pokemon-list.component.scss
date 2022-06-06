@@ -2,24 +2,25 @@
 
 .container {
   margin: 5rem;
+  background-color: rgba(253, 255, 236, 0.493);
 }
 
 .listContainer {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 1.5rem;
   list-style: none;
-  justify-content: center;
   align-self: center;
   padding-left: 0;
 }
 
 .cardContainer {
   width: 25%;
-  border: 0.5px solid $borderColor;
-  border-radius: 10px;
   padding: 1rem;
   cursor: pointer;
+  @include box-shadow;
+  @include zoom;
+  @include borderManager;
 }
 
 .cardImage {
@@ -50,9 +51,27 @@
   text-transform: capitalize;
   font-family: $fontFamily;
   p {
+    font-size: small;
     border-radius: 5px;
     width: 35%;
     text-align: center;
     padding: 2% 0;
   }
+}
+
+.buttonContainer {
+  width: 100%;
+}
+
+.loadPokemonButton {
+  padding: 1.5rem;
+  cursor: pointer;
+  display: block;
+  margin: 2.5rem auto;
+  font-size: medium;
+  font-weight: 600;
+  background-color: $buttonBackgroundColor;
+  color: #fff;
+  @include zoom;
+  @include borderManager;
 }

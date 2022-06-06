@@ -6,7 +6,8 @@
       class="cardContainer"
     >
       <div class="cardImage" [ngStyle]="getBackground(pokemon)"></div>
-      <span class="pokemonNumber">N° {{ pokemon.id }}</span>
+      <hr />
+      <span class="pokemonNumber">N° {{ getPrettyNumber(pokemon.id) }}</span>
       <h4 class="pokemonName">{{ pokemon.name }}</h4>
       <div class="pokemonType">
         <p
@@ -19,5 +20,9 @@
       </div>
     </li>
   </ul>
-  <button (click)="onLoadPokemon()">Load other Pokemons</button>
+  <div class="buttonContainer">
+    <button (click)="onLoadPokemon()" class="loadPokemonButton">
+      Load other Pokemons
+    </button>
+  </div>
 </div>

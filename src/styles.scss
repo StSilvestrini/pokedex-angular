@@ -2,6 +2,7 @@
 $mainTextColor: #313131;
 $borderColor: #bdb9b8;
 $secondColor: #919191;
+$buttonBackgroundColor: #30a7d7;
 
 $fontFamily: "Flexo-Bold", "arial", "sans-serif";
 
@@ -9,4 +10,23 @@ $fontFamily: "Flexo-Bold", "arial", "sans-serif";
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
+}
+
+@mixin box-shadow {
+  -webkit-box-shadow: 5px 5px 20px 0px #000000;
+  -moz-box-shadow: 5px 5px 20px 0px #000000;
+  -o-box-shadow: 5px 5px 20px 0px #000000;
+  box-shadow: 5px 5px 20px 0px #000000;
+}
+
+@mixin zoom {
+  transition: transform 0.2s;
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+@mixin borderManager() {
+  border: 0.5px solid $borderColor;
+  border-radius: 10px;
 }
