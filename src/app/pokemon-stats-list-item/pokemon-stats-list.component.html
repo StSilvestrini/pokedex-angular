@@ -1,8 +1,8 @@
 <li>
-  <p class="statName">{{ heading }}</p>
+  <p class="statName">{{ key | inferPlural | titlecase }}</p>
   <div class="flex-item">
-    <p *ngFor="let element of list">
-      {{ element[key].name }}
+    <p *ngFor="let element of list | cutList">
+      {{ element[key].name | titlecase }}
     </p>
   </div>
 </li>

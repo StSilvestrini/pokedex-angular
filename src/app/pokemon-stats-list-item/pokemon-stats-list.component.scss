@@ -2,7 +2,6 @@
 
 .flex-item {
   display: flex;
-  text-transform: capitalize;
   gap: 1rem;
   flex-wrap: wrap;
   p {
@@ -17,5 +16,4 @@
   font-family: $fontFamily;
   font-size: large;
   margin: 0;
-  text-transform: capitalize;
 }

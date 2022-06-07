@@ -8,14 +8,14 @@
       <div class="cardImage" [ngStyle]="getBackground(pokemon)"></div>
       <hr />
       <span class="pokemonNumber">N° {{ formatNumber(pokemon.id) }}</span>
-      <h4 class="pokemonName">{{ pokemon.name }}</h4>
+      <h4 class="pokemonName">{{ pokemon.name | titlecase }}</h4>
       <div class="pokemonType">
         <p
           *ngFor="let type of pokemon.types"
           appTypesBackground
           [type]="type.type.name"
         >
-          {{ type.type.name }}
+          {{ type.type.name | titlecase }}
         </p>
       </div>
     </li>

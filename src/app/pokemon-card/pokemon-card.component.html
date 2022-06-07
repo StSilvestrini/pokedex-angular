@@ -9,7 +9,7 @@
   </div>
   <app-card-navigation></app-card-navigation>
   <div class="titleContainer">
-    <h1>{{ pokemonCard?.name + " " }}</h1>
+    <h1>{{ pokemonCard?.name + " " | titlecase }}</h1>
     <h1>N°{{ formatNumber(pokemonCard?.id) }}</h1>
   </div>
   <div class="gridContainer">
@@ -25,17 +25,14 @@
           <div>{{ pokemonCard?.height }} dm</div>
         </li>
         <app-pokemon-stats-list-item
-          heading="Abilities"
           [list]="pokemonCard?.abilities"
           key="ability"
         ></app-pokemon-stats-list-item>
         <app-pokemon-stats-list-item
-          heading="Moves"
-          [list]="pokemonCard?.moves.slice(0, 10)"
+          [list]="pokemonCard?.moves"
           key="move"
         ></app-pokemon-stats-list-item>
         <app-pokemon-stats-list-item
-          heading="Types"
           [list]="pokemonCard?.types"
           key="type"
         ></app-pokemon-stats-list-item>

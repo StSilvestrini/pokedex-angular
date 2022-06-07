@@ -29,7 +29,6 @@
 }
 
 .pokemonName {
-  text-transform: capitalize;
   color: $mainTextColor;
   font-family: $fontFamily;
   font-size: large;
@@ -47,7 +46,6 @@
 .pokemonType {
   display: flex;
   gap: 0.5rem;
-  text-transform: capitalize;
   font-family: $fontFamily;
   p {
     font-size: small;
