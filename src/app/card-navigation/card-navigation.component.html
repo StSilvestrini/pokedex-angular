@@ -1,1 +1,17 @@
-<p>card-navigation works!</p>
+<div class="flex-container">
+  <div
+    [routerLink]="['/card', currentNumber - 1]"
+    class="arrow"
+    *ngIf="currentNumber > 1; else emptyDiv"
+  >
+    <span class="leftArrow"></span>
+    <span>N°{{ formatNumber(currentNumber - 1) }}</span>
+  </div>
+  <ng-template #emptyDiv>
+    <div></div>
+  </ng-template>
+  <div [routerLink]="['/card', currentNumber + 1]" class="arrow">
+    <span>N°{{ formatNumber(currentNumber + 1) }}</span
+    ><span class="rightArrow"></span>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+@use "../../styles.scss" as *;
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rightArrow {
+  @include arrow("right");
+}
+
+.leftArrow {
+  @include arrow("left");
+}
+
+.arrow {
+  color: $secondColor;
+  cursor: pointer;
+  @include zoom;
+}
