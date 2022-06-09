@@ -14,6 +14,7 @@ export class PokemonListComponent implements OnInit {
   ) {}
   pokemonList: any[] = [];
   nextLink: string;
+  pokemonListCopy: any[] = [];
 
   expandArray = (res) => {
     let { errorManager, genericGetRequest } = this.httpService;
@@ -37,6 +38,7 @@ export class PokemonListComponent implements OnInit {
     requestList().subscribe({
       next: (res) => {
         this.pokemonList = this.expandArray(res);
+        this.pokemonListCopy = this.expandArray(res);
       },
       error: errorManager,
     });
@@ -54,10 +56,25 @@ export class PokemonListComponent implements OnInit {
           results: newArray,
           next: response.next,
         });
+        this.pokemonListCopy = this.expandArray({
+          results: newArray,
+          next: response.next,
+        });
       },
       error: errorManager,
     });
   };
+
+  onPokemonSearched(queryString: string) {
+    console.log('<<<<', this.pokemonListCopy);
+    this.pokemonList = this.pokemonListCopy.filter((pokemon) =>
+      pokemon.name.includes(queryString)
+    );
+  }
+
+  onClearSearch() {
+    this.pokemonList = [...this.pokemonListCopy];
+  }
 
   getBackground(pokemon) {
     const image = this.pokemonList.find((pok) => pok?.name === pokemon?.name)

@@ -1,4 +1,8 @@
 <div class="container">
+  <app-search-bar
+    (searchPokemon)="onPokemonSearched($event)"
+    (clearPokemons)="onClearSearch()"
+  ></app-search-bar>
   <ul class="listContainer">
     <li
       *ngFor="let pokemon of pokemonList"

@@ -12,6 +12,8 @@ import { PokemonStatsListComponent } from './pokemon-stats-list-item/pokemon-sta
 import { CardNavigationComponent } from './card-navigation/card-navigation.component';
 import { CutListPipe } from './pipes/cut-list.pipe';
 import { InferPluralPipe } from './pipes/infer-plural.pipe';
+import { SearchBarComponent } from './search-bar/search-bar.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,8 +26,9 @@ import { InferPluralPipe } from './pipes/infer-plural.pipe';
     CardNavigationComponent,
     CutListPipe,
     InferPluralPipe,
+    SearchBarComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],
 })

@@ -1,0 +1,19 @@
+<form class="searchForm" (ngSubmit)="onSubmit()" #searchForm="ngForm">
+  <div>
+    <input
+      type="text"
+      placeholder="Seach..."
+      [(ngModel)]="searchQuery"
+      required
+      name="searchInput"
+    />
+    <button
+      type="submit"
+      [disabled]="!searchForm.valid"
+      [ngClass]="{ valid: searchForm.valid }"
+    >
+      Search
+    </button>
+    <button type="button" (click)="onClear()">Clear</button>
+  </div>
+</form>
