@@ -22,7 +22,6 @@ export class PokemonCardComponent implements OnInit {
 
     requstSingleCard(pokemonId).subscribe({
       next: (res) => {
-        console.log('res', res);
         this.pokemonCard = res;
       },
       error: errorManager,

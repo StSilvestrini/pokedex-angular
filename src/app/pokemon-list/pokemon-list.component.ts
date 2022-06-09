@@ -66,7 +66,6 @@ export class PokemonListComponent implements OnInit {
   };
 
   onPokemonSearched(queryString: string) {
-    console.log('<<<<', this.pokemonListCopy);
     this.pokemonList = this.pokemonListCopy.filter((pokemon) =>
       pokemon.name.includes(queryString)
     );
