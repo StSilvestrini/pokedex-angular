@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormatService } from '../services/format.service';
-import { HttpPokedexService } from '../services/http.service';
+import { FormatService } from '../../services/format.service';
+import { HttpPokedexService } from '../../services/http.service';
 
 @Component({
   selector: 'app-pokemon-list',

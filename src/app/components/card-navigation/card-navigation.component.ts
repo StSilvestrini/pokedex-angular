@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormatService } from '../services/format.service';
+import { FormatService } from '../../services/format.service';
 
 @Component({
   selector: 'app-card-navigation',

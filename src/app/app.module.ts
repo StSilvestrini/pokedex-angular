@@ -3,16 +3,16 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PokemonListComponent } from './pokemon-list/pokemon-list.component';
-import { PokemonCardComponent } from './pokemon-card/pokemon-card.component';
-import { ErrorPageComponent } from './error-page/error-page.component';
+import { PokemonListComponent } from './components/pokemon-list/pokemon-list.component';
+import { PokemonCardComponent } from './components/pokemon-card/pokemon-card.component';
+import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TypesBackgroundDirective } from './types-background.directive';
-import { PokemonStatsListComponent } from './pokemon-stats-list-item/pokemon-stats-list.component';
-import { CardNavigationComponent } from './card-navigation/card-navigation.component';
+import { PokemonStatsListComponent } from './components/pokemon-stats-list-item/pokemon-stats-list.component';
+import { CardNavigationComponent } from './components/card-navigation/card-navigation.component';
 import { CutListPipe } from './pipes/cut-list.pipe';
 import { InferPluralPipe } from './pipes/infer-plural.pipe';
-import { SearchBarComponent } from './search-bar/search-bar.component';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormatService } from '../services/format.service';
-import { HttpPokedexService } from '../services/http.service';
+import { FormatService } from '../../services/format.service';
+import { HttpPokedexService } from '../../services/http.service';
 
 @Component({
   selector: 'app-pokemon-card',
