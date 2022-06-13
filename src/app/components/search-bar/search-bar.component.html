@@ -7,13 +7,15 @@
       required
       name="searchInput"
     />
-    <button
-      type="submit"
-      [disabled]="!searchForm.valid"
-      [ngClass]="{ valid: searchForm.valid }"
-    >
-      Search
-    </button>
-    <button type="button" (click)="onClear()">Clear</button>
+    <div class="buttons">
+      <button
+        type="submit"
+        [disabled]="!searchForm.valid"
+        [ngClass]="{ valid: searchForm.valid }"
+      >
+        Search
+      </button>
+      <button type="button" (click)="onClear()">Clear</button>
+    </div>
   </div>
 </form>

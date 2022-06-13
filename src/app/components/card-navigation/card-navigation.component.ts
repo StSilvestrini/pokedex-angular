@@ -17,9 +17,9 @@ export class CardNavigationComponent implements OnInit {
   formatNumber = this.formatService.getPrettyNumber;
 
   ngOnInit(): void {
-    this.currentNumber = Number(this.route.snapshot.params['pokemonId']);
+    this.currentNumber = +this.route.snapshot.params['pokemonId'];
     this.route.params.subscribe((changes) => {
-      this.currentNumber = Number(changes['pokemonId']);
+      this.currentNumber = +changes['pokemonId'];
     });
   }
 }

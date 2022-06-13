@@ -11,6 +11,9 @@
   list-style: none;
   align-self: center;
   padding-left: 0;
+  @media (max-width: $breakpoint-tablet) {
+    justify-content: center;
+  }
 }
 
 .cardContainer {
@@ -20,6 +23,12 @@
   @include box-shadow;
   @include zoom;
   @include borderManager;
+  @media (max-width: $breakpoint-tablet) {
+    width: 35%;
+  }
+  @media (max-width: $breakpoint-mobile) {
+    width: 100%;
+  }
 }
 
 .cardImage {
@@ -71,4 +80,8 @@
   color: #fff;
   @include zoom;
   @include borderManager;
+  @media (max-width: $breakpoint-mobile) {
+    padding: 1rem;
+    font-size: small;
+  }
 }
