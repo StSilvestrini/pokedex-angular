@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IPokemonCard } from 'src/app/interfaces';
 import { FormatService } from '../../services/format.service';
 import { HttpPokedexService } from '../../services/http.service';
 
@@ -12,13 +13,12 @@ export class PokemonListComponent implements OnInit {
     private httpService: HttpPokedexService,
     private formatService: FormatService
   ) {}
-  pokemonList: any[] = [];
+  pokemonList: IPokemonCard[] = [];
   nextLink: string;
-  pokemonListCopy: any[] = [];
+  pokemonListCopy: IPokemonCard[] = [];
 
   expandArray = (res) => {
     let { errorManager, genericGetRequest } = this.httpService;
-
     res.results.forEach((result, index) => {
       if (result?.id) return;
       genericGetRequest(result?.url).subscribe({
@@ -45,6 +45,8 @@ export class PokemonListComponent implements OnInit {
   }
 
   onLoadPokemon = () => {
+    console.log('hdaslkhdlkskdaklj', this.pokemonList);
+
     let {
       httpService: { genericGetRequest, errorManager },
       nextLink,

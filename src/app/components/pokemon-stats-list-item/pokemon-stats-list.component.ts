@@ -7,6 +7,6 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None,
 })
 export class PokemonStatsListComponent {
-  @Input() list: any[];
+  @Input() list: { [key: string]: { name: string } }[];
   @Input() key: string;
 }
