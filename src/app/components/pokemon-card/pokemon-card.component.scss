@@ -17,17 +17,33 @@
       color: $secondColor;
     }
   }
+
+  @media (max-width: $breakpoint-tablet) {
+    margin-bottom: 1rem;
+    font-size: small;
+  }
+  @media (max-width: $breakpoint-mobile) {
+    margin-top: 1rem;
+    font-size: x-small;
+  }
 }
 
 .cardImage {
   height: 100vh;
   @include backgroundSetting;
   @include borderManager;
+  @include box-shadow;
+  @media (max-width: $breakpoint-tablet) {
+    height: 60vh;
+  }
+  @media (max-width: $breakpoint-mobile) {
+    height: 40vh;
+  }
 }
 
 .cardStats {
   padding: 3rem;
-
+  font-size: small;
   .cardContainer {
     background-color: $buttonBackgroundColor;
     height: 100%;
@@ -40,15 +56,25 @@
     list-style: none;
     margin: 0;
   }
+
+  @media (max-width: $breakpoint-tablet) {
+    padding: 2rem 0;
+  }
 }
 
 .gridContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  @media (max-width: $breakpoint-tablet) {
+    grid-template-columns: 1fr;
+    width: 80%;
+    margin: 0 auto;
+  }
 }
 
 .logoContainer {
-  width: 100%;
+  width: 80%;
+  margin: 0 auto;
 }
 
 .logo {
@@ -56,4 +82,10 @@
   display: block;
   margin: 0 auto 5rem auto;
   cursor: pointer;
+  @media (max-width: $breakpoint-tablet) {
+    margin-bottom: 2rem;
+  }
+  @media (max-width: $breakpoint-mobile) {
+    width: 80%;
+  }
 }
