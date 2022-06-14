@@ -35,6 +35,7 @@ export class PokemonListComponent implements OnInit {
   ngOnInit(): void {
     let { requestList, errorManager } = this.httpService;
 
+    this.httpService.getPokemonByTypes();
     requestList().subscribe({
       next: (res) => {
         this.pokemonList = this.expandArray(res);
@@ -45,8 +46,6 @@ export class PokemonListComponent implements OnInit {
   }
 
   onLoadPokemon = () => {
-    console.log('hdaslkhdlkskdaklj', this.pokemonList);
-
     let {
       httpService: { genericGetRequest, errorManager },
       nextLink,

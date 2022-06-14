@@ -11,12 +11,16 @@ export interface IPokemonCard {
   };
 }
 
-export interface IPokemonCardShort {
+export interface IGenericShortInfo {
   name: string;
   url: string;
 }
 
 export interface IPokemonList {
   next: string;
-  results: IPokemonCardShort[];
+  results: IGenericShortInfo[];
+}
+
+export interface IType {
+  results: IGenericShortInfo[];
 }
