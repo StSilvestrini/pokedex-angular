@@ -3,7 +3,7 @@
     (searchPokemon)="onPokemonSearched($event)"
     (clearPokemons)="onClearSearch()"
   ></app-search-bar>
-  <ul class="listContainer">
+  <ul class="listContainer" *ngIf="pokemonList.length">
     <li
       *ngFor="let pokemon of pokemonList"
       [routerLink]="['/card', pokemon.id]"
@@ -24,6 +24,7 @@
       </div>
     </li>
   </ul>
+  <h2 *ngIf="!pokemonList.length">No matches</h2>
   <div class="buttonContainer">
     <button (click)="onLoadPokemon()" class="loadPokemonButton">
       Load other Pokemons
