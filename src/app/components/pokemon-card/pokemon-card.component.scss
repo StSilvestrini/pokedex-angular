@@ -29,7 +29,7 @@
 }
 
 .cardImage {
-  height: 100vh;
+  height: 100%;
   @include backgroundSetting;
   @include borderManager;
   @include box-shadow;
@@ -42,12 +42,13 @@
 }
 
 .cardStats {
-  padding: 3rem;
   font-size: small;
+  background-color: $buttonBackgroundColor;
+  height: 100%;
+  border-radius: 10px;
+  margin-left: 2rem;
+
   .cardContainer {
-    background-color: $buttonBackgroundColor;
-    height: 100%;
-    border-radius: 10px;
     padding: 1rem;
   }
 
@@ -58,17 +59,21 @@
   }
 
   @media (max-width: $breakpoint-tablet) {
-    padding: 2rem 0;
+    margin-top: 2rem;
+    margin-left: 0;
+    height: auto;
   }
 }
 
 .gridContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  height: 80vh;
   @media (max-width: $breakpoint-tablet) {
     grid-template-columns: 1fr;
     width: 80%;
     margin: 0 auto;
+    height: auto;
   }
 }
 
