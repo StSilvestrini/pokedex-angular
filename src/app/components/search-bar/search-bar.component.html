@@ -1,4 +1,4 @@
-<form class="searchForm" (ngSubmit)="onSubmit()" #searchForm="ngForm">
+<form class="searchForm" #searchForm="ngForm">
   <div>
     <input
       type="text"
@@ -8,13 +8,6 @@
       name="searchInput"
     />
     <div class="buttons">
-      <button
-        type="submit"
-        [disabled]="!searchForm.valid"
-        [ngClass]="{ valid: searchForm.valid }"
-      >
-        Search
-      </button>
       <button type="button" (click)="onClear()">Clear</button>
     </div>
   </div>

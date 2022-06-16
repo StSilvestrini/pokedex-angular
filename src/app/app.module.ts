@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
 import { PokemonListComponent } from './components/pokemon-list/pokemon-list.component';
 import { PokemonCardComponent } from './components/pokemon-card/pokemon-card.component';
@@ -12,8 +12,10 @@ import { PokemonStatsListComponent } from './components/pokemon-stats-list-item/
 import { CardNavigationComponent } from './components/card-navigation/card-navigation.component';
 import { CutListPipe } from './pipes/cut-list.pipe';
 import { InferPluralPipe } from './pipes/infer-plural.pipe';
+
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { FormsModule } from '@angular/forms';
+import { FilterListPipe } from './pipes/filterList.pipe';
 
 @NgModule({
   declarations: [
@@ -24,9 +26,10 @@ import { FormsModule } from '@angular/forms';
     TypesBackgroundDirective,
     PokemonStatsListComponent,
     CardNavigationComponent,
+    SearchBarComponent,
     CutListPipe,
     InferPluralPipe,
-    SearchBarComponent,
+    FilterListPipe,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],
