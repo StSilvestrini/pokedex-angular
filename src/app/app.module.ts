@@ -16,6 +16,10 @@ import { InferPluralPipe } from './pipes/infer-plural.pipe';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { FormsModule } from '@angular/forms';
 import { FilterListPipe } from './pipes/filterList.pipe';
+import * as fromApp from './store/app.reducer';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { PokemonListEffects } from './components/pokemon-list/store/pokemon-list.effects';
 
 @NgModule({
   declarations: [
@@ -31,7 +35,14 @@ import { FilterListPipe } from './pipes/filterList.pipe';
     InferPluralPipe,
     FilterListPipe,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    StoreModule.forRoot(fromApp.appReducer),
+    EffectsModule.forRoot([PokemonListEffects]),
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

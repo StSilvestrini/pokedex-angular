@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { exhaustMap, forkJoin, map } from 'rxjs';
+import { exhaustMap, forkJoin, map, of } from 'rxjs';
 import { IPokemonCard, IPokemonList, IType } from '../interfaces';
 
 @Injectable({ providedIn: 'root' })
@@ -10,34 +10,26 @@ export class HttpPokedexService {
   pokemonByType: any[];
 
   getPokemonByTypes() {
-    return this.http
-      .get('https://pokeapi.co/api/v2/type')
-      .pipe(
-        exhaustMap(({ results }: IType) => {
-          const arrayOfRequests = results.map((typeObj) =>
-            this.http.get(typeObj.url)
-          );
-          return forkJoin(arrayOfRequests);
-        }),
-        map((res) => {
-          const pokemonArray = res.map((typeObj: any) => {
-            return {
-              pokemons: typeObj.pokemon,
-              name: typeObj.name,
-            };
-          });
+    return this.http.get('https://pokeapi.co/api/v2/type').pipe(
+      exhaustMap(({ results }: IType) => {
+        const arrayOfRequests = results.map((typeObj) =>
+          this.http.get(typeObj.url)
+        );
+        return forkJoin(arrayOfRequests);
+      }),
+      map((res) => {
+        const pokemonArray = res.map((typeObj: any) => {
           return {
-            pokemonArray: pokemonArray,
-            typesArray: res,
+            pokemons: typeObj.pokemon,
+            name: typeObj.name,
           };
-        })
-      )
-      .subscribe({
-        next: (res) => {
-          this.pokemonByType = res.pokemonArray;
-          this.types = res.typesArray;
-        },
-      });
+        });
+        return {
+          pokemonArray: pokemonArray,
+          typesArray: res,
+        };
+      })
+    );
   }
 
   requestList = () =>
