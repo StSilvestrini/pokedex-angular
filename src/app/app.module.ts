@@ -20,6 +20,7 @@ import * as fromApp from './store/app.reducer';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { PokemonListEffects } from './components/pokemon-list/store/pokemon-list.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { PokemonListEffects } from './components/pokemon-list/store/pokemon-list
     FormsModule,
     StoreModule.forRoot(fromApp.appReducer),
     EffectsModule.forRoot([PokemonListEffects]),
+    StoreDevtoolsModule.instrument({ logOnly: false }),
   ],
   providers: [],
   bootstrap: [AppComponent],
