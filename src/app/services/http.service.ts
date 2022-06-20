@@ -2,10 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { exhaustMap, forkJoin, map, of } from 'rxjs';
 import { IPokemonCard, IPokemonList, IType } from '../interfaces';
+import * as fromApp from '../store/app.reducer';
+import { Store } from '@ngrx/store';
 
 @Injectable({ providedIn: 'root' })
 export class HttpPokedexService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private store: Store<fromApp.AppState>
+  ) {}
   types: any[];
   pokemonByType: any[];
 
@@ -32,14 +37,36 @@ export class HttpPokedexService {
     );
   }
 
-  requestList = () =>
-    this.http
-      .get<IPokemonList>('https://pokeapi.co/api/v2/pokemon?limit=100')
+  getPokemonCount = () => {
+    let count: number;
+    this.store
+      .select('pokemonList')
+      .pipe(map((pokemonListState) => pokemonListState.pokemonListByType))
+      .subscribe((data) => {
+        let mergedArray = [];
+        data.forEach((el) => {
+          mergedArray = [...mergedArray, ...el.pokemons];
+        });
+        const uniqueArray = mergedArray.filter(function (item, pos) {
+          const found = mergedArray.find(
+            (el) => el.pokemon.name === item.pokemon.name
+          );
+          return mergedArray.indexOf(found) == pos;
+        });
+        count = uniqueArray.length;
+      });
+    return count;
+  };
+
+  requestList = () => {
+    return this.http
+      .get<IPokemonList>(`https://pokeapi.co/api/v2/pokemon?limit=20`)
       .pipe(
         map(({ next, results }) => {
           return { next, results };
         })
       );
+  };
 
   requstSingleCard = (pokemonId) =>
     this.http
@@ -74,5 +101,18 @@ export class HttpPokedexService {
 
   errorManager = (error) => {
     throw Error(error.message);
+  };
+
+  getNextLink = () => {
+    let nextLink: string;
+    this.store
+      .select('pokemonList')
+      .pipe(map((pokemonListState) => pokemonListState.nextLink))
+      .subscribe((url) => {
+        if (!url) return;
+        nextLink = url;
+        return;
+      });
+    return nextLink;
   };
 }

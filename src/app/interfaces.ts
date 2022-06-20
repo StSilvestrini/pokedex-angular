@@ -19,6 +19,7 @@ export interface IGenericShortInfo {
 export interface IPokemonList {
   next: string;
   results: IGenericShortInfo[];
+  count?: number;
 }
 
 export interface IType {
