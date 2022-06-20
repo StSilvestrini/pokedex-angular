@@ -7,6 +7,7 @@ import { HttpPokedexService } from '../../services/http.service';
 import { map } from 'rxjs';
 import { SET_NEXT_LINK, SET_POKEMON_LIST } from './store/pokemon-list.actions';
 import * as PokemonListActions from '../pokemon-list/store/pokemon-list.actions';
+import { ArrayManipulationService } from 'src/app/services/arrayManipulation.service';
 
 @Component({
   selector: 'app-pokemon-list',
@@ -17,7 +18,8 @@ export class PokemonListComponent implements OnInit {
   constructor(
     private httpService: HttpPokedexService,
     private formatService: FormatService,
-    private store: Store<fromApp.AppState>
+    private store: Store<fromApp.AppState>,
+    private ArrayManipulationService: ArrayManipulationService
   ) {}
   pokemonList: IPokemonCard[] = [];
 
@@ -51,11 +53,14 @@ export class PokemonListComponent implements OnInit {
     genericGetRequest(nextLink).subscribe({
       next: (response) => {
         if (!response) return;
-        let newArray = [...this.pokemonList, ...response.results];
-        if (newArray && newArray.length) {
+        const arrayExpanded = response?.results?.map((pokemon) => {
+          return this.ArrayManipulationService.getPokemonDetailInList(pokemon);
+        });
+        this.pokemonList = this.pokemonList.concat(arrayExpanded);
+        if (this.pokemonList && this.pokemonList.length) {
           this.store.dispatch({
             type: SET_POKEMON_LIST,
-            payload: [...newArray],
+            payload: [...this.pokemonList],
           });
         }
         if (response?.next) {
@@ -65,14 +70,6 @@ export class PokemonListComponent implements OnInit {
       error: errorManager,
     });
   };
-
-  getBackground(pokemon) {
-    const image = this.pokemonList.find(
-      (pok) => pok?.name === pokemon?.name
-    )?.image;
-    if (!image) return;
-    return { backgroundImage: `url(${image})` };
-  }
 
   formatNumber = this.formatService.getPrettyNumber;
 }

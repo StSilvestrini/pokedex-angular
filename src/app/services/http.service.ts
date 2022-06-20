@@ -69,7 +69,7 @@ export class HttpPokedexService {
   };
 
   getPokemonTypes = (pokemonName: string) => {
-    const types = [];
+    let types = [];
     this.store
       .select('pokemonList')
       .pipe(map((pokemonListState) => pokemonListState.pokemonListByType))
@@ -77,10 +77,12 @@ export class HttpPokedexService {
         next: (pokemonByType) => {
           pokemonByType.forEach((typeObj) => {
             const found = typeObj.pokemons.find(
-              (pokemon) => pokemon.pokemon.name === pokemonName
+              (pokemon) => pokemon?.pokemon?.name === pokemonName
             );
             if (found) {
-              types.push(typeObj.name);
+              const newArray = [...types];
+              newArray.push(typeObj.name);
+              types = newArray;
             }
           });
         },

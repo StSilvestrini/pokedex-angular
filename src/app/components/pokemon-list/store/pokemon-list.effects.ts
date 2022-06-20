@@ -4,6 +4,7 @@ import { switchMap, map, mergeMap } from 'rxjs/operators';
 
 import * as PokemonListActions from './pokemon-list.actions';
 import { HttpPokedexService } from 'src/app/services/http.service';
+import { ArrayManipulationService } from 'src/app/services/arrayManipulation.service';
 
 @Injectable()
 export class PokemonListEffects {
@@ -27,12 +28,7 @@ export class PokemonListEffects {
     }),
     map(({ results, next }) => {
       const arrayExpanded = results?.map((pokemon) => {
-        const pokemonId =
-          pokemon?.url?.split('/')[pokemon?.url?.split('/')?.length - 2];
-        const pokemonCard = { ...pokemon };
-        pokemonCard.image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`;
-        pokemonCard.id = +pokemonId;
-        return pokemonCard;
+        return this.ArrayManipulationService.getPokemonDetailInList(pokemon);
       });
       return { next, results: arrayExpanded };
     }),
@@ -44,6 +40,7 @@ export class PokemonListEffects {
 
   constructor(
     private actions$: Actions,
-    private httpService: HttpPokedexService
+    private httpService: HttpPokedexService,
+    private ArrayManipulationService: ArrayManipulationService
   ) {}
 }

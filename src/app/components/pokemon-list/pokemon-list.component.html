@@ -6,7 +6,10 @@
       [routerLink]="['/card', pokemon.id]"
       class="cardContainer"
     >
-      <div class="cardImage" [ngStyle]="getBackground(pokemon)"></div>
+      <div
+        class="cardImage"
+        [ngStyle]="{ 'background-image': 'url(' + pokemon.image + ')' }"
+      ></div>
       <hr />
       <span class="pokemonNumber">N° {{ formatNumber(pokemon.id) }}</span>
       <h4 class="pokemonName">{{ pokemon.name | titlecase }}</h4>
