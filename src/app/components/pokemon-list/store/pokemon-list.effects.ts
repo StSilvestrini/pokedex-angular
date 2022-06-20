@@ -14,10 +14,13 @@ export class PokemonListEffects {
     switchMap(() => {
       return this.httpService.getPokemonByTypes();
     }),
-    mergeMap((data) => [
-      new PokemonListActions.SetPokemonListByType(data.pokemonArray),
-      new PokemonListActions.SetTypeList(data.typesArray),
-    ])
+    mergeMap((data) => {
+      console.log('data', data);
+      return [
+        new PokemonListActions.SetPokemonListByType(data.pokemonArray),
+        new PokemonListActions.SetTypeList(data.typesArray),
+      ];
+    })
   );
 
   @Effect()

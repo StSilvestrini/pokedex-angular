@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IPokemonCard } from 'src/app/interfaces';
+import type { IPokemonCard } from 'src/app/interfaces';
 import { FormatService } from '../../services/format.service';
 import { HttpPokedexService } from '../../services/http.service';
 

@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { IPokemonCard } from 'src/app/interfaces';
+import type { IPokemonCard } from 'src/app/interfaces';
 import * as fromApp from '../../store/app.reducer';
 import { FormatService } from '../../services/format.service';
 import { HttpPokedexService } from '../../services/http.service';
 import { map } from 'rxjs';
 import { SET_NEXT_LINK, SET_POKEMON_LIST } from './store/pokemon-list.actions';
-import * as PokemonListActions from '../pokemon-list/store/pokemon-list.actions';
 import { ArrayManipulationService } from 'src/app/services/arrayManipulation.service';
 
 @Component({
@@ -30,25 +29,23 @@ export class PokemonListComponent implements OnInit {
       .subscribe({
         next: (list) => {
           if (!list) return;
-          this.pokemonList = [...list];
-          this.pokemonList = this.pokemonList.map((pokemonCard) => {
+          this.pokemonList = list.map((pokemonCard) => {
             const pokemonType = this.httpService.getPokemonTypes(
               pokemonCard.name
             );
-            const newObj = { ...pokemonCard };
-            newObj.types = pokemonType;
-            return newObj;
+            return { ...pokemonCard, types: pokemonType };
           });
           return;
         },
+        error: this.httpService.errorManager,
       });
   }
 
   onLoadPokemon = () => {
-    let {
-      httpService: { genericGetRequest, errorManager },
+    const {
+      httpService: { genericGetRequest, errorManager, getNextLink },
     } = this;
-    const nextLink = this.httpService.getNextLink();
+    const nextLink = getNextLink();
 
     genericGetRequest(nextLink).subscribe({
       next: (response) => {

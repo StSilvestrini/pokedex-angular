@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import type { IPokemonArray } from 'src/app/interfaces';
 
 export const SET_POKEMON_LIST_BY_TYPE = '[Pokeon List] Set Pokeon List By Type';
 export const SET_TYPE_LIST = '[Pokeon List] Set Type List';
@@ -10,7 +11,7 @@ export const SET_NEXT_LINK = '[Pokeon List] Set Next Link';
 export class SetPokemonListByType implements Action {
   readonly type = SET_POKEMON_LIST_BY_TYPE;
 
-  constructor(public payload: any) {}
+  constructor(public payload: IPokemonArray) {}
 }
 
 export class SetTypeList implements Action {

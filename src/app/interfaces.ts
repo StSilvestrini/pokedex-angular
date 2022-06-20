@@ -29,3 +29,12 @@ export interface IPokemonList {
 export interface IType {
   results: IGenericShortInfo[];
 }
+
+export type IPokemonArray = IPokemonArrayElement[];
+
+export interface IPokemonArrayElement {
+  pokemon: {
+    pokemon: IGenericShortInfo;
+  }[];
+  name: string;
+}
