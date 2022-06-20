@@ -25,9 +25,20 @@ export class PokemonListEffects {
     switchMap(() => {
       return this.httpService.requestList();
     }),
-    mergeMap((data) => [
-      new PokemonListActions.SetPokemonList(data.results),
-      new PokemonListActions.SetNextLink(data.next),
+    map(({ results, next }) => {
+      const arrayExpanded = results?.map((pokemon) => {
+        const pokemonId =
+          pokemon?.url?.split('/')[pokemon?.url?.split('/')?.length - 2];
+        const pokemonCard = { ...pokemon };
+        pokemonCard.image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`;
+        pokemonCard.id = +pokemonId;
+        return pokemonCard;
+      });
+      return { next, results: arrayExpanded };
+    }),
+    mergeMap(({ next, results }) => [
+      new PokemonListActions.SetPokemonList(results),
+      new PokemonListActions.SetNextLink(next),
     ])
   );
 

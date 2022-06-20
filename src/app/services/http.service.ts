@@ -68,12 +68,32 @@ export class HttpPokedexService {
       );
   };
 
+  getPokemonTypes = (pokemonName: string) => {
+    const types = [];
+    this.store
+      .select('pokemonList')
+      .pipe(map((pokemonListState) => pokemonListState.pokemonListByType))
+      .subscribe({
+        next: (pokemonByType) => {
+          pokemonByType.forEach((typeObj) => {
+            const found = typeObj.pokemons.find(
+              (pokemon) => pokemon.pokemon.name === pokemonName
+            );
+            if (found) {
+              types.push(typeObj.name);
+            }
+          });
+        },
+      });
+    return types;
+  };
+
   requstSingleCard = (pokemonId) =>
     this.http
       .get<IPokemonCard>(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
       .pipe(
-        map(
-          ({
+        map(({ name, height, weight, id, abilities, moves, types, image }) => {
+          return {
             name,
             height,
             weight,
@@ -81,20 +101,9 @@ export class HttpPokedexService {
             abilities,
             moves,
             types,
-            sprites: { front_default },
-          }) => {
-            return {
-              name,
-              height,
-              weight,
-              id,
-              abilities,
-              moves,
-              types,
-              sprites: { front_default },
-            };
-          }
-        )
+            image,
+          };
+        })
       );
 
   genericGetRequest = (url: string) => this.http.get<any>(url);

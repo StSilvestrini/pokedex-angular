@@ -21,20 +21,6 @@ export class PokemonListComponent implements OnInit {
   ) {}
   pokemonList: IPokemonCard[] = [];
 
-  expandArray = (res) => {
-    let { errorManager, genericGetRequest } = this.httpService;
-    res.results.forEach((result, index) => {
-      if (result?.id) return;
-      genericGetRequest(result?.url).subscribe({
-        next: (card) => {
-          res.results[index] = card;
-        },
-        error: errorManager,
-      });
-    });
-    return res?.results;
-  };
-
   ngOnInit(): void {
     this.store
       .select('pokemonList')
@@ -43,6 +29,14 @@ export class PokemonListComponent implements OnInit {
         next: (list) => {
           if (!list) return;
           this.pokemonList = [...list];
+          this.pokemonList = this.pokemonList.map((pokemonCard) => {
+            const pokemonType = this.httpService.getPokemonTypes(
+              pokemonCard.name
+            );
+            const newObj = { ...pokemonCard };
+            newObj.types = pokemonType;
+            return newObj;
+          });
           return;
         },
       });
@@ -73,8 +67,9 @@ export class PokemonListComponent implements OnInit {
   };
 
   getBackground(pokemon) {
-    const image = this.pokemonList.find((pok) => pok?.name === pokemon?.name)
-      ?.sprites?.front_default;
+    const image = this.pokemonList.find(
+      (pok) => pok?.name === pokemon?.name
+    )?.image;
     if (!image) return;
     return { backgroundImage: `url(${image})` };
   }
