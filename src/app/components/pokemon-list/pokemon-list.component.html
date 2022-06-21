@@ -25,7 +25,12 @@
     </li>
   </ul>
   <div class="buttonContainer">
-    <button (click)="onLoadPokemon()" class="loadPokemonButton">
+    <button
+      (click)="onLoadPokemon()"
+      class="loadPokemonButton"
+      [disabled]="searchBar?.searchQuery?.length >= 3"
+      [ngClass]="{ enabled: searchBar?.searchQuery?.length < 3 }"
+    >
       Load other Pokemons
     </button>
   </div>

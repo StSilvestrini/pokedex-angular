@@ -70,7 +70,7 @@ export class HttpPokedexService {
 
   getPokemonTypes = (pokemonName: string) => {
     let types = [];
-    this.store
+    const subscription = this.store
       .select('pokemonList')
       .pipe(map((pokemonListState) => pokemonListState.pokemonListByType))
       .subscribe({
@@ -87,7 +87,7 @@ export class HttpPokedexService {
           });
         },
       });
-    return types;
+    return { types };
   };
 
   requstSingleCard = (pokemonId) =>
@@ -115,15 +115,12 @@ export class HttpPokedexService {
   };
 
   getNextLink = () => {
-    let nextLink: string;
-    this.store
+    let url: string;
+    let subscription = this.store
       .select('pokemonList')
-      .pipe(map((pokemonListState) => pokemonListState.nextLink))
-      .subscribe((url) => {
-        if (!url) return;
-        nextLink = url;
-        return;
+      .subscribe(({ nextLink }) => {
+        url = nextLink;
       });
-    return nextLink;
+    return { nextLink: url, subscription };
   };
 }

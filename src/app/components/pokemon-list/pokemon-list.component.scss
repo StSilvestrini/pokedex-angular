@@ -71,17 +71,20 @@
 
 .loadPokemonButton {
   padding: 1.5rem;
-  cursor: pointer;
   display: block;
   margin: 2.5rem auto;
   font-size: medium;
   font-weight: 600;
-  background-color: $buttonBackgroundColor;
   color: #fff;
-  @include zoom;
+  background-color: gray;
   @include borderManager;
   @media (max-width: $breakpoint-mobile) {
     padding: 1rem;
     font-size: small;
+  }
+  &.enabled {
+    @include zoom;
+    background-color: $buttonBackgroundColor;
+    cursor: pointer;
   }
 }

@@ -23,32 +23,28 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   pokemonList: IPokemonCard[] = [];
   initialSubscription: Subscription;
   loadSubscription: Subscription;
+  nextLinkSubscription: Subscription;
 
   ngOnInit(): void {
-    this.initialSubscription = this.store
-      .select('pokemonList')
-      .pipe(map((pokemonListState) => pokemonListState.pokemonList))
-      .subscribe({
-        next: (list) => {
-          if (!list) return;
-          this.pokemonList = list.map((pokemonCard) => {
-            const pokemonType = this.httpService.getPokemonTypes(
-              pokemonCard.name
-            );
-            return { ...pokemonCard, types: pokemonType };
-          });
-          return;
-        },
-        error: this.httpService.errorManager,
-      });
+    this.initialSubscription = this.store.select('pokemonList').subscribe({
+      next: ({ pokemonList }) => {
+        if (!pokemonList || !pokemonList.length) return;
+        this.pokemonList = pokemonList.map((pokemonCard) => {
+          const { types } =
+            this.httpService.getPokemonTypes(pokemonCard.name) || {};
+          return { ...pokemonCard, types };
+        });
+        return;
+      },
+    });
   }
 
   onLoadPokemon = () => {
     const {
-      httpService: { genericGetRequest, errorManager, getNextLink },
+      httpService: { genericGetRequest, getNextLink },
     } = this;
-    const nextLink = getNextLink();
-
+    const { nextLink, subscription } = getNextLink() || {};
+    this.nextLinkSubscription = subscription;
     this.loadSubscription = genericGetRequest(nextLink).subscribe({
       next: (response) => {
         if (!response) return;
@@ -67,13 +63,13 @@ export class PokemonListComponent implements OnInit, OnDestroy {
           );
         }
       },
-      error: errorManager,
     });
   };
 
   ngOnDestroy(): void {
     this.initialSubscription.unsubscribe();
     this.loadSubscription.unsubscribe();
+    this.nextLinkSubscription.unsubscribe();
   }
 
   formatNumber = this.formatService.getPrettyNumber;
