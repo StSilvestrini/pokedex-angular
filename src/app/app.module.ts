@@ -21,6 +21,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { PokemonListEffects } from './components/pokemon-list/store/pokemon-list.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { SortListPipe } from './pipes/sort.pipe';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     CutListPipe,
     InferPluralPipe,
     FilterListPipe,
+    SortListPipe,
   ],
   imports: [
     BrowserModule,

@@ -2,7 +2,11 @@
   <app-search-bar #searchBar></app-search-bar>
   <ul class="listContainer">
     <li
-      *ngFor="let pokemon of pokemonList | filterList: searchBar?.searchQuery"
+      *ngFor="
+        let pokemon of pokemonList
+          | filterList: searchBar?.searchQuery
+          | sortList: 'id'
+      "
       [routerLink]="['/card', pokemon.id]"
       class="cardContainer"
     >
