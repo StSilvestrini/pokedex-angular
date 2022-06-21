@@ -32,6 +32,7 @@ export class PokemonListComponent implements OnInit, OnDestroy {
         this.pokemonList = pokemonList.map((pokemonCard) => {
           const { types } =
             this.httpService.getPokemonTypes(pokemonCard.name) || {};
+
           return { ...pokemonCard, types };
         });
         return;
@@ -68,8 +69,12 @@ export class PokemonListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.initialSubscription.unsubscribe();
-    this.loadSubscription.unsubscribe();
-    this.nextLinkSubscription.unsubscribe();
+    if (this.loadSubscription) {
+      this.loadSubscription.unsubscribe();
+    }
+    if (this.nextLinkSubscription) {
+      this.nextLinkSubscription.unsubscribe();
+    }
   }
 
   formatNumber = this.formatService.getPrettyNumber;

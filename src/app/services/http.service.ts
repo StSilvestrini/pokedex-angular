@@ -70,7 +70,7 @@ export class HttpPokedexService {
 
   getPokemonTypes = (pokemonName: string) => {
     let types = [];
-    const subscription = this.store
+    this.store
       .select('pokemonList')
       .pipe(map((pokemonListState) => pokemonListState.pokemonListByType))
       .subscribe({
@@ -116,7 +116,7 @@ export class HttpPokedexService {
 
   getNextLink = () => {
     let url: string;
-    let subscription = this.store
+    const subscription = this.store
       .select('pokemonList')
       .subscribe(({ nextLink }) => {
         url = nextLink;
