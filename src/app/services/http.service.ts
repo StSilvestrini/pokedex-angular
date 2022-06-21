@@ -37,7 +37,7 @@ export class HttpPokedexService {
     );
   }
 
-  getPokemonCount = () => {
+  /*getPokemonCount = () => {
     let count: number;
     this.store
       .select('pokemonList')
@@ -56,7 +56,7 @@ export class HttpPokedexService {
         count = uniqueArray.length;
       });
     return count;
-  };
+  }; */
 
   requestList = () => {
     return this.http

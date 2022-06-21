@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import type { IPokemonArray } from 'src/app/interfaces';
+import type { IPokemonArray, IPokemonCardList } from 'src/app/interfaces';
 
 export const SET_POKEMON_LIST_BY_TYPE = '[Pokeon List] Set Pokeon List By Type';
 export const SET_TYPE_LIST = '[Pokeon List] Set Type List';
@@ -7,6 +7,7 @@ export const FETCH_POKEMON_LIST_TYPE = '[Pokeon List] Fetch Pokemon List Type';
 export const FETCH_POKEMON_LIST = '[Pokeon List] Fetch Pokemon List';
 export const SET_POKEMON_LIST = '[Pokeon List] Set Pokemon List';
 export const SET_NEXT_LINK = '[Pokeon List] Set Next Link';
+export const ADD_POKEMON_LIST = '[Pokeon List] Add Pokemon To Pokemon List';
 
 export class SetPokemonListByType implements Action {
   readonly type = SET_POKEMON_LIST_BY_TYPE;
@@ -40,10 +41,17 @@ export class FetchPokemonList implements Action {
   readonly type = FETCH_POKEMON_LIST;
 }
 
+export class AddPokemonList implements Action {
+  readonly type = ADD_POKEMON_LIST;
+
+  constructor(public payload: IPokemonCardList) {}
+}
+
 export type PokemonListActions =
   | SetPokemonListByType
   | SetTypeList
   | SetPokemonList
   | FetchPokemonList
   | FetchPokemonListByType
-  | SetNextLink;
+  | SetNextLink
+  | AddPokemonList;

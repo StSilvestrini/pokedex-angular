@@ -1,5 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import type { IPokemonCard } from 'src/app/interfaces';
 import { FormatService } from '../../services/format.service';
 import { HttpPokedexService } from '../../services/http.service';
@@ -9,8 +16,10 @@ import { HttpPokedexService } from '../../services/http.service';
   templateUrl: './pokemon-card.component.html',
   styleUrls: ['./pokemon-card.component.scss'],
 })
-export class PokemonCardComponent implements OnInit {
+export class PokemonCardComponent implements OnInit, OnDestroy {
   pokemonCard: IPokemonCard;
+  pokemonCardSubscription: Subscription;
+  routeSubscription: Subscription;
 
   constructor(
     private httpService: HttpPokedexService,
@@ -20,7 +29,7 @@ export class PokemonCardComponent implements OnInit {
 
   getPokemonCard = (pokemonId) => {
     const { requstSingleCard, errorManager } = this.httpService;
-    requstSingleCard(pokemonId).subscribe({
+    this.pokemonCardSubscription = requstSingleCard(pokemonId).subscribe({
       next: (res: IPokemonCard) => {
         this.pokemonCard = res;
       },
@@ -31,7 +40,7 @@ export class PokemonCardComponent implements OnInit {
   ngOnInit(): void {
     const pokemonId = this.route.snapshot.params['pokemonId'];
     this.getPokemonCard(pokemonId);
-    this.route.params.subscribe((params) => {
+    this.routeSubscription = this.route.params.subscribe((params) => {
       this.getPokemonCard(params['pokemonId']);
     });
   }
@@ -44,4 +53,9 @@ export class PokemonCardComponent implements OnInit {
       backgroundImage: `url(${pokemonCard?.sprites?.front_default})`,
     };
   };
+
+  ngOnDestroy(): void {
+    this.pokemonCardSubscription.unsubscribe();
+    this.routeSubscription.unsubscribe();
+  }
 }

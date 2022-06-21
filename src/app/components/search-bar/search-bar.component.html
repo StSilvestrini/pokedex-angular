@@ -6,9 +6,9 @@
       [(ngModel)]="searchQuery"
       required
       name="searchInput"
+      (keyup)="onSearch(searchQuery)"
     />
     <div class="buttons">
-      <button type="button" (click)="onSearch(searchQuery)">Search</button>
       <button type="button" (click)="onClear()">Clear</button>
     </div>
   </div>

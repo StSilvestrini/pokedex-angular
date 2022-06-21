@@ -38,6 +38,13 @@ export function pokemonListReducer(
         ...state,
         nextLink: action.payload,
       };
+    case PokemonListActions.ADD_POKEMON_LIST:
+      const pokemonListCopy = [...state.pokemonList];
+      console.log('pokemonListCopy', pokemonListCopy);
+      return {
+        ...state,
+        pokemonList: [...pokemonListCopy, action.payload],
+      };
     default:
       return state;
   }
