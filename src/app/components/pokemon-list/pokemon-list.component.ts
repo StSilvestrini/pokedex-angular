@@ -4,7 +4,7 @@ import type { IPokemonCard } from 'src/app/interfaces';
 import * as fromApp from '../../store/app.reducer';
 import { FormatService } from '../../services/format.service';
 import { HttpPokedexService } from '../../services/http.service';
-import { map, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ArrayManipulationService } from 'src/app/services/arrayManipulation.service';
 import * as PokemonListActions from '../pokemon-list/store/pokemon-list.actions';
 
