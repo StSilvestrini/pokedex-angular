@@ -41,13 +41,6 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
 
   formatNumber = this.formatService.getPrettyNumber;
 
-  getBackground = (pokemonCard) => {
-    if (!pokemonCard?.sprites?.front_default) return;
-    return {
-      backgroundImage: `url(${pokemonCard?.sprites?.front_default})`,
-    };
-  };
-
   ngOnDestroy(): void {
     this.pokemonCardSubscription.unsubscribe();
     this.routeSubscription.unsubscribe();

@@ -7,6 +7,7 @@ export interface IPokemonCard {
   moves: string[];
   types: string[];
   image?: string;
+  sprites?: any;
 }
 
 export interface IGenericShortInfo {

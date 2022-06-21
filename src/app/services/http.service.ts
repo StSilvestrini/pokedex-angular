@@ -94,18 +94,20 @@ export class HttpPokedexService {
     this.http
       .get<IPokemonCard>(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
       .pipe(
-        map(({ name, height, weight, id, abilities, moves, types, image }) => {
-          return {
-            name,
-            height,
-            weight,
-            id,
-            abilities,
-            moves,
-            types,
-            image,
-          };
-        })
+        map(
+          ({ name, height, weight, id, abilities, moves, types, sprites }) => {
+            return {
+              name,
+              height,
+              weight,
+              id,
+              abilities,
+              moves,
+              types,
+              sprites,
+            };
+          }
+        )
       );
 
   genericGetRequest = (url: string) => this.http.get<any>(url);
