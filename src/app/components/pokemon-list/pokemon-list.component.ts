@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import type { IPokemonCard } from 'src/app/interfaces';
+import type { IPokemonCard, IPokemonCardList } from 'src/app/interfaces';
 import * as fromApp from '../../store/app.reducer';
 import { FormatService } from '../../services/format.service';
 import { HttpPokedexService } from '../../services/http.service';
@@ -20,7 +20,7 @@ export class PokemonListComponent implements OnInit, OnDestroy {
     private store: Store<fromApp.AppState>,
     private ArrayManipulationService: ArrayManipulationService
   ) {}
-  pokemonList: IPokemonCard[] = [];
+  pokemonList: IPokemonCardList[] = [];
   initialSubscription: Subscription;
   loadSubscription: Subscription;
   nextLinkSubscription: Subscription;

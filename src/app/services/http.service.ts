@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { exhaustMap, forkJoin, map } from 'rxjs';
-import type { IPokemonCard, IPokemonList, IType } from '../interfaces';
+import type {
+  IPokemonArray,
+  IPokemonArrayElement,
+  IPokemonCard,
+  IPokemonList,
+  IType,
+} from '../interfaces';
 import * as fromApp from '../store/app.reducer';
 import { Store } from '@ngrx/store';
 
@@ -23,12 +29,14 @@ export class HttpPokedexService {
         return forkJoin(arrayOfRequests);
       }),
       map((res) => {
-        const pokemonArray = res.map(({ name, pokemon }: any) => {
-          return {
-            pokemon,
-            name,
-          };
-        });
+        const pokemonArray = res.map(
+          ({ name, pokemon }: IPokemonArrayElement) => {
+            return {
+              pokemon,
+              name,
+            };
+          }
+        );
         return {
           pokemonArray,
           typesArray: res,

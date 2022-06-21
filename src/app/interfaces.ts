@@ -6,8 +6,7 @@ export interface IPokemonCard {
   abilities: string[];
   moves: string[];
   types: string[];
-  image?: string;
-  sprites?: any;
+  sprites: { front_default: string };
 }
 
 export interface IGenericShortInfo {
@@ -18,7 +17,7 @@ export interface IGenericShortInfo {
 export interface IPokemonCardList extends IGenericShortInfo {
   image: string;
   id: number;
-  types: string[];
+  types?: string[];
 }
 
 export interface IPokemonList {

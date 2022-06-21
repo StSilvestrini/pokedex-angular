@@ -1,9 +1,10 @@
+import type { IPokemonArray, IPokemonCardList } from 'src/app/interfaces';
 import * as PokemonListActions from './pokemon-list.actions';
 
 export interface State {
-  pokemonListByType: any;
-  types: any;
-  pokemonList: any;
+  pokemonListByType: IPokemonArray;
+  types: any[];
+  pokemonList: IPokemonCardList[];
   nextLink?: string;
 }
 

@@ -18,13 +18,13 @@ export class SetPokemonListByType implements Action {
 export class SetTypeList implements Action {
   readonly type = SET_TYPE_LIST;
 
-  constructor(public payload: any) {}
+  constructor(public payload: any[]) {}
 }
 
 export class SetPokemonList implements Action {
   readonly type = SET_POKEMON_LIST;
 
-  constructor(public payload: any) {}
+  constructor(public payload: IPokemonCardList[]) {}
 }
 
 export class SetNextLink implements Action {

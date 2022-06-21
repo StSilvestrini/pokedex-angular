@@ -18,6 +18,7 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
   pokemonId: string;
   pokemonCardSubscription: Subscription;
   routeSubscription: Subscription;
+  storeSubscription: Subscription;
 
   constructor(
     private httpService: HttpPokedexService,
@@ -27,13 +28,15 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
   ) {}
   getCardFromStore = () => {
     let pokemonInStore: IPokemonCard;
-    this.store.select('pokemonCard').subscribe(({ pokemonCards }) => {
-      if (pokemonCards && pokemonCards.length && this.pokemonId) {
-        pokemonInStore = pokemonCards.find((card) => {
-          return card.id === +this.pokemonId;
-        });
-      }
-    });
+    const storeSubscription = this.store
+      .select('pokemonCard')
+      .subscribe(({ pokemonCards }) => {
+        if (pokemonCards && pokemonCards.length && this.pokemonId) {
+          pokemonInStore = pokemonCards.find((card) => {
+            return card.id === +this.pokemonId;
+          });
+        }
+      });
     if (pokemonInStore) return pokemonInStore;
     return;
   };
@@ -66,7 +69,12 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
   formatNumber = this.formatService.getPrettyNumber;
 
   ngOnDestroy(): void {
-    this.pokemonCardSubscription.unsubscribe();
     this.routeSubscription.unsubscribe();
+    if (this.pokemonCardSubscription) {
+      this.pokemonCardSubscription.unsubscribe();
+    }
+    if (this.storeSubscription) {
+      this.storeSubscription.unsubscribe();
+    }
   }
 }
