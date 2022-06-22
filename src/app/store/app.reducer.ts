@@ -10,5 +10,5 @@ export interface AppState {
 
 export const appReducer: ActionReducerMap<AppState> = {
   pokemonList: fromPokemonList.pokemonListReducer,
-  pokemonCard: fromPokemonCard.pokemonListReducer,
+  pokemonCard: fromPokemonCard.pokemonCardReducer,
 };

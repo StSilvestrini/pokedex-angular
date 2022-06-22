@@ -78,7 +78,7 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
         next: (res: IPokemonCard) => {
           this.pokemonCard = res;
           this.store.dispatch(
-            new PokemonCardActions.AddPokemonCard(this.pokemonCard)
+            PokemonCardActions.AddPokemonCard({ pokemonCard: this.pokemonCard })
           );
         },
         error: errorManager,
