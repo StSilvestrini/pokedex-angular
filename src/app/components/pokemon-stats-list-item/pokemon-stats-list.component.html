@@ -2,7 +2,7 @@
   <p class="statName">{{ key | inferPlural | titlecase }}</p>
   <div class="flex-item">
     <p *ngFor="let element of list | cutList">
-      {{ element[key].name | titlecase }}
+      {{ element?.[key]?.name ? element?.[key]?.name : element.name | titlecase }}
     </p>
   </div>
 </li>

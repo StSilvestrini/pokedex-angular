@@ -1,17 +1,8 @@
-import {
-  AfterContentInit,
-  AfterViewInit,
-  Component,
-  DoCheck,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
-import type { IPokemonCard, IType } from 'src/app/interfaces';
+import { of, Subscription, switchMap, take } from 'rxjs';
+import type { IPokemonCard } from 'src/app/interfaces';
 import { FormatService } from '../../services/format.service';
 import { HttpPokedexService } from '../../services/http.service';
 import * as fromApp from '../../store/app.reducer';
@@ -25,10 +16,8 @@ import * as PokemonCardActions from '../pokemon-card/store/pokemon-card.actions'
 export class PokemonCardComponent implements OnInit, OnDestroy {
   pokemonCard: IPokemonCard;
   pokemonId: string;
-  /*typesFiltered: any[]; */
-  pokemonCardSubscription: Subscription;
-  routeSubscription: Subscription;
-  storeSubscription: Subscription;
+  typesFiltered: any[];
+  loadDataSubscription: Subscription;
 
   constructor(
     private httpService: HttpPokedexService,
@@ -37,69 +26,81 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
     private store: Store<fromApp.AppState>
   ) {}
 
-  /* getDamageRelations = async (pokemonCard) => {
-    if (!pokemonCard) return;
-    await this.store.select('pokemonList').subscribe({
-      next: ({ types }) => {
-        if (!types || !types.length) return;
-        this.typesFiltered = types.filter((type) => {
-          return pokemonCard.types.find((pokemonType) => {
-            return pokemonType.type.name === type.name;
+  getDamageRelations = (pokemonCard) => {
+    const damageRelationSubscription = this.store.select('pokemonList').pipe(
+      switchMap(({ types }) => {
+        const typesFiltered = types
+          .filter((type) => {
+            return pokemonCard.types.find((pokemonType) => {
+              return pokemonType?.type?.name === type?.name;
+            });
+          })
+          .map(({ damage_relations, name }) => {
+            return { damage_relations, name };
           });
-        });
-      },
-    });
-  }; */
+        if (typesFiltered?.length) {
+          return of({ ...pokemonCard, types: typesFiltered });
+        }
+        return of(pokemonCard);
+      })
+    );
+    return damageRelationSubscription;
+  };
 
-  getCardFromStore = () => {
-    let pokemonInStore: IPokemonCard;
-    this.storeSubscription = this.store
-      .select('pokemonCard')
-      .subscribe(({ pokemonCards }) => {
-        if (pokemonCards && pokemonCards.length && this.pokemonId) {
+  getCardFromStore = (pokemonId) => {
+    const storeSubscription = this.store.select('pokemonCard').pipe(
+      switchMap(({ pokemonCards }) => {
+        let pokemonInStore: IPokemonCard;
+        if (pokemonCards?.length && pokemonId) {
           pokemonInStore = pokemonCards.find((card) => {
-            return card.id === +this.pokemonId;
+            return card?.id === +pokemonId;
           });
         }
-      });
-    if (pokemonInStore) return pokemonInStore;
-    return;
+        if (pokemonInStore) return of({ pokemonInStore });
+        return of({ pokemonId });
+      })
+    );
+    return storeSubscription;
   };
 
   formatNumber = this.formatService.getPrettyNumber;
 
-  getPokemonCard = async (pokemonId) => {
-    const foundPokemonInStore = this.getCardFromStore();
-    if (foundPokemonInStore) {
-      this.pokemonCard = { ...foundPokemonInStore };
-    } else {
-      const { requstSingleCard, errorManager } = this.httpService;
-      this.pokemonCardSubscription = requstSingleCard(pokemonId).subscribe({
-        next: (res: IPokemonCard) => {
-          this.pokemonCard = res;
-          this.store.dispatch(
-            PokemonCardActions.addPokemonCard({ pokemonCard: this.pokemonCard })
-          );
-        },
-        error: errorManager,
-      });
-    }
+  getPokemonCardFromHTTP = (pokemonId) => {
+    const { requstSingleCard } = this.httpService;
+    const pokemonCardSubscription = requstSingleCard(pokemonId).pipe(
+      switchMap((pokemonCard) => {
+        return of({ pokemonCard });
+      })
+    );
+    return pokemonCardSubscription;
   };
 
   ngOnInit(): void {
-    this.routeSubscription = this.route.params.subscribe((params) => {
-      this.pokemonId = params['pokemonId'];
-      this.getPokemonCard(params['pokemonId']);
-    });
+    this.loadDataSubscription = this.route.params
+      .pipe(
+        switchMap((params) => {
+          return this.getCardFromStore(params['pokemonId']);
+        }),
+        switchMap((data: any) => {
+          return data?.pokemonId
+            ? this.getPokemonCardFromHTTP(data['pokemonId'])
+            : of({ pokemonCard: data.pokemonInStore });
+        }),
+        switchMap((data) => {
+          return this.getDamageRelations(data.pokemonCard);
+        })
+      )
+      .subscribe((data) => {
+        this.pokemonCard = { ...data };
+      });
   }
 
   ngOnDestroy(): void {
-    this.routeSubscription.unsubscribe();
-    if (this.pokemonCardSubscription) {
-      this.pokemonCardSubscription.unsubscribe();
-    }
-    if (this.storeSubscription) {
-      this.storeSubscription.unsubscribe();
-    }
+    /*this.store.dispatch(
+      PokemonCardActions.addPokemonCard({
+        pokemonCard: { ...this.pokemonCard },
+      })
+    );*/
+    this.loadDataSubscription.unsubscribe();
   }
 }

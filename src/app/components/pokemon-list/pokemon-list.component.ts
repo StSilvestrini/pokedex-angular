@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import type { IPokemonCard, IPokemonCardList } from 'src/app/interfaces';
+import type { IPokemonCardList } from 'src/app/interfaces';
 import * as fromApp from '../../store/app.reducer';
 import { FormatService } from '../../services/format.service';
 import { HttpPokedexService } from '../../services/http.service';
@@ -19,26 +19,25 @@ export class PokemonListComponent implements OnInit, OnDestroy {
     private formatService: FormatService,
     private store: Store<fromApp.AppState>,
     private ArrayManipulationService: ArrayManipulationService
-  ) {}
-  pokemonList: IPokemonCardList[] = [];
-  initialSubscription: Subscription;
-  loadSubscription: Subscription;
-  nextLinkSubscription: Subscription;
-
-  ngOnInit(): void {
+  ) {
     this.initialSubscription = this.store.select('pokemonList').subscribe({
       next: ({ pokemonList }) => {
         if (!pokemonList || !pokemonList.length) return;
         this.pokemonList = pokemonList.map((pokemonCard) => {
           const { types } =
             this.httpService.getPokemonTypes(pokemonCard.name) || {};
-
           return { ...pokemonCard, types };
         });
         return;
       },
     });
   }
+  pokemonList: IPokemonCardList[] = [];
+  initialSubscription: Subscription;
+  loadSubscription: Subscription;
+  nextLinkSubscription: Subscription;
+
+  ngOnInit(): void {}
 
   onLoadPokemon = () => {
     const {
@@ -48,7 +47,6 @@ export class PokemonListComponent implements OnInit, OnDestroy {
     this.nextLinkSubscription = subscription;
     this.loadSubscription = genericGetRequest(nextLink).subscribe({
       next: (response) => {
-        if (!response) return;
         const arrayExpanded = response?.results?.map((pokemon) => {
           return this.ArrayManipulationService.getPokemonDetailInList(pokemon);
         });

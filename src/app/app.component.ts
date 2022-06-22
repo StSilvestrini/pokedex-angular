@@ -9,10 +9,10 @@ import * as PokemonListActions from './components/pokemon-list/store/pokemon-lis
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  ngOnInit(): void {
+  ngOnInit(): void {}
+  constructor(private store: Store<fromApp.AppState>) {
     this.store.dispatch(PokemonListActions.fetchPokemonListByType());
     this.store.dispatch(PokemonListActions.fetchPokemonList());
   }
-  constructor(private store: Store<fromApp.AppState>) {}
   title = 'pokedex-angular';
 }
