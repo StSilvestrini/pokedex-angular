@@ -50,7 +50,9 @@ export class SearchBarComponent {
       },
     });
     if (pokemonFound) {
-      this.store.dispatch(new PokemonListActions.AddPokemonList(pokemonFound));
+      this.store.dispatch(
+        PokemonListActions.addPokemonList({ payload: pokemonFound })
+      );
     }
   };
 

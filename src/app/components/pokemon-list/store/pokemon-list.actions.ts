@@ -1,57 +1,35 @@
-import { Action } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 import type { IPokemonArray, IPokemonCardList } from 'src/app/interfaces';
 
-export const SET_POKEMON_LIST_BY_TYPE = '[Pokeon List] Set Pokeon List By Type';
-export const SET_TYPE_LIST = '[Pokeon List] Set Type List';
-export const FETCH_POKEMON_LIST_TYPE = '[Pokeon List] Fetch Pokemon List Type';
-export const FETCH_POKEMON_LIST = '[Pokeon List] Fetch Pokemon List';
-export const SET_POKEMON_LIST = '[Pokeon List] Set Pokemon List';
-export const SET_NEXT_LINK = '[Pokeon List] Set Next Link';
-export const ADD_POKEMON_LIST = '[Pokeon List] Add Pokemon To Pokemon List';
+export const setPokemonListByType = createAction(
+  '[Pokeon List] Set Pokeon List By Type',
+  props<{ payload: IPokemonArray }>()
+);
 
-export class SetPokemonListByType implements Action {
-  readonly type = SET_POKEMON_LIST_BY_TYPE;
+export const setTypeList = createAction(
+  '[Pokeon List] Set Type List',
+  props<{ payload: any[] }>()
+);
 
-  constructor(public payload: IPokemonArray) {}
-}
+export const setPokemonList = createAction(
+  '[Pokeon List] Set Pokemon List',
+  props<{ payload: IPokemonCardList[] }>()
+);
 
-export class SetTypeList implements Action {
-  readonly type = SET_TYPE_LIST;
+export const setNextLink = createAction(
+  '[Pokeon List] Set Next Link',
+  props<{ payload: string }>()
+);
 
-  constructor(public payload: any[]) {}
-}
+export const fetchPokemonListByType = createAction(
+  '[Pokeon List] Fetch Pokemon List Type'
+);
 
-export class SetPokemonList implements Action {
-  readonly type = SET_POKEMON_LIST;
+export const fetchPokemonList = createAction(
+  '[Pokeon List] Fetch Pokemon List'
+);
 
-  constructor(public payload: IPokemonCardList[]) {}
-}
-
-export class SetNextLink implements Action {
-  readonly type = SET_NEXT_LINK;
-
-  constructor(public payload: string) {}
-}
-
-export class FetchPokemonListByType implements Action {
-  readonly type = FETCH_POKEMON_LIST_TYPE;
-}
-
-export class FetchPokemonList implements Action {
-  readonly type = FETCH_POKEMON_LIST;
-}
-
-export class AddPokemonList implements Action {
-  readonly type = ADD_POKEMON_LIST;
-
-  constructor(public payload: IPokemonCardList) {}
-}
-
-export type PokemonListActions =
-  | SetPokemonListByType
-  | SetTypeList
-  | SetPokemonList
-  | FetchPokemonList
-  | FetchPokemonListByType
-  | SetNextLink
-  | AddPokemonList;
+export const addPokemonList = createAction(
+  '[Pokeon List] Add Pokemon To Pokemon List',
+  props<{ payload: IPokemonCardList }>()
+);

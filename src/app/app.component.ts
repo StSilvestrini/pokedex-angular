@@ -10,8 +10,8 @@ import * as PokemonListActions from './components/pokemon-list/store/pokemon-lis
 })
 export class AppComponent implements OnInit {
   ngOnInit(): void {
-    this.store.dispatch(new PokemonListActions.FetchPokemonListByType());
-    this.store.dispatch(new PokemonListActions.FetchPokemonList());
+    this.store.dispatch(PokemonListActions.fetchPokemonListByType());
+    this.store.dispatch(PokemonListActions.fetchPokemonList());
   }
   constructor(private store: Store<fromApp.AppState>) {}
   title = 'pokedex-angular';

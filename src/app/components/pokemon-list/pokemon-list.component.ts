@@ -55,12 +55,14 @@ export class PokemonListComponent implements OnInit, OnDestroy {
         this.pokemonList = this.pokemonList.concat(arrayExpanded);
         if (this.pokemonList && this.pokemonList.length) {
           this.store.dispatch(
-            new PokemonListActions.SetPokemonList([...this.pokemonList])
+            PokemonListActions.setPokemonList({
+              payload: [...this.pokemonList],
+            })
           );
         }
         if (response?.next) {
           this.store.dispatch(
-            new PokemonListActions.SetNextLink(response.next)
+            PokemonListActions.setNextLink({ payload: response.next })
           );
         }
       },
