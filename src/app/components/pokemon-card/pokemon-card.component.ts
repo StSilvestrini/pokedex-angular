@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { of, Subscription, switchMap, take } from 'rxjs';
@@ -18,6 +24,7 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
   pokemonId: string;
   typesFiltered: any[];
   loadDataSubscription: Subscription;
+  actionSubscription: Subscription;
 
   constructor(
     private httpService: HttpPokedexService,
@@ -93,14 +100,31 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         this.pokemonCard = { ...data };
       });
+
+    this.actionSubscription = this.route.params.subscribe(() => {
+      if (this.pokemonCard) {
+        this.store.dispatch(
+          PokemonCardActions.addPokemonCard({
+            pokemonCard: { ...this.pokemonCard },
+          })
+        );
+      }
+    });
   }
 
   ngOnDestroy(): void {
-    /*this.store.dispatch(
-      PokemonCardActions.addPokemonCard({
-        pokemonCard: { ...this.pokemonCard },
-      })
-    );*/
-    this.loadDataSubscription.unsubscribe();
+    if (this.pokemonCard) {
+      this.store.dispatch(
+        PokemonCardActions.addPokemonCard({
+          pokemonCard: { ...this.pokemonCard },
+        })
+      );
+    }
+    if (this.actionSubscription) {
+      this.actionSubscription.unsubscribe();
+    }
+    if (this.loadDataSubscription) {
+      this.loadDataSubscription.unsubscribe();
+    }
   }
 }
