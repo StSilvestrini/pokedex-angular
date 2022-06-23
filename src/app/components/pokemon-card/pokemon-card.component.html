@@ -43,6 +43,16 @@
           [list]="pokemonCard?.types"
           key="type"
         ></app-pokemon-stats-list-item>
+        <li>
+          <p class="statName">Weaknesses</p>
+          <div class="flex-item">
+            <ng-container *ngFor="let element of pokemonCard?.types">
+              <p *ngFor="let weakness of element.weaknesses | cutList">
+                {{ weakness | titlecase }}
+              </p>
+            </ng-container>
+          </div>
+        </li>
       </ul>
     </div>
   </div>

@@ -5,7 +5,7 @@ export interface IPokemonCard {
   id: number;
   abilities: string[];
   moves: string[];
-  types: string[];
+  types: any;
   sprites: { front_default: string };
 }
 

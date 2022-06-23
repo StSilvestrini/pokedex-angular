@@ -41,7 +41,13 @@ export class StoreService {
             });
           })
           .map(({ damage_relations, name }) => {
-            return { damage_relations, name };
+            const weaknessesName = damage_relations?.double_damage_from?.map(
+              (el) => el.name
+            );
+            return {
+              weaknesses: weaknessesName,
+              name,
+            };
           });
         if (typesFiltered?.length) {
           return of({ ...pokemonCard, types: typesFiltered });
