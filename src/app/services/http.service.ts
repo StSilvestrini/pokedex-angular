@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { exhaustMap, forkJoin, map } from 'rxjs';
+import { exhaustMap, forkJoin, map, of, switchMap } from 'rxjs';
 import type {
   IPokemonArray,
   IPokemonArrayElement,
@@ -76,26 +76,20 @@ export class HttpPokedexService {
       );
   };
 
-  getPokemonTypes = (pokemonName: string) => {
-    let types = [];
-    this.store
-      .select('pokemonList')
-      .pipe(map((pokemonListState) => pokemonListState.pokemonListByType))
-      .subscribe({
-        next: (pokemonByType) => {
-          pokemonByType.forEach((typeObj) => {
-            const found = typeObj.pokemon.find(
-              (pokemon) => pokemon?.pokemon?.name === pokemonName
-            );
-            if (found) {
-              const newArray = [...types];
-              newArray.push(typeObj.name);
-              types = newArray;
-            }
-          });
-        },
-      });
-    return { types };
+  getPokemonTypes = (pokemonByType, pokemonName) => {
+    if (!pokemonByType?.length || !pokemonName) return;
+    let types: any[] = [];
+    pokemonByType.forEach((typeObj) => {
+      const found = typeObj.pokemon.find(
+        (pokemon) => pokemon?.pokemon?.name === pokemonName
+      );
+      if (found) {
+        const newArray = [...types];
+        newArray.push(typeObj.name);
+        types = newArray;
+      }
+    });
+    return types;
   };
 
   requstSingleCard = (pokemonId) =>
@@ -125,12 +119,10 @@ export class HttpPokedexService {
   };
 
   getNextLink = () => {
-    let url: string;
-    const subscription = this.store
-      .select('pokemonList')
-      .subscribe(({ nextLink }) => {
-        url = nextLink;
-      });
-    return { nextLink: url, subscription };
+    return this.store.select('pokemonList').pipe(
+      switchMap(({ nextLink }) => {
+        return of({ nextLink });
+      })
+    );
   };
 }

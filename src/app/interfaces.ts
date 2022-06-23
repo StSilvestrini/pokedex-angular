@@ -17,7 +17,7 @@ export interface IGenericShortInfo {
 export interface IPokemonCardList extends IGenericShortInfo {
   image: string;
   id: number;
-  types?: string[];
+  types?: any;
 }
 
 export interface IPokemonList {
