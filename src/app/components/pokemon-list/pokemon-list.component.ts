@@ -77,11 +77,7 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   formatNumber = this.formatService.getPrettyNumber;
 
   ngOnDestroy(): void {
-    if (this.initialSubscription) {
-      this.initialSubscription.unsubscribe();
-    }
-    if (this.loadSubscription) {
-      this.loadSubscription.unsubscribe();
-    }
+    this.httpService.unsubscribeImproved(this.initialSubscription);
+    this.httpService.unsubscribeImproved(this.loadSubscription);
   }
 }

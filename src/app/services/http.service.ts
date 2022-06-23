@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { exhaustMap, forkJoin, map, of, switchMap } from 'rxjs';
+import { exhaustMap, forkJoin, map, of, Subscription, switchMap } from 'rxjs';
 import type {
   IPokemonArrayElement,
   IPokemonCard,
@@ -100,4 +100,11 @@ export class HttpPokedexService {
       })
     );
   };
+
+  unsubscribeImproved(subscription: Subscription) {
+    if (subscription) {
+      subscription.unsubscribe();
+    }
+    return;
+  }
 }

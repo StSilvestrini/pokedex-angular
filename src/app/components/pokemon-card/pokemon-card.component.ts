@@ -68,11 +68,7 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
         })
       );
     }
-    if (this.actionSubscription) {
-      this.actionSubscription.unsubscribe();
-    }
-    if (this.loadDataSubscription) {
-      this.loadDataSubscription.unsubscribe();
-    }
+    this.httpService.unsubscribeImproved(this.actionSubscription);
+    this.httpService.unsubscribeImproved(this.loadDataSubscription);
   }
 }
