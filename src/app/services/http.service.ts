@@ -28,9 +28,15 @@ export class HttpPokedexService {
             };
           }
         );
+
+        console.log('pokemonArray', pokemonArray);
+
+        const typesArray = res.map(({ damage_relations, id, name }: any) => {
+          return { damage_relations, id, name };
+        });
         return {
           pokemonArray,
-          typesArray: res,
+          typesArray,
         };
       })
     );
