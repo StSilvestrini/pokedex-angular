@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { of, Subscription, switchMap, take } from 'rxjs';
+import { of, Subscription, switchMap } from 'rxjs';
 import type { IPokemonCard } from 'src/app/interfaces';
 import { StoreService } from 'src/app/services/store.service';
 import { FormatService } from '../../services/format.service';
@@ -16,6 +16,8 @@ import * as PokemonCardActions from '../pokemon-card/store/pokemon-card.actions'
 })
 export class PokemonCardComponent implements OnInit, OnDestroy {
   pokemonCard: IPokemonCard;
+  routeId: string;
+  sendAction: boolean;
   loadDataSubscription: Subscription;
   actionSubscription: Subscription;
 
@@ -32,6 +34,10 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
     this.loadDataSubscription = this.route.params
       .pipe(
         switchMap((params) => {
+          if (params['pokemonId'] !== this.routeId) {
+            this.sendAction = true;
+          }
+          this.routeId = params['pokemonId'];
           return this.storeService.getCardFromStore(params['pokemonId']);
         }),
         switchMap((data: any) => {
@@ -44,28 +50,19 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe((data) => {
+        if (this.sendAction) {
+          this.store.dispatch(
+            PokemonCardActions.addPokemonCard({
+              pokemonCard: { ...data },
+            })
+          );
+          this.sendAction = false;
+        }
         this.pokemonCard = { ...data };
       });
-
-    this.actionSubscription = this.route.params.subscribe(() => {
-      if (this.pokemonCard) {
-        this.store.dispatch(
-          PokemonCardActions.addPokemonCard({
-            pokemonCard: { ...this.pokemonCard },
-          })
-        );
-      }
-    });
   }
 
   ngOnDestroy(): void {
-    if (this.pokemonCard) {
-      this.store.dispatch(
-        PokemonCardActions.addPokemonCard({
-          pokemonCard: { ...this.pokemonCard },
-        })
-      );
-    }
     this.httpService.unsubscribeImproved(this.actionSubscription);
     this.httpService.unsubscribeImproved(this.loadDataSubscription);
   }
