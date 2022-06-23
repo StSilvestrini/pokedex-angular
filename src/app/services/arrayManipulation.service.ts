@@ -26,4 +26,11 @@ export class ArrayManipulationService {
     });
     return types;
   };
+
+  removeDuplicates = (array: any[]) => {
+    return array.filter(function (element, index) {
+      const findEl = array.find((el) => el.name === element.name);
+      return array.indexOf(findEl) == index;
+    });
+  };
 }

@@ -57,7 +57,9 @@ export class PokemonListComponent implements OnInit, OnDestroy {
               pokemon
             );
           });
-          this.pokemonList = this.pokemonList.concat(arrayExpanded);
+          this.pokemonList = this.ArrayManipulationService.removeDuplicates(
+            this.pokemonList.concat(arrayExpanded)
+          );
           if (this.pokemonList && this.pokemonList.length) {
             this.store.dispatch(
               PokemonListActions.setPokemonList({
