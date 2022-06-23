@@ -10,4 +10,20 @@ export class ArrayManipulationService {
     pokemonCard.id = +pokemonId;
     return pokemonCard;
   };
+
+  getPokemonTypes = (pokemonByType, pokemonName) => {
+    if (!pokemonByType?.length || !pokemonName) return;
+    let types: any[] = [];
+    pokemonByType.forEach((typeObj) => {
+      const found = typeObj.pokemon.find(
+        (pokemon) => pokemon?.pokemon?.name === pokemonName
+      );
+      if (found) {
+        const newArray = [...types];
+        newArray.push(typeObj.name);
+        types = newArray;
+      }
+    });
+    return types;
+  };
 }

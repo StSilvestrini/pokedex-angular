@@ -4,7 +4,7 @@ import type { IPokemonCardList } from 'src/app/interfaces';
 import * as fromApp from '../../store/app.reducer';
 import { FormatService } from '../../services/format.service';
 import { HttpPokedexService } from '../../services/http.service';
-import { of, Subscription, switchMap, take } from 'rxjs';
+import { Subscription, switchMap, take } from 'rxjs';
 import { ArrayManipulationService } from 'src/app/services/arrayManipulation.service';
 import * as PokemonListActions from '../pokemon-list/store/pokemon-list.actions';
 
@@ -23,7 +23,7 @@ export class PokemonListComponent implements OnInit, OnDestroy {
     this.initialSubscription = this.store.select('pokemonList').subscribe({
       next: ({ pokemonList, pokemonListByType }) => {
         this.pokemonList = pokemonList.map((pokemonCard) => {
-          const types = this.httpService.getPokemonTypes(
+          const types = this.ArrayManipulationService.getPokemonTypes(
             pokemonListByType,
             pokemonCard.name
           );
@@ -40,13 +40,11 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {}
 
   onLoadPokemon = () => {
-    const {
-      httpService: { genericGetRequest, getNextLink },
-    } = this;
-    this.loadSubscription = getNextLink()
+    this.loadSubscription = this.httpService
+      .getNextLink()
       .pipe(
         switchMap(({ nextLink }) => {
-          return genericGetRequest(nextLink);
+          return this.httpService.genericGetRequest(nextLink);
         }),
         take(1)
       )

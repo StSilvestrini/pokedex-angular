@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { exhaustMap, forkJoin, map, of, switchMap } from 'rxjs';
 import type {
-  IPokemonArray,
   IPokemonArrayElement,
   IPokemonCard,
   IPokemonList,
@@ -17,8 +16,6 @@ export class HttpPokedexService {
     private http: HttpClient,
     private store: Store<fromApp.AppState>
   ) {}
-  types: any[];
-  pokemonByType: any[];
 
   getPokemonByTypes() {
     return this.http.get('https://pokeapi.co/api/v2/type').pipe(
@@ -76,22 +73,6 @@ export class HttpPokedexService {
       );
   };
 
-  getPokemonTypes = (pokemonByType, pokemonName) => {
-    if (!pokemonByType?.length || !pokemonName) return;
-    let types: any[] = [];
-    pokemonByType.forEach((typeObj) => {
-      const found = typeObj.pokemon.find(
-        (pokemon) => pokemon?.pokemon?.name === pokemonName
-      );
-      if (found) {
-        const newArray = [...types];
-        newArray.push(typeObj.name);
-        types = newArray;
-      }
-    });
-    return types;
-  };
-
   requstSingleCard = (pokemonId) =>
     this.http
       .get<IPokemonCard>(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
@@ -122,6 +103,49 @@ export class HttpPokedexService {
     return this.store.select('pokemonList').pipe(
       switchMap(({ nextLink }) => {
         return of({ nextLink });
+      })
+    );
+  };
+
+  getPokemonCardFromHTTP = (pokemonId) => {
+    return this.requstSingleCard(pokemonId).pipe(
+      switchMap((pokemonCard) => {
+        return of({ pokemonCard });
+      })
+    );
+  };
+
+  getCardFromStore = (pokemonId) => {
+    return this.store.select('pokemonCard').pipe(
+      switchMap(({ pokemonCards }) => {
+        let pokemonInStore: IPokemonCard;
+        if (pokemonCards?.length && pokemonId) {
+          pokemonInStore = pokemonCards.find((card) => {
+            return card?.id === +pokemonId;
+          });
+        }
+        if (pokemonInStore) return of({ pokemonInStore });
+        return of({ pokemonId });
+      })
+    );
+  };
+
+  getDamageRelations = (pokemonCard) => {
+    return this.store.select('pokemonList').pipe(
+      switchMap(({ types }) => {
+        const typesFiltered = types
+          .filter((type) => {
+            return pokemonCard.types.find((pokemonType) => {
+              return pokemonType?.type?.name === type?.name;
+            });
+          })
+          .map(({ damage_relations, name }) => {
+            return { damage_relations, name };
+          });
+        if (typesFiltered?.length) {
+          return of({ ...pokemonCard, types: typesFiltered });
+        }
+        return of(pokemonCard);
       })
     );
   };
