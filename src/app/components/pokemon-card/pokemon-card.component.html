@@ -47,7 +47,12 @@
           <p class="statName">Weaknesses</p>
           <div class="flex-item">
             <ng-container *ngFor="let element of pokemonCard?.types">
-              <p *ngFor="let weakness of element.weaknesses | cutList">
+              <p
+                *ngFor="let weakness of element.weaknesses | cutList"
+                appTypesBackground
+                [type]="weakness"
+                class="typeToken"
+              >
                 {{ weakness | titlecase }}
               </p>
             </ng-container>

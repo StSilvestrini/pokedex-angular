@@ -59,7 +59,6 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
           this.sendAction = false;
         }
         this.pokemonCard = { ...data };
-        console.log('<<<<', this.pokemonCard);
       });
   }
 

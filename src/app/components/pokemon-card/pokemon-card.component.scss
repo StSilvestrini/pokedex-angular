@@ -94,3 +94,7 @@
     width: 80%;
   }
 }
+
+.typeToken {
+  @include typeToken;
+}
