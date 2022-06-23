@@ -7,15 +7,9 @@ import type {
   IPokemonList,
   IType,
 } from '../interfaces';
-import * as fromApp from '../store/app.reducer';
-import { Store } from '@ngrx/store';
-
 @Injectable({ providedIn: 'root' })
 export class HttpPokedexService {
-  constructor(
-    private http: HttpClient,
-    private store: Store<fromApp.AppState>
-  ) {}
+  constructor(private http: HttpClient) {}
 
   getPokemonByTypes() {
     return this.http.get('https://pokeapi.co/api/v2/type').pipe(
@@ -99,53 +93,10 @@ export class HttpPokedexService {
     throw Error(error.message);
   };
 
-  getNextLink = () => {
-    return this.store.select('pokemonList').pipe(
-      switchMap(({ nextLink }) => {
-        return of({ nextLink });
-      })
-    );
-  };
-
   getPokemonCardFromHTTP = (pokemonId) => {
     return this.requstSingleCard(pokemonId).pipe(
       switchMap((pokemonCard) => {
         return of({ pokemonCard });
-      })
-    );
-  };
-
-  getCardFromStore = (pokemonId) => {
-    return this.store.select('pokemonCard').pipe(
-      switchMap(({ pokemonCards }) => {
-        let pokemonInStore: IPokemonCard;
-        if (pokemonCards?.length && pokemonId) {
-          pokemonInStore = pokemonCards.find((card) => {
-            return card?.id === +pokemonId;
-          });
-        }
-        if (pokemonInStore) return of({ pokemonInStore });
-        return of({ pokemonId });
-      })
-    );
-  };
-
-  getDamageRelations = (pokemonCard) => {
-    return this.store.select('pokemonList').pipe(
-      switchMap(({ types }) => {
-        const typesFiltered = types
-          .filter((type) => {
-            return pokemonCard.types.find((pokemonType) => {
-              return pokemonType?.type?.name === type?.name;
-            });
-          })
-          .map(({ damage_relations, name }) => {
-            return { damage_relations, name };
-          });
-        if (typesFiltered?.length) {
-          return of({ ...pokemonCard, types: typesFiltered });
-        }
-        return of(pokemonCard);
       })
     );
   };

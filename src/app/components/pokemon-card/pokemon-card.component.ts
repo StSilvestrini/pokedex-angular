@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { of, Subscription, switchMap, take } from 'rxjs';
 import type { IPokemonCard } from 'src/app/interfaces';
+import { StoreService } from 'src/app/services/store.service';
 import { FormatService } from '../../services/format.service';
 import { HttpPokedexService } from '../../services/http.service';
 import * as fromApp from '../../store/app.reducer';
@@ -22,6 +23,7 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
 
   constructor(
     private httpService: HttpPokedexService,
+    private storeService: StoreService,
     private route: ActivatedRoute,
     private formatService: FormatService,
     private store: Store<fromApp.AppState>
@@ -32,7 +34,7 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
     this.loadDataSubscription = this.route.params
       .pipe(
         switchMap((params) => {
-          return this.httpService.getCardFromStore(params['pokemonId']);
+          return this.storeService.getCardFromStore(params['pokemonId']);
         }),
         switchMap((data: any) => {
           return data?.pokemonId
@@ -40,7 +42,7 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
             : of({ pokemonCard: data.pokemonInStore });
         }),
         switchMap((data) => {
-          return this.httpService.getDamageRelations(data.pokemonCard);
+          return this.storeService.getDamageRelations(data.pokemonCard);
         })
       )
       .subscribe((data) => {

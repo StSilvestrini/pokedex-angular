@@ -7,6 +7,7 @@ import { HttpPokedexService } from '../../services/http.service';
 import { Subscription, switchMap, take } from 'rxjs';
 import { ArrayManipulationService } from 'src/app/services/arrayManipulation.service';
 import * as PokemonListActions from '../pokemon-list/store/pokemon-list.actions';
+import { StoreService } from 'src/app/services/store.service';
 
 @Component({
   selector: 'app-pokemon-list',
@@ -16,6 +17,7 @@ import * as PokemonListActions from '../pokemon-list/store/pokemon-list.actions'
 export class PokemonListComponent implements OnInit, OnDestroy {
   constructor(
     private httpService: HttpPokedexService,
+    private storeService: StoreService,
     private formatService: FormatService,
     private store: Store<fromApp.AppState>,
     private ArrayManipulationService: ArrayManipulationService
@@ -40,7 +42,7 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {}
 
   onLoadPokemon = () => {
-    this.loadSubscription = this.httpService
+    this.loadSubscription = this.storeService
       .getNextLink()
       .pipe(
         switchMap(({ nextLink }) => {
