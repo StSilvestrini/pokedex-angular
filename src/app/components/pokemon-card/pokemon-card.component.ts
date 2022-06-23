@@ -16,8 +16,6 @@ import * as PokemonCardActions from '../pokemon-card/store/pokemon-card.actions'
 })
 export class PokemonCardComponent implements OnInit, OnDestroy {
   pokemonCard: IPokemonCard;
-  pokemonId: string;
-  typesFiltered: any[];
   loadDataSubscription: Subscription;
   actionSubscription: Subscription;
 

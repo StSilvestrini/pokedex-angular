@@ -14,7 +14,12 @@ const _pokemonCardReducer = createReducer(
   initialState,
   on(PokemonCardActions.addPokemonCard, (state, action) => {
     const pokemonCardsCopy = [...state.pokemonCards];
-    pokemonCardsCopy.push(action.pokemonCard);
+    const alreadyInList = pokemonCardsCopy.some(
+      (el) => el?.name === action?.pokemonCard?.name
+    );
+    if (!alreadyInList) {
+      pokemonCardsCopy.push(action.pokemonCard);
+    }
     return {
       ...state,
       pokemonCards: pokemonCardsCopy,
