@@ -4,15 +4,9 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { PokemonListComponent } from './components/pokemon-list/pokemon-list.component';
-import { PokemonCardComponent } from './components/pokemon-card/pokemon-card.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TypesBackgroundDirective } from './types-background.directive';
-import { PokemonStatsListComponent } from './components/pokemon-stats-list-item/pokemon-stats-list.component';
-import { CardNavigationComponent } from './components/card-navigation/card-navigation.component';
-import { CutListPipe } from './pipes/cut-list.pipe';
-import { InferPluralPipe } from './pipes/infer-plural.pipe';
-
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { FormsModule } from '@angular/forms';
 import { FilterListPipe } from './pipes/filterList.pipe';
@@ -22,19 +16,15 @@ import { EffectsModule } from '@ngrx/effects';
 import { PokemonListEffects } from './components/pokemon-list/store/pokemon-list.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { SortListPipe } from './pipes/sort.pipe';
+import { PokemonCardModule } from './components/pokemon-card/pokemon-card.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     PokemonListComponent,
-    PokemonCardComponent,
     ErrorPageComponent,
     TypesBackgroundDirective,
-    PokemonStatsListComponent,
-    CardNavigationComponent,
     SearchBarComponent,
-    CutListPipe,
-    InferPluralPipe,
     FilterListPipe,
     SortListPipe,
   ],
@@ -46,6 +36,7 @@ import { SortListPipe } from './pipes/sort.pipe';
     StoreModule.forRoot(fromApp.appReducer),
     EffectsModule.forRoot([PokemonListEffects]),
     StoreDevtoolsModule.instrument({ logOnly: false }),
+    PokemonCardModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
