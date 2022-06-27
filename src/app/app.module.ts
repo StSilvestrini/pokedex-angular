@@ -4,7 +4,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { PokemonListComponent } from './components/pokemon-list/pokemon-list.component';
-import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TypesBackgroundDirective } from './types-background.directive';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
@@ -22,7 +21,6 @@ import { PokemonCardModule } from './components/pokemon-card/pokemon-card.module
   declarations: [
     AppComponent,
     PokemonListComponent,
-    ErrorPageComponent,
     TypesBackgroundDirective,
     SearchBarComponent,
     FilterListPipe,

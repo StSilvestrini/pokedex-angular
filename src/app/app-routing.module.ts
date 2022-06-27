@@ -12,7 +12,13 @@ const routes: Routes = [
         (m) => m.PokemonCardModule
       ),
   },
-  { path: 'not-found', component: ErrorPageComponent },
+  {
+    path: 'not-found',
+    loadChildren: () =>
+      import('./components/error-page/error-page.module').then(
+        (m) => m.ErrorModule
+      ),
+  },
   { path: '**', redirectTo: '/not-found' },
 ];
 
