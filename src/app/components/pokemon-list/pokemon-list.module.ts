@@ -14,10 +14,6 @@ import { PokemonListComponent } from './pokemon-list.component';
     SortListPipe,
     FilterListPipe,
   ],
-  imports: [
-    RouterModule.forChild([{ path: '', component: PokemonListComponent }]),
-    FormsModule,
-    SharedModule,
-  ],
+  imports: [RouterModule, FormsModule, SharedModule],
 })
 export class PokemonListModule {}
