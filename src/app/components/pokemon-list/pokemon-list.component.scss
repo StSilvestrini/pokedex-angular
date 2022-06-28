@@ -98,6 +98,21 @@
   background-color: #fff;
   z-index: 2;
   @include box-shadow;
-  border-radius: 0 0 0 10px;
-  padding: 2rem;
+  padding: 2rem 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.selectGrid {
+  display: inline-block;
+
+  label {
+    font-family: $fontFamily;
+    margin-right: 0.5rem;
+  }
+
+  select {
+    padding: 0.5rem;
+    @include borderManager;
+  }
 }

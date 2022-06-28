@@ -38,6 +38,7 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   pokemonList: IPokemonCardList[] = [];
   initialSubscription: Subscription;
   loadSubscription: Subscription;
+  gridLayout = '3';
 
   ngOnInit(): void {}
 
@@ -74,6 +75,11 @@ export class PokemonListComponent implements OnInit, OnDestroy {
           }
         },
       });
+  };
+
+  onGridChange = (value: string) => {
+    this.gridLayout = value;
+    console.log('this.gridLayout', this.gridLayout);
   };
 
   formatNumber = this.formatService.getPrettyNumber;

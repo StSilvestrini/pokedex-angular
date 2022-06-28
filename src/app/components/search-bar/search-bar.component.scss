@@ -1,6 +1,7 @@
 @use "../../../styles.scss" as *;
 
 .searchForm {
+  display: inline-block;
   input,
   button {
     padding: 0.5rem;
