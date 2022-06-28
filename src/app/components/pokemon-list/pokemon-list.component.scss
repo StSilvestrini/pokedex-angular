@@ -18,7 +18,6 @@
 }
 
 .cardContainer {
-  width: 25%;
   padding: 1rem;
   cursor: pointer;
   @include box-shadow;
@@ -30,6 +29,14 @@
   @media (max-width: $breakpoint-mobile) {
     width: 100%;
   }
+}
+
+.twoGrids {
+  width: 40%;
+}
+
+.threeGrids {
+  width: 25%;
 }
 
 .cardImage {

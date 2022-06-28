@@ -23,6 +23,10 @@
       "
       [routerLink]="['/card', pokemon.id]"
       class="cardContainer"
+      [ngClass]="{
+        twoGrids: gridLayout === '2',
+        threeGrids: gridLayout !== '2'
+      }"
     >
       <div
         class="cardImage"
