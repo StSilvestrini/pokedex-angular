@@ -132,6 +132,6 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   }
 
   onCompare = () => {
-    this.compareMode = true;
+    this.compareMode = !this.compareMode;
   };
 }

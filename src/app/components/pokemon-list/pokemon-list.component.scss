@@ -38,6 +38,19 @@
   @include box-shadow;
   @include zoom;
   @include borderManager;
+  &.cardContainerCompare {
+    border: 0.1rem solid $buttonBackgroundColor;
+    padding: 0.9rem;
+    &:hover:not(.cardContainerSelected) {
+      border-width: 0.3rem;
+      padding: 0.7rem;
+    }
+    &.cardContainerSelected {
+      border-width: 0.3rem;
+      padding: 0.7rem;
+      transform: scale(1.05);
+    }
+  }
 }
 
 .twoGrids {

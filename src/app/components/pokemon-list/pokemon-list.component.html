@@ -41,7 +41,9 @@
       class="cardContainer"
       [ngClass]="{
         twoGrids: gridLayout === 'large',
-        threeGrids: gridLayout !== 'large'
+        threeGrids: gridLayout !== 'large',
+        cardContainerCompare: compareMode,
+        cardContainerSelected: true
       }"
     >
       <div
