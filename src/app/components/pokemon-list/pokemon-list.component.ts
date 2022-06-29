@@ -39,6 +39,7 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   initialSubscription: Subscription;
   loadSubscription: Subscription;
   gridLayout = 'regular';
+  numberToShow = '20';
 
   ngOnInit(): void {}
 
@@ -79,7 +80,12 @@ export class PokemonListComponent implements OnInit, OnDestroy {
 
   onGridChange = (value: string) => {
     this.gridLayout = value;
-    console.log('this.gridLayout', this.gridLayout);
+    return;
+  };
+
+  onNumberChange = (value: string) => {
+    this.numberToShow = value;
+    return;
   };
 
   formatNumber = this.formatService.getPrettyNumber;
