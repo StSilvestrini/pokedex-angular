@@ -2,15 +2,15 @@
   <div class="listHeader">
     <app-search-bar #searchBar></app-search-bar>
     <div class="selectGrid">
-      <label for="grids">Grid layout:</label>
+      <label for="grids">Card Dimension:</label>
       <select
         name="grids"
         id="grids"
         [(ngModel)]="gridLayout"
         (change)="onGridChange($event.target.value)"
       >
-        <option value="2">2 Grids</option>
-        <option value="3" [defaultSelected]="'3'">3 Grids</option>
+        <option value="large">Large</option>
+        <option value="regular" defaultSelected="regular">Regular</option>
       </select>
     </div>
   </div>
@@ -24,8 +24,8 @@
       [routerLink]="['/card', pokemon.id]"
       class="cardContainer"
       [ngClass]="{
-        twoGrids: gridLayout === '2',
-        threeGrids: gridLayout !== '2'
+        twoGrids: gridLayout === 'large',
+        threeGrids: gridLayout !== 'large'
       }"
     >
       <div

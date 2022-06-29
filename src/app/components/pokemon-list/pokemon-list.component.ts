@@ -38,7 +38,7 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   pokemonList: IPokemonCardList[] = [];
   initialSubscription: Subscription;
   loadSubscription: Subscription;
-  gridLayout = '3';
+  gridLayout = 'regular';
 
   ngOnInit(): void {}
 
