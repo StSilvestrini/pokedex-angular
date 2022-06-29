@@ -2,6 +2,7 @@
 
 .container {
   @include containerSettings;
+  margin: 5rem;
   @media (max-width: $breakpoint-tablet) {
     margin: 2rem;
   }

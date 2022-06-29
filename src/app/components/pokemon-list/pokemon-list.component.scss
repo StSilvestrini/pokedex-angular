@@ -10,11 +10,12 @@
 }
 .container {
   @include containerSettings;
+  padding: 5rem;
   @media (max-width: $breakpoint-tablet) {
-    margin: 0;
+    padding: 0;
   }
   @media (max-width: $breakpoint-mobile) {
-    margin: 5rem 0.5rem 2rem 0.5rem;
+    padding: 5rem 0.5rem 2rem 0.5rem;
   }
 }
 
@@ -145,4 +146,18 @@
       display: none;
     }
   }
+}
+
+//compare mood
+
+.compareButton {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: $buttonBackgroundColor;
+  color: #fff;
+  border: 1px solid $buttonBackgroundColor;
+  cursor: pointer;
+  @include typeToken;
+  @include zoom;
 }

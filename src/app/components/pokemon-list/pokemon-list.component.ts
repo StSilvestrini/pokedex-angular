@@ -42,6 +42,7 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   gridLayout = 'regular';
   numberToShow = 'choose';
   applyPipe = false;
+  compareMode = false;
 
   ngOnInit(): void {}
 
@@ -129,4 +130,8 @@ export class PokemonListComponent implements OnInit, OnDestroy {
     unsubscribeImproved(this.loadSubscription);
     unsubscribeImproved(this.changeNumberSubscription);
   }
+
+  onCompare = () => {
+    this.compareMode = true;
+  };
 }
