@@ -2,6 +2,12 @@
 
 .container {
   @include containerSettings;
+  @media (max-width: $breakpoint-tablet) {
+    margin: 2rem;
+  }
+  @media (max-width: $breakpoint-mobile) {
+    margin: 1rem;
+  }
 }
 
 .titleContainer {
@@ -68,12 +74,10 @@
 .gridContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  height: 80vh;
   @media (max-width: $breakpoint-tablet) {
     grid-template-columns: 1fr;
     width: 80%;
     margin: 0 auto;
-    height: auto;
   }
 }
 

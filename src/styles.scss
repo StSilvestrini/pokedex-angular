@@ -38,9 +38,6 @@ $fontFamily: "Flexo-Bold", "arial", "sans-serif";
 @mixin containerSettings {
   margin: 5rem;
   background-color: $containerBackgroundColor;
-  @media (max-width: $breakpoint-tablet) {
-    margin: 2rem;
-  }
 }
 
 @mixin arrow($side) {
