@@ -54,28 +54,38 @@ export class PokemonListComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (response: any) => {
-          const arrayExpanded = response?.results?.map((pokemon) => {
-            return this.ArrayManipulationService.getPokemonDetailInList(
-              pokemon
-            );
-          });
-          this.pokemonList = this.ArrayManipulationService.removeDuplicates(
-            this.pokemonList.concat(arrayExpanded)
-          );
-          if (this.pokemonList && this.pokemonList.length) {
-            this.store.dispatch(
-              PokemonListActions.setPokemonList({
-                payload: [...this.pokemonList],
-              })
-            );
-          }
-          if (response?.next) {
-            this.store.dispatch(
-              PokemonListActions.setNextLink({ payload: response.next })
-            );
-          }
+          this.pokemonList = this.addDetails(response);
+          this.dispatchPokemonList();
+          this.dispatchNextLink(response?.next);
         },
       });
+  };
+
+  addDetails = (arrayOfResults) => {
+    const arrayExpanded = arrayOfResults?.results?.map((pokemon) => {
+      return this.ArrayManipulationService.getPokemonDetailInList(pokemon);
+    });
+    return this.ArrayManipulationService.removeDuplicates(
+      this.pokemonList.concat(arrayExpanded)
+    );
+  };
+
+  dispatchPokemonList = () => {
+    if (this.pokemonList?.length) {
+      this.store.dispatch(
+        PokemonListActions.setPokemonList({
+          payload: [...this.pokemonList],
+        })
+      );
+    }
+  };
+
+  dispatchNextLink = (nextLink) => {
+    if (nextLink) {
+      this.store.dispatch(
+        PokemonListActions.setNextLink({ payload: nextLink })
+      );
+    }
   };
 
   onGridChange = (value: string) => {
@@ -85,6 +95,22 @@ export class PokemonListComponent implements OnInit, OnDestroy {
 
   onNumberChange = (value: string) => {
     this.numberToShow = value;
+    if (+value > this.pokemonList?.length) {
+      const numberOfPokemonToAdd = +value - this.pokemonList.length;
+      this.httpService
+        .genericGetRequest(
+          `https://pokeapi.co/api/v2/pokemon?offset=${this.pokemonList.length}&limit=${numberOfPokemonToAdd}`
+        )
+        .pipe(take(1))
+        .subscribe({
+          next: (response) => {
+            this.pokemonList = this.addDetails(response);
+            this.dispatchPokemonList();
+            const nextLink = `https://pokeapi.co/api/v2/pokemon?offset=${this.pokemonList.length}&limit=20`;
+            this.dispatchNextLink(nextLink);
+          },
+        });
+    }
     return;
   };
 
