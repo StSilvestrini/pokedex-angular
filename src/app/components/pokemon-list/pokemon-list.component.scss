@@ -1,5 +1,13 @@
 @use "../../../styles.scss" as *;
 
+@mixin cardWidthResponsive {
+  @media (max-width: $breakpoint-tablet) {
+    width: 35%;
+  }
+  @media (max-width: $breakpoint-mobile) {
+    width: 100%;
+  }
+}
 .container {
   @include containerSettings;
 }
@@ -23,20 +31,16 @@
   @include box-shadow;
   @include zoom;
   @include borderManager;
-  @media (max-width: $breakpoint-tablet) {
-    width: 35%;
-  }
-  @media (max-width: $breakpoint-mobile) {
-    width: 100%;
-  }
 }
 
 .twoGrids {
   width: 40%;
+  @include cardWidthResponsive();
 }
 
 .threeGrids {
   width: 25%;
+  @include cardWidthResponsive();
 }
 
 .cardImage {
@@ -116,10 +120,15 @@
   label {
     font-family: $fontFamily;
     margin-right: 0.5rem;
+    font-style: italic;
   }
 
   select {
     padding: 0.5rem;
     @include borderManager;
+  }
+
+  @media (max-width: $breakpoint-tablet) {
+    display: none;
   }
 }
