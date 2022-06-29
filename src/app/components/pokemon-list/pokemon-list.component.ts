@@ -38,12 +38,16 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   pokemonList: IPokemonCardList[] = [];
   initialSubscription: Subscription;
   loadSubscription: Subscription;
+  changeNumberSubscription: Subscription;
   gridLayout = 'regular';
-  numberToShow = '20';
+  numberToShow = 'choose';
+  applyPipe = false;
 
   ngOnInit(): void {}
 
   onLoadPokemon = () => {
+    this.applyPipe = false;
+    this.numberToShow = 'choose';
     this.loadSubscription = this.storeService
       .getNextLink()
       .pipe(
@@ -96,8 +100,9 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   onNumberChange = (value: string) => {
     this.numberToShow = value;
     if (+value > this.pokemonList?.length) {
+      this.applyPipe = false;
       const numberOfPokemonToAdd = +value - this.pokemonList.length;
-      this.httpService
+      this.changeNumberSubscription = this.httpService
         .genericGetRequest(
           `https://pokeapi.co/api/v2/pokemon?offset=${this.pokemonList.length}&limit=${numberOfPokemonToAdd}`
         )
@@ -106,18 +111,22 @@ export class PokemonListComponent implements OnInit, OnDestroy {
           next: (response) => {
             this.pokemonList = this.addDetails(response);
             this.dispatchPokemonList();
-            const nextLink = `https://pokeapi.co/api/v2/pokemon?offset=${this.pokemonList.length}&limit=20`;
-            this.dispatchNextLink(nextLink);
+            this.dispatchNextLink(
+              `https://pokeapi.co/api/v2/pokemon?offset=${this.pokemonList.length}&limit=20`
+            );
           },
         });
+    } else {
+      this.applyPipe = true;
     }
-    return;
   };
 
   formatNumber = this.formatService.getPrettyNumber;
 
   ngOnDestroy(): void {
-    this.httpService.unsubscribeImproved(this.initialSubscription);
-    this.httpService.unsubscribeImproved(this.loadSubscription);
+    const { unsubscribeImproved } = this?.httpService || {};
+    unsubscribeImproved(this.initialSubscription);
+    unsubscribeImproved(this.loadSubscription);
+    unsubscribeImproved(this.changeNumberSubscription);
   }
 }
