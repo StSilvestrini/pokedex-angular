@@ -4,7 +4,7 @@ import type { IPokemonCardList } from 'src/app/interfaces';
 import * as fromApp from '../../store/app.reducer';
 import { FormatService } from '../../services/format.service';
 import { HttpPokedexService } from '../../services/http.service';
-import { Subscription, switchMap, take } from 'rxjs';
+import { of, Subscription, switchMap, take } from 'rxjs';
 import { ArrayManipulationService } from 'src/app/services/arrayManipulation.service';
 import * as PokemonListActions from '../pokemon-list/store/pokemon-list.actions';
 import { StoreService } from 'src/app/services/store.service';
@@ -39,10 +39,12 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   initialSubscription: Subscription;
   loadSubscription: Subscription;
   changeNumberSubscription: Subscription;
+  pokemonDetailSubscription: Subscription;
   gridLayout = 'regular';
   numberToShow = 'choose';
   applyPipe = false;
   compareMode = false;
+  pokemonsToCompare: string[] = [];
 
   ngOnInit(): void {}
 
@@ -124,14 +126,54 @@ export class PokemonListComponent implements OnInit, OnDestroy {
 
   formatNumber = this.formatService.getPrettyNumber;
 
+  onCompare = () => {
+    this.compareMode = !this.compareMode;
+    this.pokemonsToCompare = [];
+  };
+
+  onSelectCompare = (id) => {
+    if (!id) return;
+    const found = this.pokemonsToCompare.find((el) => el === id);
+    if (found) {
+      this.pokemonsToCompare = this.pokemonsToCompare.filter(
+        (el) => el !== found
+      );
+      return;
+    } else if (this.pokemonsToCompare.length < 2) {
+      this.pokemonsToCompare.push(id);
+    }
+    if (this.pokemonsToCompare.length === 2) {
+      this.getPokemonDetail(this.pokemonsToCompare[0]).subscribe({
+        next: (data) => {
+          console.log('data', data);
+        },
+      });
+    }
+  };
+
+  isSelected = (id) => {
+    return this.pokemonsToCompare.some((el) => id === el);
+  };
+
+  getPokemonDetail = (id) => {
+    return this.storeService.getCardFromStore(id).pipe(
+      switchMap((data: any) => {
+        return data?.pokemonId
+          ? this.httpService.getPokemonCardFromHTTP(data['pokemonId'])
+          : of({ pokemonCard: data.pokemonInStore, isInStore: true });
+      }),
+      switchMap((data: any) => {
+        if (data.isInStore) return of(data.pokemonCard);
+        return this.storeService.getDamageRelations(data.pokemonCard);
+      })
+    );
+  };
+
   ngOnDestroy(): void {
     const { unsubscribeImproved } = this?.httpService || {};
     unsubscribeImproved(this.initialSubscription);
     unsubscribeImproved(this.loadSubscription);
     unsubscribeImproved(this.changeNumberSubscription);
+    unsubscribeImproved(this.pokemonDetailSubscription);
   }
-
-  onCompare = () => {
-    this.compareMode = !this.compareMode;
-  };
 }

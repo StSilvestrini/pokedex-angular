@@ -43,13 +43,15 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
         switchMap((data: any) => {
           return data?.pokemonId
             ? this.httpService.getPokemonCardFromHTTP(data['pokemonId'])
-            : of({ pokemonCard: data.pokemonInStore });
+            : of({ pokemonCard: data.pokemonInStore, isInStore: true });
         }),
-        switchMap((data) => {
+        switchMap((data: any) => {
+          if (data.isInStore) return of(data.pokemonCard);
           return this.storeService.getDamageRelations(data.pokemonCard);
         })
       )
       .subscribe((data) => {
+        console.log('<<<<<', data);
         if (this.sendAction) {
           this.store.dispatch(
             PokemonCardActions.addPokemonCard({

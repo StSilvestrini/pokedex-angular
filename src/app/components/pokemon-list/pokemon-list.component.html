@@ -37,13 +37,14 @@
           | sortList: 'id'
           | cutList: numberToShow:applyPipe
       "
-      [routerLink]="['/card', pokemon.id]"
+      [routerLink]="compareMode ? null : ['/card', pokemon.id]"
+      (click)="compareMode ? onSelectCompare(pokemon?.id) : null"
       class="cardContainer"
       [ngClass]="{
         twoGrids: gridLayout === 'large',
         threeGrids: gridLayout !== 'large',
         cardContainerCompare: compareMode,
-        cardContainerSelected: true
+        cardContainerSelected: isSelected(pokemon?.id)
       }"
     >
       <div
@@ -69,6 +70,8 @@
     >
       Load other Pokemons
     </button>
-    <button class="compareButton" (click)="onCompare()">Compare</button>
+    <button class="compareButton" (click)="onCompare()">
+      {{ compareMode ? "Quit" : "Compare" }}
+    </button>
   </div>
 </div>
