@@ -4,9 +4,8 @@ import type { IPokemonCardList } from 'src/app/interfaces';
 import * as fromApp from '../../store/app.reducer';
 import { UtilitiesService } from '../../services/utilities.service';
 import { HttpPokedexService } from '../../services/http.service';
-import { forkJoin, mergeMap, of, Subscription, switchMap, take } from 'rxjs';
+import { mergeMap, Subscription, switchMap, take } from 'rxjs';
 import { ArrayManipulationService } from 'src/app/services/arrayManipulation.service';
-import * as PokemonListActions from '../pokemon-list/store/pokemon-list.actions';
 import { StoreService } from 'src/app/services/store.service';
 
 @Component({
@@ -61,8 +60,8 @@ export class PokemonListComponent implements OnDestroy {
       .subscribe({
         next: (response: any) => {
           this.pokemonList = this.addDetails(response);
-          this.dispatchPokemonList();
-          this.dispatchNextLink(response?.next);
+          this.storeService.dispatchPokemonList(this.pokemonList);
+          this.storeService.dispatchNextLink(response?.next);
         },
       });
   };
@@ -74,24 +73,6 @@ export class PokemonListComponent implements OnDestroy {
     return this.ArrayManipulationService.removeDuplicates(
       this.pokemonList.concat(arrayExpanded)
     );
-  };
-
-  dispatchPokemonList = () => {
-    if (this.pokemonList?.length) {
-      this.store.dispatch(
-        PokemonListActions.setPokemonList({
-          payload: [...this.pokemonList],
-        })
-      );
-    }
-  };
-
-  dispatchNextLink = (nextLink) => {
-    if (nextLink) {
-      this.store.dispatch(
-        PokemonListActions.setNextLink({ payload: nextLink })
-      );
-    }
   };
 
   onNumberChange = (value: string) => {
@@ -107,8 +88,8 @@ export class PokemonListComponent implements OnDestroy {
         .subscribe({
           next: (response) => {
             this.pokemonList = this.addDetails(response);
-            this.dispatchPokemonList();
-            this.dispatchNextLink(
+            this.storeService.dispatchPokemonList(this.pokemonList);
+            this.storeService.dispatchNextLink(
               `https://pokeapi.co/api/v2/pokemon?offset=${this.pokemonList.length}&limit=20`
             );
           },
@@ -117,8 +98,6 @@ export class PokemonListComponent implements OnDestroy {
       this.applyPipe = true;
     }
   };
-
-  formatNumber = this.utilityService.getPrettyNumber;
 
   onCompare = () => {
     this.compareMode = !this.compareMode;
@@ -161,6 +140,7 @@ export class PokemonListComponent implements OnDestroy {
   isSelected = (id) => this.pokemonsToCompare.some((el) => id === el);
   getId = this.utilityService.getId;
   getItem = this.utilityService.getItem;
+  formatNumber = this.utilityService.getPrettyNumber;
 
   ngOnDestroy(): void {
     const { unsubscribeImproved } = this?.httpService || {};

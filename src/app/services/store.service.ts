@@ -4,7 +4,7 @@ import type { IPokemonCard } from '../interfaces';
 import * as fromApp from '../store/app.reducer';
 import { Store } from '@ngrx/store';
 import * as PokemonCardActions from '../components/pokemon-card/store/pokemon-card.actions';
-
+import * as PokemonListActions from '../components/pokemon-list/store/pokemon-list.actions';
 @Injectable({ providedIn: 'root' })
 export class StoreService {
   constructor(private store: Store<fromApp.AppState>) {}
@@ -15,6 +15,24 @@ export class StoreService {
         pokemonCard: { ...pokemonCard },
       })
     );
+  };
+
+  dispatchNextLink = (nextLink) => {
+    if (nextLink) {
+      this.store.dispatch(
+        PokemonListActions.setNextLink({ payload: nextLink })
+      );
+    }
+  };
+
+  dispatchPokemonList = (list) => {
+    if (list?.length) {
+      this.store.dispatch(
+        PokemonListActions.setPokemonList({
+          payload: [...list],
+        })
+      );
+    }
   };
 
   getNextLink = () => {
