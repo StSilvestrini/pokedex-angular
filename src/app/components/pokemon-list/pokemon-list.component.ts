@@ -40,6 +40,7 @@ export class PokemonListComponent implements OnDestroy {
   loadSubscription: Subscription;
   changeNumberSubscription: Subscription;
   pokemonDetailSubscription: Subscription;
+  compareSubscription: Subscription;
   gridLayout = 'regular';
   numberToShow = 'choose';
   applyPipe = false;
@@ -136,7 +137,7 @@ export class PokemonListComponent implements OnDestroy {
       this.pokemonsToCompare.push(id);
     }
     if (this.pokemonsToCompare.length === 2) {
-      this.httpService
+      this.compareSubscription = this.httpService
         .getPokemonCard(this?.pokemonsToCompare?.[0])
         .pipe(
           take(1),
@@ -172,5 +173,6 @@ export class PokemonListComponent implements OnDestroy {
     unsubscribeImproved(this.loadSubscription);
     unsubscribeImproved(this.changeNumberSubscription);
     unsubscribeImproved(this.pokemonDetailSubscription);
+    unsubscribeImproved(this.compareSubscription);
   }
 }
