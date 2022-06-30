@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { FormatService } from '../../services/format.service';
+import { UtilitiesService } from '../../services/utilities.service';
 
 @Component({
   selector: 'app-card-navigation',
@@ -12,11 +12,11 @@ export class CardNavigationComponent implements OnInit, OnDestroy {
   currentNumber: number;
   routeSubscription: Subscription;
   constructor(
-    private formatService: FormatService,
+    private utilityService: UtilitiesService,
     private route: ActivatedRoute
   ) {}
 
-  formatNumber = this.formatService.getPrettyNumber;
+  formatNumber = this.utilityService.getPrettyNumber;
 
   ngOnInit(): void {
     this.currentNumber = +this.route.snapshot.params['pokemonId'];

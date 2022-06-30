@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import type { IPokemonCardList } from 'src/app/interfaces';
 import * as fromApp from '../../store/app.reducer';
-import { FormatService } from '../../services/format.service';
+import { UtilitiesService } from '../../services/utilities.service';
 import { HttpPokedexService } from '../../services/http.service';
 import { Subscription, switchMap, take } from 'rxjs';
 import { ArrayManipulationService } from 'src/app/services/arrayManipulation.service';
@@ -18,7 +18,7 @@ export class PokemonListComponent implements OnDestroy {
   constructor(
     private httpService: HttpPokedexService,
     private storeService: StoreService,
-    private formatService: FormatService,
+    private utilityService: UtilitiesService,
     private store: Store<fromApp.AppState>,
     private ArrayManipulationService: ArrayManipulationService
   ) {
@@ -93,11 +93,6 @@ export class PokemonListComponent implements OnDestroy {
     }
   };
 
-  onGridChange = (value: string) => {
-    this.gridLayout = value;
-    return;
-  };
-
   onNumberChange = (value: string) => {
     this.numberToShow = value;
     if (+value > this.pokemonList?.length) {
@@ -122,7 +117,7 @@ export class PokemonListComponent implements OnDestroy {
     }
   };
 
-  formatNumber = this.formatService.getPrettyNumber;
+  formatNumber = this.utilityService.getPrettyNumber;
 
   onCompare = () => {
     this.compareMode = !this.compareMode;
@@ -151,8 +146,13 @@ export class PokemonListComponent implements OnDestroy {
   };
 
   isSelected = (id) => this.pokemonsToCompare.some((el) => id === el);
-  getId = (index: number, item) => item?.id;
-  getItem = (index: number, item) => item;
+  getId = this.utilityService.getId;
+  getItem = this.utilityService.getItem;
+
+  onGridChange(value) {
+    this.gridLayout = value;
+    return;
+  }
 
   ngOnDestroy(): void {
     const { unsubscribeImproved } = this?.httpService || {};

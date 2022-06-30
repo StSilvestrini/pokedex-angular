@@ -2,7 +2,7 @@
   <p class="statName">{{ key | inferPlural | titlecase }}</p>
   <div class="flex-item">
     <p
-      *ngFor="let element of list | cutList"
+      *ngFor="let element of list | cutList; trackBy: getProperName"
       appTypesBackground
       [type]="key === 'type' ? element?.name : null"
       [ngClass]="{ typeToken: key === 'type' }"
