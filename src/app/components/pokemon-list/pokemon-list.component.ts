@@ -142,12 +142,16 @@ export class PokemonListComponent implements OnDestroy {
           take(1),
           mergeMap((data) => {
             this.pokemonsToCompare = [data, this.pokemonsToCompare[1]];
+            if (!data?.isInStore)
+              this.storeService.dispatchPokemonCard(data.pokemonCard);
             return this.httpService.getPokemonCard(
               this?.pokemonsToCompare?.[1]
             );
           })
         )
         .subscribe((data) => {
+          if (!data?.isInStore)
+            this.storeService.dispatchPokemonCard(data.pokemonCard);
           this.pokemonsToCompare = [this.pokemonsToCompare[0], data];
         });
     }

@@ -3,10 +3,19 @@ import { of, switchMap } from 'rxjs';
 import type { IPokemonCard } from '../interfaces';
 import * as fromApp from '../store/app.reducer';
 import { Store } from '@ngrx/store';
+import * as PokemonCardActions from '../components/pokemon-card/store/pokemon-card.actions';
 
 @Injectable({ providedIn: 'root' })
 export class StoreService {
   constructor(private store: Store<fromApp.AppState>) {}
+
+  dispatchPokemonCard = (pokemonCard) => {
+    this.store.dispatch(
+      PokemonCardActions.addPokemonCard({
+        pokemonCard: { ...pokemonCard },
+      })
+    );
+  };
 
   getNextLink = () => {
     return this.store.select('pokemonList').pipe(
@@ -50,9 +59,9 @@ export class StoreService {
             };
           });
         if (typesFiltered?.length) {
-          return of({ ...pokemonCard, types: typesFiltered });
+          return of({ pokemonCard: { ...pokemonCard, types: typesFiltered } });
         }
-        return of(pokemonCard);
+        return of({ pokemonCard });
       })
     );
   };

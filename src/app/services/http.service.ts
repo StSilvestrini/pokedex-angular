@@ -121,7 +121,7 @@ export class HttpPokedexService {
           : of({ pokemonCard: data.pokemonInStore, isInStore: true });
       }),
       switchMap((data: any) => {
-        if (data.isInStore) return of(data.pokemonCard);
+        if (data.isInStore) return of(data);
         return this.storeService.getDamageRelations(data.pokemonCard);
       })
     );
