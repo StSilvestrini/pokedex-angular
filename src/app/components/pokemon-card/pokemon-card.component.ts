@@ -1,11 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { Subscription, switchMap, take } from 'rxjs';
 import type { IPokemonCard } from 'src/app/interfaces';
 import { UtilitiesService } from '../../services/utilities.service';
 import { HttpPokedexService } from '../../services/http.service';
-import * as fromApp from '../../store/app.reducer';
 import { StoreService } from 'src/app/services/store.service';
 
 @Component({
@@ -24,7 +22,6 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
     private httpService: HttpPokedexService,
     private route: ActivatedRoute,
     private utilityService: UtilitiesService,
-    private store: Store<fromApp.AppState>,
     private storeService: StoreService
   ) {}
   ngOnInit(): void {

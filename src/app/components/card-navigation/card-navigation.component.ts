@@ -11,10 +11,7 @@ import { UtilitiesService } from '../../services/utilities.service';
 export class CardNavigationComponent implements OnInit, OnDestroy {
   currentNumber: number;
   routeSubscription: Subscription;
-  constructor(
-    private utilityService: UtilitiesService,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.currentNumber = +this.route.snapshot.params['pokemonId'];

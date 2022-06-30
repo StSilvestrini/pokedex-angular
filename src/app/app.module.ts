@@ -11,9 +11,10 @@ import * as fromApp from './store/app.reducer';
 import { PokemonCardModule } from './components/pokemon-card/pokemon-card.module';
 import { PokemonListModule } from './components/pokemon-list/pokemon-list.module';
 import { SharedModule } from './shared/shared.module';
+import { CompareModalComponent } from './components/compare-modal/compare-modal.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, CompareModalComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
