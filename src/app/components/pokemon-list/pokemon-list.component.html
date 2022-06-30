@@ -3,12 +3,7 @@
     <app-search-bar #searchBar></app-search-bar>
     <div class="selectGrid showSize">
       <label for="grids">Size</label>
-      <select
-        name="grids"
-        id="grids"
-        [(ngModel)]="gridLayout"
-        (change)="onGridChange($event.target.value)"
-      >
+      <select name="grids" id="grids" [(ngModel)]="gridLayout">
         <option value="large">Large</option>
         <option value="regular" defaultSelected="regular">Regular</option>
       </select>

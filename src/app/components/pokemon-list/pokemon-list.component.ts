@@ -162,11 +162,6 @@ export class PokemonListComponent implements OnDestroy {
   getId = this.utilityService.getId;
   getItem = this.utilityService.getItem;
 
-  onGridChange(value) {
-    this.gridLayout = value;
-    return;
-  }
-
   ngOnDestroy(): void {
     const { unsubscribeImproved } = this?.httpService || {};
     unsubscribeImproved(this.initialSubscription);
