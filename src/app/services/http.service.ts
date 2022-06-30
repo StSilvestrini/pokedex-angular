@@ -7,9 +7,10 @@ import type {
   IPokemonList,
   IType,
 } from '../interfaces';
+import { StoreService } from './store.service';
 @Injectable({ providedIn: 'root' })
 export class HttpPokedexService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private storeService: StoreService) {}
 
   getPokemonByTypes() {
     return this.http.get('https://pokeapi.co/api/v2/type').pipe(
@@ -111,4 +112,18 @@ export class HttpPokedexService {
     }
     return;
   }
+
+  getPokemonCard = (id) => {
+    return this.storeService.getCardFromStore(id).pipe(
+      switchMap((data: any) => {
+        return data?.pokemonId
+          ? this.getPokemonCardFromHTTP(data['pokemonId'])
+          : of({ pokemonCard: data.pokemonInStore, isInStore: true });
+      }),
+      switchMap((data: any) => {
+        if (data.isInStore) return of(data.pokemonCard);
+        return this.storeService.getDamageRelations(data.pokemonCard);
+      })
+    );
+  };
 }

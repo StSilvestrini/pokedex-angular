@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { of, Subscription, switchMap } from 'rxjs';
+import { Subscription, switchMap } from 'rxjs';
 import type { IPokemonCard } from 'src/app/interfaces';
-import { StoreService } from 'src/app/services/store.service';
 import { FormatService } from '../../services/format.service';
 import { HttpPokedexService } from '../../services/http.service';
 import * as fromApp from '../../store/app.reducer';
@@ -23,7 +22,6 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
 
   constructor(
     private httpService: HttpPokedexService,
-    private storeService: StoreService,
     private route: ActivatedRoute,
     private formatService: FormatService,
     private store: Store<fromApp.AppState>
@@ -38,20 +36,10 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
             this.sendAction = true;
           }
           this.routeId = params['pokemonId'];
-          return this.storeService.getCardFromStore(params['pokemonId']);
-        }),
-        switchMap((data: any) => {
-          return data?.pokemonId
-            ? this.httpService.getPokemonCardFromHTTP(data['pokemonId'])
-            : of({ pokemonCard: data.pokemonInStore, isInStore: true });
-        }),
-        switchMap((data: any) => {
-          if (data.isInStore) return of(data.pokemonCard);
-          return this.storeService.getDamageRelations(data.pokemonCard);
+          return this.httpService.getPokemonCard(params['pokemonId']);
         })
       )
       .subscribe((data) => {
-        console.log('<<<<<', data);
         if (this.sendAction) {
           this.store.dispatch(
             PokemonCardActions.addPokemonCard({
@@ -65,7 +53,8 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.httpService.unsubscribeImproved(this.actionSubscription);
-    this.httpService.unsubscribeImproved(this.loadDataSubscription);
+    const { unsubscribeImproved } = this?.httpService || {};
+    unsubscribeImproved(this.actionSubscription);
+    unsubscribeImproved(this.loadDataSubscription);
   }
 }

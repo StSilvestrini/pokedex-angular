@@ -35,7 +35,8 @@
         let pokemon of pokemonList
           | filterList: searchBar?.searchQuery
           | sortList: 'id'
-          | cutList: numberToShow:applyPipe
+          | cutList: numberToShow:applyPipe;
+        trackBy: getId
       "
       [routerLink]="compareMode ? null : ['/card', pokemon.id]"
       (click)="compareMode ? onSelectCompare(pokemon?.id) : null"
@@ -55,7 +56,11 @@
       <span class="pokemonNumber">N° {{ formatNumber(pokemon.id) }}</span>
       <h4 class="pokemonName">{{ pokemon?.name | titlecase }}</h4>
       <div class="pokemonType">
-        <p *ngFor="let type of pokemon.types" appTypesBackground [type]="type">
+        <p
+          *ngFor="let type of pokemon.types; trackBy: getItem"
+          appTypesBackground
+          [type]="type"
+        >
           {{ type | titlecase }}
         </p>
       </div>

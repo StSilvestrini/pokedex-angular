@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import type { IPokemonCardList } from 'src/app/interfaces';
 import * as fromApp from '../../store/app.reducer';
 import { FormatService } from '../../services/format.service';
 import { HttpPokedexService } from '../../services/http.service';
-import { of, Subscription, switchMap, take } from 'rxjs';
+import { Subscription, switchMap, take } from 'rxjs';
 import { ArrayManipulationService } from 'src/app/services/arrayManipulation.service';
 import * as PokemonListActions from '../pokemon-list/store/pokemon-list.actions';
 import { StoreService } from 'src/app/services/store.service';
@@ -14,7 +14,7 @@ import { StoreService } from 'src/app/services/store.service';
   templateUrl: './pokemon-list.component.html',
   styleUrls: ['./pokemon-list.component.scss'],
 })
-export class PokemonListComponent implements OnInit, OnDestroy {
+export class PokemonListComponent implements OnDestroy {
   constructor(
     private httpService: HttpPokedexService,
     private storeService: StoreService,
@@ -45,8 +45,6 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   applyPipe = false;
   compareMode = false;
   pokemonsToCompare: string[] = [];
-
-  ngOnInit(): void {}
 
   onLoadPokemon = () => {
     this.applyPipe = false;
@@ -143,31 +141,18 @@ export class PokemonListComponent implements OnInit, OnDestroy {
       this.pokemonsToCompare.push(id);
     }
     if (this.pokemonsToCompare.length === 2) {
-      this.getPokemonDetail(this.pokemonsToCompare[0]).subscribe({
+      this.httpService.getPokemonCard(this.pokemonsToCompare[0]).subscribe({
         next: (data) => {
+          //code goes here
           console.log('data', data);
         },
       });
     }
   };
 
-  isSelected = (id) => {
-    return this.pokemonsToCompare.some((el) => id === el);
-  };
-
-  getPokemonDetail = (id) => {
-    return this.storeService.getCardFromStore(id).pipe(
-      switchMap((data: any) => {
-        return data?.pokemonId
-          ? this.httpService.getPokemonCardFromHTTP(data['pokemonId'])
-          : of({ pokemonCard: data.pokemonInStore, isInStore: true });
-      }),
-      switchMap((data: any) => {
-        if (data.isInStore) return of(data.pokemonCard);
-        return this.storeService.getDamageRelations(data.pokemonCard);
-      })
-    );
-  };
+  isSelected = (id) => this.pokemonsToCompare.some((el) => id === el);
+  getId = (index: number, item) => item?.id;
+  getItem = (index: number, item) => item;
 
   ngOnDestroy(): void {
     const { unsubscribeImproved } = this?.httpService || {};
