@@ -27,8 +27,6 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
     private store: Store<fromApp.AppState>,
     private storeService: StoreService
   ) {}
-  formatNumber = this.utilityService.getPrettyNumber;
-
   ngOnInit(): void {
     this.loadDataSubscription = this.route.params
       .pipe(

@@ -48,7 +48,7 @@
         [ngStyle]="{ 'background-image': 'url(' + pokemon.image + ')' }"
       ></div>
       <hr />
-      <span class="pokemonNumber">N° {{ formatNumber(pokemon.id) }}</span>
+      <span class="pokemonNumber">N° {{ pokemon.id | formatNumber }}</span>
       <h4 class="pokemonName">{{ pokemon?.name | titlecase }}</h4>
       <div class="pokemonType">
         <p

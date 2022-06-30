@@ -16,8 +16,6 @@ export class CardNavigationComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {}
 
-  formatNumber = this.utilityService.getPrettyNumber;
-
   ngOnInit(): void {
     this.currentNumber = +this.route.snapshot.params['pokemonId'];
     this.routeSubscription = this.route.params.subscribe((changes) => {

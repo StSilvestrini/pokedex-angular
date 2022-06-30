@@ -140,7 +140,6 @@ export class PokemonListComponent implements OnDestroy {
   isSelected = (id) => this.pokemonsToCompare.some((el) => id === el);
   getId = this.utilityService.getId;
   getItem = this.utilityService.getItem;
-  formatNumber = this.utilityService.getPrettyNumber;
 
   ngOnDestroy(): void {
     const { unsubscribeImproved } = this?.httpService || {};

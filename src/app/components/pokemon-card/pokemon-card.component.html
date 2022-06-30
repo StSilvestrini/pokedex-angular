@@ -10,7 +10,7 @@
   <app-card-navigation></app-card-navigation>
   <div class="titleContainer">
     <h1>{{ pokemonCard?.name + " " | titlecase }}</h1>
-    <h1>N°{{ formatNumber(pokemonCard?.id) }}</h1>
+    <h1>N°{{ pokemonCard?.id | formatNumber }}</h1>
   </div>
   <div class="gridContainer">
     <div
