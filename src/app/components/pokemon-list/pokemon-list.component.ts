@@ -4,7 +4,7 @@ import type { IPokemonCardList } from 'src/app/interfaces';
 import * as fromApp from '../../store/app.reducer';
 import { UtilitiesService } from '../../services/utilities.service';
 import { HttpPokedexService } from '../../services/http.service';
-import { Subscription, switchMap, take } from 'rxjs';
+import { forkJoin, mergeMap, of, Subscription, switchMap, take } from 'rxjs';
 import { ArrayManipulationService } from 'src/app/services/arrayManipulation.service';
 import * as PokemonListActions from '../pokemon-list/store/pokemon-list.actions';
 import { StoreService } from 'src/app/services/store.service';
@@ -136,12 +136,20 @@ export class PokemonListComponent implements OnDestroy {
       this.pokemonsToCompare.push(id);
     }
     if (this.pokemonsToCompare.length === 2) {
-      this.httpService.getPokemonCard(this.pokemonsToCompare[0]).subscribe({
-        next: (data) => {
-          //code goes here
-          console.log('data', data);
-        },
-      });
+      this.httpService
+        .getPokemonCard(this?.pokemonsToCompare?.[0])
+        .pipe(
+          take(1),
+          mergeMap((data) => {
+            this.pokemonsToCompare = [data, this.pokemonsToCompare[1]];
+            return this.httpService.getPokemonCard(
+              this?.pokemonsToCompare?.[1]
+            );
+          })
+        )
+        .subscribe((data) => {
+          this.pokemonsToCompare = [this.pokemonsToCompare[0], data];
+        });
     }
   };
 
