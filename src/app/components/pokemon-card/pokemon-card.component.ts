@@ -36,8 +36,7 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
           }
           this.routeId = params['pokemonId'];
           return this.httpService.getPokemonCard(params['pokemonId']);
-        }),
-        take(1)
+        })
       )
       .subscribe((data) => {
         if (this.sendAction) {
