@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { mergeMap, Subscription, take } from 'rxjs';
+import { mergeMap, of, Subscription, take } from 'rxjs';
 import { HttpPokedexService } from 'src/app/services/http.service';
 import { StoreService } from 'src/app/services/store.service';
 
@@ -30,17 +30,17 @@ export class CompareModalComponent implements OnInit, OnDestroy {
       .getPokemonCard(this?.comparePokemons?.[0])
       .pipe(
         mergeMap((data) => {
-          this.comparePokemons = [data, this.comparePokemons[1]];
+          this.comparePokemons = [data?.pokemonCard, this.comparePokemons[1]];
           if (!data?.isInStore)
             this.storeService.dispatchPokemonCard(data.pokemonCard);
           return this.httpService.getPokemonCard(this?.comparePokemons?.[1]);
-        }),
-        take(1)
+        })
+        // take(1)
       )
       .subscribe((data) => {
         if (!data?.isInStore)
           this.storeService.dispatchPokemonCard(data.pokemonCard);
-        this.comparePokemons = [this.comparePokemons[0], data];
+        this.comparePokemons = [this.comparePokemons[0], data.pokemonCard];
         console.log('this.comparePokemons', this.comparePokemons);
       });
   }

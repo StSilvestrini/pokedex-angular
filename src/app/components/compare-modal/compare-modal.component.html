@@ -1,6 +1,28 @@
 <div class="backdrop" (click)="onClose()"></div>
 <div class="modal-box">
-  <p>Test Modal</p>
+  <div class="compareContainer">
+    <div class="pokemonCard" *ngFor="let pokemonCard of comparePokemons">
+      <div
+        class="cardImage"
+        [ngStyle]="{
+          'background-image': pokemonCard?.sprites?.front_default
+            ? 'url(' + pokemonCard?.sprites?.front_default + ')'
+            : null
+        }"
+      ></div>
+      <h3 class="pokemonName">
+        {{ pokemonCard?.name | titlecase }}
+      </h3>
+      <p class="baseExperience">
+        {{ pokemonCard?.base_experience }}
+      </p>
+      <div class="abilities">
+        <p *ngFor="let ability of pokemonCard?.abilities">
+          {{ ability?.ability?.name | titlecase }}
+        </p>
+      </div>
+    </div>
+  </div>
   <div>
     <button (click)="onClose()">Close</button>
   </div>

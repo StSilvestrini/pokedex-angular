@@ -74,6 +74,7 @@ export class StoreService {
             return {
               weaknesses: weaknessesName,
               name,
+              damage_relations,
             };
           });
         if (typesFiltered?.length) {
