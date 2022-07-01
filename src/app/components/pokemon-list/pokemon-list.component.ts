@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import type { IPokemonCardList } from 'src/app/interfaces';
 import * as fromApp from '../../store/app.reducer';
@@ -7,6 +7,8 @@ import { HttpPokedexService } from '../../services/http.service';
 import { mergeMap, Subscription, switchMap, take } from 'rxjs';
 import { ArrayManipulationService } from 'src/app/services/arrayManipulation.service';
 import { StoreService } from 'src/app/services/store.service';
+import { CompareModalComponent } from '../compare-modal/compare-modal.component';
+import { PlaceholderDirective } from 'src/app/directives/placeholder.directive';
 
 @Component({
   selector: 'app-pokemon-list',
@@ -45,6 +47,9 @@ export class PokemonListComponent implements OnDestroy {
   applyPipe = false;
   compareMode = false;
   pokemonsToCompare: string[] = [];
+  private closeSub: Subscription;
+  @ViewChild(PlaceholderDirective, { static: false })
+  modalHost: PlaceholderDirective;
 
   onLoadPokemon = () => {
     this.applyPipe = false;
@@ -100,6 +105,7 @@ export class PokemonListComponent implements OnDestroy {
   };
 
   onCompare = () => {
+    this.showModal([]);
     this.compareMode = !this.compareMode;
     this.pokemonsToCompare = [];
   };
@@ -141,6 +147,22 @@ export class PokemonListComponent implements OnDestroy {
   getId = this.utilityService.getId;
   getItem = this.utilityService.getItem;
 
+  private showModal(compareArray: any[]) {
+    const hostViewContainerRef = this.modalHost.viewContainerRef;
+    hostViewContainerRef.clear();
+
+    const componentRef = hostViewContainerRef.createComponent(
+      CompareModalComponent
+    );
+
+    componentRef.instance.comparePokemons = compareArray;
+    this.closeSub = componentRef.instance.close.subscribe(() => {
+      this.compareMode = false;
+      this.closeSub.unsubscribe();
+      hostViewContainerRef.clear();
+    });
+  }
+
   ngOnDestroy(): void {
     const { unsubscribeImproved } = this?.httpService || {};
     unsubscribeImproved(this.initialSubscription);
@@ -148,5 +170,6 @@ export class PokemonListComponent implements OnDestroy {
     unsubscribeImproved(this.changeNumberSubscription);
     unsubscribeImproved(this.pokemonDetailSubscription);
     unsubscribeImproved(this.compareSubscription);
+    unsubscribeImproved(this.closeSub);
   }
 }

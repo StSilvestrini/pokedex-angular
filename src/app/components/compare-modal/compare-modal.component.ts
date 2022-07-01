@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-compare-modal',
@@ -7,6 +7,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class CompareModalComponent {
   @Output() close = new EventEmitter<void>();
+  @Input() comparePokemons: any[];
 
   onClose() {
     this.close.emit();

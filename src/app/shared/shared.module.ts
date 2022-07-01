@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TypesBackgroundDirective } from '../types-background.directive';
+import { TypesBackgroundDirective } from '../directives/types-background.directive';
 import { CutListPipe } from '../pipes/cut-list.pipe';
 import { FormatNumberPipe } from '../pipes/formatNumber.pipe';
 
