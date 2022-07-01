@@ -77,7 +77,18 @@ export class HttpPokedexService {
       .get<IPokemonCard>(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
       .pipe(
         map(
-          ({ name, height, weight, id, abilities, moves, types, sprites }) => {
+          ({
+            name,
+            height,
+            weight,
+            id,
+            abilities,
+            moves,
+            types,
+            sprites,
+            base_experience,
+            stats,
+          }) => {
             return {
               name,
               height,
@@ -87,6 +98,8 @@ export class HttpPokedexService {
               moves,
               types,
               sprites,
+              base_experience,
+              stats,
             };
           }
         )

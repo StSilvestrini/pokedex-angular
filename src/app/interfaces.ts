@@ -7,6 +7,8 @@ export interface IPokemonCard {
   moves: string[];
   types: any;
   sprites: { front_default: string };
+  base_experience: number;
+  stats: any[];
 }
 
 export interface IGenericShortInfo {
