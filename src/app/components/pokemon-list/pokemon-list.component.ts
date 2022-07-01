@@ -4,7 +4,7 @@ import type { IPokemonCardList } from 'src/app/interfaces';
 import * as fromApp from '../../store/app.reducer';
 import { UtilitiesService } from '../../services/utilities.service';
 import { HttpPokedexService } from '../../services/http.service';
-import { mergeMap, Subscription, switchMap, take } from 'rxjs';
+import { Subscription, switchMap, take } from 'rxjs';
 import { ArrayManipulationService } from 'src/app/services/arrayManipulation.service';
 import { StoreService } from 'src/app/services/store.service';
 import { CompareModalComponent } from '../compare-modal/compare-modal.component';
@@ -105,7 +105,6 @@ export class PokemonListComponent implements OnDestroy {
   };
 
   onCompare = () => {
-    this.showModal([]);
     this.compareMode = !this.compareMode;
     this.pokemonsToCompare = [];
   };
@@ -122,24 +121,7 @@ export class PokemonListComponent implements OnDestroy {
       this.pokemonsToCompare.push(id);
     }
     if (this.pokemonsToCompare.length === 2) {
-      this.compareSubscription = this.httpService
-        .getPokemonCard(this?.pokemonsToCompare?.[0])
-        .pipe(
-          take(1),
-          mergeMap((data) => {
-            this.pokemonsToCompare = [data, this.pokemonsToCompare[1]];
-            if (!data?.isInStore)
-              this.storeService.dispatchPokemonCard(data.pokemonCard);
-            return this.httpService.getPokemonCard(
-              this?.pokemonsToCompare?.[1]
-            );
-          })
-        )
-        .subscribe((data) => {
-          if (!data?.isInStore)
-            this.storeService.dispatchPokemonCard(data.pokemonCard);
-          this.pokemonsToCompare = [this.pokemonsToCompare[0], data];
-        });
+      this.showModal(this.pokemonsToCompare);
     }
   };
 
@@ -169,7 +151,6 @@ export class PokemonListComponent implements OnDestroy {
     unsubscribeImproved(this.loadSubscription);
     unsubscribeImproved(this.changeNumberSubscription);
     unsubscribeImproved(this.pokemonDetailSubscription);
-    unsubscribeImproved(this.compareSubscription);
     unsubscribeImproved(this.closeSub);
   }
 }
