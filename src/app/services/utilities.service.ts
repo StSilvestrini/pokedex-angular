@@ -18,8 +18,8 @@ export class UtilitiesService {
 
   hasCommonElement = (arr1, arr2) => arr1?.some((r) => arr2?.includes(r));
 
-  getTotal = (damageRelationsArray, baseExperience, typeArray) => {
-    damageRelationsArray.forEach((el) => {
+  getTotal = ({ damageRelations, baseExperience }, typeArray) => {
+    damageRelations.forEach((el) => {
       const firstKey = Object.keys(el)?.[0];
       switch (firstKey) {
         case 'double_damage_from':

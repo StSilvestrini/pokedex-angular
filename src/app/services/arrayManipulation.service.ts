@@ -34,9 +34,8 @@ export class ArrayManipulationService {
     });
   };
 
-  getTypeProps = (pokemonCard, prop) => {
-    return pokemonCard?.types?.map((type) => type?.[prop]);
-  };
+  getTypeProps = (pokemonCard, prop) =>
+    pokemonCard?.types?.map((type) => type?.[prop]);
 
   getDamageRelationsName = (damageRelationsArray: any[]) => {
     let newArray = damageRelationsArray.map((damageRelationCards) => {

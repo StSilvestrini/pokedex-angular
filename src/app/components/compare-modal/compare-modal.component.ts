@@ -56,34 +56,24 @@ export class CompareModalComponent implements OnInit, OnDestroy {
   }
 
   getWinningChance = (pokemonsToCompare: any[]) => {
+    const { getTotal, getAverage } = this.utilityService;
+    const { getTypeProps, getDamageRelationsName } =
+      this.arrayManipulationService;
+
     const pokemonData = pokemonsToCompare.map((pokemon) => {
-      const damage_relations = this.arrayManipulationService.getTypeProps(
-        pokemon,
-        'damage_relations'
-      );
+      const damage_relations = getTypeProps(pokemon, 'damage_relations');
       return {
-        types: this.arrayManipulationService.getTypeProps(pokemon, 'name'),
-        damageRelations:
-          this.arrayManipulationService.getDamageRelationsName(
-            damage_relations
-          ),
+        types: getTypeProps(pokemon, 'name'),
+        damageRelations: getDamageRelationsName(damage_relations),
         baseExperience: pokemon?.base_experience,
       };
     });
 
     const totals: [number, number] = [
-      this.utilityService.getTotal(
-        pokemonData[0].damageRelations,
-        pokemonData[0].baseExperience,
-        pokemonData[1].types
-      ),
-      this.utilityService.getTotal(
-        pokemonData[1].damageRelations,
-        pokemonData[1].baseExperience,
-        pokemonData[0].types
-      ),
+      getTotal(pokemonData[0], pokemonData[1].types),
+      getTotal(pokemonData[1], pokemonData[0].types),
     ];
-    return this.utilityService.getAverage(...totals);
+    return getAverage(...totals);
   };
 
   onClose() {
