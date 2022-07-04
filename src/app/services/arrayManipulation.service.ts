@@ -33,4 +33,14 @@ export class ArrayManipulationService {
       return array.indexOf(findEl) == index;
     });
   };
+
+  hasCommonElement = (arr1, arr2) => arr1?.some((r) => arr2?.includes(r));
+
+  getAverage = (a, b) => {
+    return [Math.round((a / (a + b)) * 100), Math.round((b / (a + b)) * 100)];
+  };
+
+  getTypeProps = (pokemonCard, prop) => {
+    return pokemonCard?.types?.map((type) => type?.[prop]);
+  };
 }

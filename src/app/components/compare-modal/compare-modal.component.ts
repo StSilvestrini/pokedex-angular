@@ -7,6 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { mergeMap, of, Subscription, take } from 'rxjs';
+import { ArrayManipulationService } from 'src/app/services/arrayManipulation.service';
 import { HttpPokedexService } from 'src/app/services/http.service';
 import { StoreService } from 'src/app/services/store.service';
 
@@ -22,7 +23,8 @@ export class CompareModalComponent implements OnInit, OnDestroy {
 
   constructor(
     private httpService: HttpPokedexService,
-    private storeService: StoreService
+    private storeService: StoreService,
+    private arrayManipulationService: ArrayManipulationService
   ) {}
 
   ngOnInit() {
@@ -41,9 +43,89 @@ export class CompareModalComponent implements OnInit, OnDestroy {
         if (!data?.isInStore)
           this.storeService.dispatchPokemonCard(data.pokemonCard);
         this.comparePokemons = [this.comparePokemons[0], data.pokemonCard];
+        this.getWinningChance();
         console.log('this.comparePokemons', this.comparePokemons);
       });
   }
+
+  getDamageRelationsName = (damageRelationsArray: any[]) => {
+    let newArray = damageRelationsArray.map((damageRelationCards) => {
+      return Object.keys(damageRelationCards).map((damageRelationObj) => {
+        return {
+          [damageRelationObj]: damageRelationCards[damageRelationObj].map(
+            (damageRelation) => damageRelation?.name
+          ),
+        };
+      });
+    });
+    return [].concat.apply([], newArray);
+  };
+
+  getTotal = (damageRelationsArray, baseExperience, typeArray) => {
+    damageRelationsArray.forEach((el) => {
+      switch (Object.keys(el)[0]) {
+        case 'double_damage_from':
+          if (
+            this.arrayManipulationService.hasCommonElement(
+              el['double_damage_from'],
+              typeArray
+            )
+          ) {
+            baseExperience = baseExperience * 0.7;
+          }
+        case 'half_damage_from':
+          if (
+            this.arrayManipulationService.hasCommonElement(
+              el['half_damage_from'],
+              typeArray
+            )
+          ) {
+            baseExperience = baseExperience * 1.2;
+          }
+        case 'no_damage_from':
+          if (
+            this.arrayManipulationService.hasCommonElement(
+              el['no_damage_from'],
+              typeArray
+            )
+          ) {
+            baseExperience = baseExperience * 1.5;
+          }
+      }
+    });
+    return Math.round(baseExperience * 100) / 100;
+  };
+
+  getWinningChance = () => {
+    const pokemonData = this.comparePokemons.map((pokemon) => {
+      const damage_relations = this.arrayManipulationService.getTypeProps(
+        pokemon,
+        'damage_relations'
+      );
+      return {
+        types: this.arrayManipulationService.getTypeProps(pokemon, 'name'),
+        damageRelations: this.getDamageRelationsName(damage_relations),
+        baseExperience: pokemon.base_experience,
+      };
+    });
+
+    console.log('pokemonData', pokemonData);
+
+    const totals: [number, number] = [
+      this.getTotal(
+        pokemonData[0].damageRelations,
+        pokemonData[0].baseExperience,
+        pokemonData[1].types
+      ),
+      this.getTotal(
+        pokemonData[1].damageRelations,
+        pokemonData[1].baseExperience,
+        pokemonData[0].types
+      ),
+    ];
+    console.log('chances', this.arrayManipulationService.getAverage(...totals));
+    return this.arrayManipulationService.getAverage(...totals);
+  };
 
   onClose() {
     this.close.emit();
