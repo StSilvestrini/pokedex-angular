@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { mergeMap, Subscription } from 'rxjs';
+import { mergeMap, Subscription, take } from 'rxjs';
 import { ArrayManipulationService } from 'src/app/services/arrayManipulation.service';
 import { HttpPokedexService } from 'src/app/services/http.service';
 import { StoreService } from 'src/app/services/store.service';
@@ -38,13 +38,14 @@ export class CompareModalComponent implements OnInit, OnDestroy {
           if (!data?.isInStore)
             this.storeService.dispatchPokemonCard(data.pokemonCard);
           return this.httpService.getPokemonCard(this?.comparePokemons?.[1]);
-        })
+        }),
+        take(1)
       )
       .subscribe((data) => {
         if (!data?.isInStore)
-          this.storeService.dispatchPokemonCard(data.pokemonCard);
-        this.comparePokemons = [this.comparePokemons[0], data.pokemonCard];
-        this.comparePokemons = this.comparePokemons.map((el, index) => {
+          this.storeService.dispatchPokemonCard(data?.pokemonCard);
+        this.comparePokemons = [this.comparePokemons?.[0], data?.pokemonCard];
+        this.comparePokemons = this.comparePokemons?.map((el, index) => {
           return {
             ...el,
             winningChances: this.getWinningChance(this.comparePokemons)?.[
@@ -70,8 +71,8 @@ export class CompareModalComponent implements OnInit, OnDestroy {
     });
 
     const totals: [number, number] = [
-      getTotal(pokemonData[0], pokemonData[1].types),
-      getTotal(pokemonData[1], pokemonData[0].types),
+      getTotal(pokemonData?.[0], pokemonData?.[1].types),
+      getTotal(pokemonData?.[1], pokemonData?.[0].types),
     ];
     return getAverage(...totals);
   };

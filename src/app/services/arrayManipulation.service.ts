@@ -38,15 +38,18 @@ export class ArrayManipulationService {
     pokemonCard?.types?.map((type) => type?.[prop]);
 
   getDamageRelationsName = (damageRelationsArray: any[]) => {
-    let newArray = damageRelationsArray.map((damageRelationCards) => {
-      return Object.keys(damageRelationCards).map((damageRelationObj) => {
-        return {
-          [damageRelationObj]: damageRelationCards[damageRelationObj].map(
-            (damageRelation) => damageRelation?.name
-          ),
-        };
-      });
-    });
-    return [].concat.apply([], newArray);
+    let damageRelationsMergedArray = damageRelationsArray.map(
+      (damageRelationsCard) => {
+        return Object.keys(damageRelationsCard).map((damageRelationKey) => {
+          return {
+            [damageRelationKey]: damageRelationsCard[damageRelationKey].map(
+              (type) => type?.name
+            ),
+          };
+        });
+      }
+    );
+
+    return [].concat.apply([], damageRelationsMergedArray);
   };
 }

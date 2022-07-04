@@ -111,13 +111,10 @@ export class HttpPokedexService {
     throw Error(error.message);
   };
 
-  getPokemonCardFromHTTP = (pokemonId) => {
-    return this.requstSingleCard(pokemonId).pipe(
-      switchMap((pokemonCard) => {
-        return of({ pokemonCard });
-      })
+  getPokemonCardFromHTTP = (pokemonId: number) =>
+    this.requstSingleCard(pokemonId).pipe(
+      switchMap((pokemonCard) => of({ pokemonCard }))
     );
-  };
 
   unsubscribeImproved(subscription: Subscription) {
     if (subscription) {
@@ -128,11 +125,11 @@ export class HttpPokedexService {
 
   getPokemonCard = (id) => {
     return this.storeService.getCardFromStore(id).pipe(
-      switchMap((data: any) => {
-        return data?.pokemonId
-          ? this.getPokemonCardFromHTTP(data['pokemonId'])
-          : of({ pokemonCard: data.pokemonInStore, isInStore: true });
-      }),
+      switchMap((data: any) =>
+        data?.pokemonId
+          ? this.getPokemonCardFromHTTP(data?.pokemonId)
+          : of({ pokemonCard: data.pokemonInStore, isInStore: true })
+      ),
       switchMap((data: any) => {
         if (data.isInStore) return of(data);
         return this.storeService.getDamageRelations(data.pokemonCard);
