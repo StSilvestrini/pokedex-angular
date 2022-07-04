@@ -34,13 +34,20 @@ export class ArrayManipulationService {
     });
   };
 
-  hasCommonElement = (arr1, arr2) => arr1?.some((r) => arr2?.includes(r));
-
-  getAverage = (a, b) => {
-    return [Math.round((a / (a + b)) * 100), Math.round((b / (a + b)) * 100)];
-  };
-
   getTypeProps = (pokemonCard, prop) => {
     return pokemonCard?.types?.map((type) => type?.[prop]);
+  };
+
+  getDamageRelationsName = (damageRelationsArray: any[]) => {
+    let newArray = damageRelationsArray.map((damageRelationCards) => {
+      return Object.keys(damageRelationCards).map((damageRelationObj) => {
+        return {
+          [damageRelationObj]: damageRelationCards[damageRelationObj].map(
+            (damageRelation) => damageRelation?.name
+          ),
+        };
+      });
+    });
+    return [].concat.apply([], newArray);
   };
 }

@@ -13,9 +13,10 @@
       <h3 class="pokemonName">
         {{ pokemonCard?.name | titlecase }}
       </h3>
-      <p class="baseExperience">
-        {{ pokemonCard?.base_experience }}
-      </p>
+      <div>
+        <p class="chanceTitle">Winning Chances</p>
+        <p class="baseExperience">{{ pokemonCard?.winningChances }}%</p>
+      </div>
       <div class="abilities">
         <p *ngFor="let ability of pokemonCard?.abilities">
           {{ ability?.ability?.name | titlecase }}

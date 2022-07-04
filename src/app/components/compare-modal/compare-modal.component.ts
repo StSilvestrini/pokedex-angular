@@ -6,10 +6,11 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { mergeMap, of, Subscription, take } from 'rxjs';
+import { mergeMap, Subscription, take } from 'rxjs';
 import { ArrayManipulationService } from 'src/app/services/arrayManipulation.service';
 import { HttpPokedexService } from 'src/app/services/http.service';
 import { StoreService } from 'src/app/services/store.service';
+import { UtilitiesService } from 'src/app/services/utilities.service';
 
 @Component({
   selector: 'app-compare-modal',
@@ -24,7 +25,8 @@ export class CompareModalComponent implements OnInit, OnDestroy {
   constructor(
     private httpService: HttpPokedexService,
     private storeService: StoreService,
-    private arrayManipulationService: ArrayManipulationService
+    private arrayManipulationService: ArrayManipulationService,
+    private utilityService: UtilitiesService
   ) {}
 
   ngOnInit() {
@@ -43,30 +45,19 @@ export class CompareModalComponent implements OnInit, OnDestroy {
         if (!data?.isInStore)
           this.storeService.dispatchPokemonCard(data.pokemonCard);
         this.comparePokemons = [this.comparePokemons[0], data.pokemonCard];
-        this.getWinningChance();
-        console.log('this.comparePokemons', this.comparePokemons);
+        this.comparePokemons = this.comparePokemons.map((el, index) => {
+          return { ...el, winningChances: this.getWinningChance()?.[index] };
+        });
       });
   }
 
-  getDamageRelationsName = (damageRelationsArray: any[]) => {
-    let newArray = damageRelationsArray.map((damageRelationCards) => {
-      return Object.keys(damageRelationCards).map((damageRelationObj) => {
-        return {
-          [damageRelationObj]: damageRelationCards[damageRelationObj].map(
-            (damageRelation) => damageRelation?.name
-          ),
-        };
-      });
-    });
-    return [].concat.apply([], newArray);
-  };
-
   getTotal = (damageRelationsArray, baseExperience, typeArray) => {
     damageRelationsArray.forEach((el) => {
-      switch (Object.keys(el)[0]) {
+      const firstKey = Object.keys(el)?.[0];
+      switch (firstKey) {
         case 'double_damage_from':
           if (
-            this.arrayManipulationService.hasCommonElement(
+            this.utilityService.hasCommonElement(
               el['double_damage_from'],
               typeArray
             )
@@ -75,7 +66,7 @@ export class CompareModalComponent implements OnInit, OnDestroy {
           }
         case 'half_damage_from':
           if (
-            this.arrayManipulationService.hasCommonElement(
+            this.utilityService.hasCommonElement(
               el['half_damage_from'],
               typeArray
             )
@@ -84,7 +75,7 @@ export class CompareModalComponent implements OnInit, OnDestroy {
           }
         case 'no_damage_from':
           if (
-            this.arrayManipulationService.hasCommonElement(
+            this.utilityService.hasCommonElement(
               el['no_damage_from'],
               typeArray
             )
@@ -104,12 +95,13 @@ export class CompareModalComponent implements OnInit, OnDestroy {
       );
       return {
         types: this.arrayManipulationService.getTypeProps(pokemon, 'name'),
-        damageRelations: this.getDamageRelationsName(damage_relations),
+        damageRelations:
+          this.arrayManipulationService.getDamageRelationsName(
+            damage_relations
+          ),
         baseExperience: pokemon.base_experience,
       };
     });
-
-    console.log('pokemonData', pokemonData);
 
     const totals: [number, number] = [
       this.getTotal(
@@ -123,8 +115,7 @@ export class CompareModalComponent implements OnInit, OnDestroy {
         pokemonData[0].types
       ),
     ];
-    console.log('chances', this.arrayManipulationService.getAverage(...totals));
-    return this.arrayManipulationService.getAverage(...totals);
+    return this.utilityService.getAverage(...totals);
   };
 
   onClose() {
