@@ -20,12 +20,12 @@
       <chart
         *ngIf="showChart"
         type="bar"
-        [data]="getDataFromChartConfig('data')"
-        [options]="getDataFromChartConfig('options')"
+        [data]="chartConfig.data"
+        [options]="chartConfig.options"
       ></chart>
     </div>
   </div>
-  <div class="closeButton">
-    <button (click)="onClose()">Close</button>
+  <div class="closeButton" (click)="onClose()">
+    <img src="../../../assets/xSymbol.svg" />
   </div>
 </div>

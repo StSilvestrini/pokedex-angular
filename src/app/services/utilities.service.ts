@@ -38,4 +38,8 @@ export class UtilitiesService {
     });
     return Math.round(baseExperience * 100) / 100;
   };
+
+  hasFalsyValues = (array: any[]) => {
+    return array.some((el) => !el);
+  };
 }

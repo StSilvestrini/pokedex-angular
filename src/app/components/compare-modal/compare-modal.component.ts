@@ -1,16 +1,11 @@
 import {
   AfterContentChecked,
-  AfterContentInit,
-  AfterViewChecked,
-  AfterViewInit,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
   OnInit,
   Output,
-  ViewChild,
 } from '@angular/core';
 import { mergeMap, Subscription, take } from 'rxjs';
 import { IChartConfig } from 'src/app/interfaces';
@@ -36,13 +31,24 @@ export class CompareModalComponent
       labels: [], //pokemon name here
       datasets: [
         {
-          label: '% of Win',
+          label: '% winning odds',
           data: [], //winning chances here
           backgroundColor: [
             'rgba(54, 162, 235, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+          ],
+          borderColor: ['rgba(54, 162, 235, 1)', 'rgba(54, 162, 235, 1)'],
+          borderWidth: 1,
+          barThickness: 50,
+        },
+        {
+          label: '% base points',
+          data: [], //winning chances here
+          backgroundColor: [
+            'rgba(75, 192, 192, 0.2)',
             'rgba(75, 192, 192, 0.2)',
           ],
-          borderColor: ['rgba(54, 162, 235, 1)', 'rgba(75, 192, 192, 1)'],
+          borderColor: ['rgba(75, 192, 192, 1)', 'rgba(75, 192, 192, 1)'],
           borderWidth: 1,
           barThickness: 50,
         },
@@ -100,19 +106,31 @@ export class CompareModalComponent
   }
 
   ngAfterContentChecked(): void {
-    console.log('<<<<<<<<<<<', this.comparePokemons);
-    if (this.comparePokemons?.[0]?.name && this.comparePokemons?.[1]?.name) {
-      this.chartConfig.data.labels = [
-        this.comparePokemons?.[0]?.name,
-        this.comparePokemons?.[1]?.name,
+    const namesArray = this.comparePokemons.map((pok) =>
+      pok?.name?.toUpperCase()
+    );
+    const winningChancesArray = this.comparePokemons.map(
+      (pok) => pok?.winningChances
+    );
+
+    const baseExperiencesArray = this.comparePokemons.map(
+      (pok) => pok?.base_experience
+    );
+    const { hasFalsyValues, getAverage } = this.utilityService;
+    if (
+      !hasFalsyValues(namesArray) &&
+      !hasFalsyValues(winningChancesArray) &&
+      !hasFalsyValues(baseExperiencesArray)
+    ) {
+      this.chartConfig.data.labels = [...namesArray];
+      this.chartConfig.data.datasets[0].data = [...winningChancesArray];
+      this.chartConfig.data.datasets[1].data = [
+        ...getAverage(baseExperiencesArray[0], baseExperiencesArray[1]),
       ];
+
       this.showChart = true;
     }
   }
-
-  getDataFromChartConfig = (prop) => {
-    return this.chartConfig?.[prop];
-  };
 
   getWinningChance = (pokemonsToCompare: any[]) => {
     const { getTotal, getAverage } = this.utilityService;
