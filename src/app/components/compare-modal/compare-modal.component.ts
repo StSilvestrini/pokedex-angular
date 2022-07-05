@@ -6,7 +6,6 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChild,
 } from '@angular/core';
 import { mergeMap, Subscription, take } from 'rxjs';
 import { IChartConfig } from 'src/app/interfaces';
@@ -25,7 +24,6 @@ export class CompareModalComponent
 {
   @Output() close = new EventEmitter<void>();
   @Input() comparePokemons: any[];
-  @ViewChild('chart') chart: any;
   showChart = false;
   compareSubscription: Subscription;
   chartConfig: IChartConfig = {
@@ -155,7 +153,6 @@ export class CompareModalComponent
   };
 
   onClose() {
-    console.log('isMobile', this.utilityService.isMobile());
     this.close.emit();
   }
 
