@@ -42,4 +42,6 @@ export class UtilitiesService {
   hasFalsyValues = (array: any[]) => {
     return array.some((el) => !el);
   };
+
+  isMobile = () => !!(window.innerWidth <= 480);
 }
