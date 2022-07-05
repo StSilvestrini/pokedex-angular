@@ -106,16 +106,15 @@ export class CompareModalComponent
   }
 
   ngAfterContentChecked(): void {
-    const namesArray = this.comparePokemons.map((pok) =>
-      pok?.name?.toUpperCase()
-    );
-    const winningChancesArray = this.comparePokemons.map(
-      (pok) => pok?.winningChances
-    );
+    const namesArray = [];
+    const winningChancesArray = [];
+    const baseExperiencesArray = [];
+    this.comparePokemons.forEach((pok) => {
+      namesArray.push(pok?.name?.toUpperCase());
+      winningChancesArray.push(pok?.winningChances);
+      baseExperiencesArray.push(pok?.base_experience);
+    });
 
-    const baseExperiencesArray = this.comparePokemons.map(
-      (pok) => pok?.base_experience
-    );
     const { hasFalsyValues, getAverage } = this.utilityService;
     if (
       !hasFalsyValues(namesArray) &&
