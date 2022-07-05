@@ -115,16 +115,20 @@ export class CompareModalComponent
       baseExperiencesArray.push(pok?.base_experience);
     });
 
-    const { hasFalsyValues, getAverage } = this.utilityService;
     if (
-      !hasFalsyValues(namesArray) &&
-      !hasFalsyValues(winningChancesArray) &&
-      !hasFalsyValues(baseExperiencesArray)
+      !this.utilityService.hasFalsyValues([
+        ...namesArray,
+        ...winningChancesArray,
+        ...baseExperiencesArray,
+      ])
     ) {
       this.chartConfig.data.labels = [...namesArray];
       this.chartConfig.data.datasets[0].data = [...winningChancesArray];
       this.chartConfig.data.datasets[1].data = [
-        ...getAverage(baseExperiencesArray[0], baseExperiencesArray[1]),
+        ...this.utilityService.getAverage(
+          baseExperiencesArray[0],
+          baseExperiencesArray[1]
+        ),
       ];
 
       this.showChart = true;
