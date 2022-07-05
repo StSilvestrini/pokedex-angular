@@ -21,6 +21,7 @@
     "@ngrx/effects": "^13.2.0",
     "@ngrx/store": "^13.2.0",
     "@ngrx/store-devtools": "^13.2.0",
+    "angular2-chartjs": "^0.5.1",
     "rxjs": "~7.5.0",
     "sass": "^1.52.2",
     "sass-loader": "^13.0.0",

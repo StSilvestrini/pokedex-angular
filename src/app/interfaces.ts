@@ -40,3 +40,11 @@ export interface IPokemonArrayElement {
   }[];
   name: string;
 }
+
+export interface IChartConfig {
+  data: {
+    labels: any[];
+    datasets: any[];
+  };
+  options: any;
+}

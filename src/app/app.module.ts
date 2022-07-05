@@ -12,7 +12,7 @@ import { PokemonCardModule } from './components/pokemon-card/pokemon-card.module
 import { PokemonListModule } from './components/pokemon-list/pokemon-list.module';
 import { SharedModule } from './shared/shared.module';
 import { CompareModalComponent } from './components/compare-modal/compare-modal.component';
-
+import { ChartModule } from 'angular2-chartjs';
 @NgModule({
   declarations: [AppComponent, CompareModalComponent],
   imports: [
@@ -25,6 +25,7 @@ import { CompareModalComponent } from './components/compare-modal/compare-modal.
     PokemonCardModule,
     PokemonListModule,
     SharedModule,
+    ChartModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -57,3 +57,9 @@ $fontFamily: "Flexo-Bold", "arial", "sans-serif";
   border-radius: 10px;
   padding: 0.5rem;
 }
+
+canvas {
+  width: 80% !important;
+  margin: 0 auto;
+  max-height: 220px !important;
+}

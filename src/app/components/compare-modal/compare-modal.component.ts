@@ -1,12 +1,19 @@
 import {
+  AfterContentChecked,
+  AfterContentInit,
+  AfterViewChecked,
+  AfterViewInit,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { mergeMap, Subscription, take } from 'rxjs';
+import { IChartConfig } from 'src/app/interfaces';
 import { ArrayManipulationService } from 'src/app/services/arrayManipulation.service';
 import { HttpPokedexService } from 'src/app/services/http.service';
 import { StoreService } from 'src/app/services/store.service';
@@ -17,10 +24,46 @@ import { UtilitiesService } from 'src/app/services/utilities.service';
   templateUrl: './compare-modal.component.html',
   styleUrls: ['./compare-modal.component.scss'],
 })
-export class CompareModalComponent implements OnInit, OnDestroy {
+export class CompareModalComponent
+  implements OnInit, OnDestroy, AfterContentChecked
+{
   @Output() close = new EventEmitter<void>();
   @Input() comparePokemons: any[];
+  showChart = false;
   compareSubscription: Subscription;
+  chartConfig: IChartConfig = {
+    data: {
+      labels: [], //pokemon name here
+      datasets: [
+        {
+          label: '% of Win',
+          data: [], //winning chances here
+          backgroundColor: [
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+          ],
+          borderColor: ['rgba(54, 162, 235, 1)', 'rgba(75, 192, 192, 1)'],
+          borderWidth: 1,
+          barThickness: 50,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+              max: 100,
+              stepSize: 20,
+            },
+          },
+        ],
+      },
+    },
+  };
 
   constructor(
     private httpService: HttpPokedexService,
@@ -55,6 +98,21 @@ export class CompareModalComponent implements OnInit, OnDestroy {
         });
       });
   }
+
+  ngAfterContentChecked(): void {
+    console.log('<<<<<<<<<<<', this.comparePokemons);
+    if (this.comparePokemons?.[0]?.name && this.comparePokemons?.[1]?.name) {
+      this.chartConfig.data.labels = [
+        this.comparePokemons?.[0]?.name,
+        this.comparePokemons?.[1]?.name,
+      ];
+      this.showChart = true;
+    }
+  }
+
+  getDataFromChartConfig = (prop) => {
+    return this.chartConfig?.[prop];
+  };
 
   getWinningChance = (pokemonsToCompare: any[]) => {
     const { getTotal, getAverage } = this.utilityService;
