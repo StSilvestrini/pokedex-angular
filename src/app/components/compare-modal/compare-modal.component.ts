@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { mergeMap, Subscription, take } from 'rxjs';
 import { IChartConfig } from 'src/app/interfaces';
@@ -24,6 +25,8 @@ export class CompareModalComponent
 {
   @Output() close = new EventEmitter<void>();
   @Input() comparePokemons: any[];
+  @ViewChild('myChart')
+  myChart: any;
   showChart = false;
   compareSubscription: Subscription;
   chartConfig: IChartConfig = {
@@ -155,6 +158,24 @@ export class CompareModalComponent
     ];
     return getAverage(...totals);
   };
+
+  onResize() {
+    console.log('this.myChart.chart', this.myChart.chart);
+    if (this.utilityService?.isMobile()) {
+      this.chartConfig.data.datasets = this.chartConfig.data.datasets.map(
+        (el) => {
+          return { ...el, barThickness: 20 };
+        }
+      );
+    } else {
+      this.chartConfig.data.datasets = this.chartConfig.data.datasets.map(
+        (el) => {
+          return { ...el, barThickness: 50 };
+        }
+      );
+    }
+    this.myChart.chart.update();
+  }
 
   onClose() {
     this.close.emit();

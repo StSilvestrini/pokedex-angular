@@ -22,6 +22,8 @@
         type="bar"
         [data]="chartConfig.data"
         [options]="chartConfig.options"
+        #myChart
+        (window:resize)="onResize()"
       ></chart>
     </div>
   </div>
