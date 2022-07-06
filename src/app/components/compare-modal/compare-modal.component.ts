@@ -73,13 +73,16 @@ export class CompareModalComponent
       },
     },
   };
+  isMobile: boolean;
 
   constructor(
     private httpService: HttpPokedexService,
     private storeService: StoreService,
     private arrayManipulationService: ArrayManipulationService,
     private utilityService: UtilitiesService
-  ) {}
+  ) {
+    this.isMobile = this.utilityService.isMobile();
+  }
 
   ngOnInit() {
     this.compareSubscription = this.httpService
@@ -159,22 +162,20 @@ export class CompareModalComponent
     return getAverage(...totals);
   };
 
+  changeBarThickness = (value) => {
+    this.chartConfig.data.datasets = this.chartConfig.data.datasets.map(
+      (el) => {
+        return { ...el, barThickness: value };
+      }
+    );
+  };
+
   onResize() {
-    console.log('this.myChart.chart', this.myChart.chart);
-    if (this.utilityService?.isMobile()) {
-      this.chartConfig.data.datasets = this.chartConfig.data.datasets.map(
-        (el) => {
-          return { ...el, barThickness: 20 };
-        }
-      );
-    } else {
-      this.chartConfig.data.datasets = this.chartConfig.data.datasets.map(
-        (el) => {
-          return { ...el, barThickness: 50 };
-        }
-      );
+    if (this.isMobile !== this.utilityService.isMobile()) {
+      this.changeBarThickness(this.utilityService?.isMobile() ? 20 : 50);
+      this.myChart.chart.update();
+      this.isMobile = this.utilityService.isMobile();
     }
-    this.myChart.chart.update();
   }
 
   onClose() {
