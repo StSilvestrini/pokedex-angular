@@ -2,13 +2,9 @@
 <div class="container">
   <div class="listHeader">
     <app-search-bar #searchBar></app-search-bar>
-    <div class="selectGrid showSize">
-      <label for="grids">Size</label>
-      <select name="grids" id="grids" [(ngModel)]="gridLayout">
-        <option value="large">Large</option>
-        <option value="regular" defaultSelected="regular">Regular</option>
-      </select>
-    </div>
+    <app-select-dimension
+      (changeDimension)="onChangeDimension($event)"
+    ></app-select-dimension>
     <div class="selectGrid">
       <label for="numberToShow">Show</label>
       <select

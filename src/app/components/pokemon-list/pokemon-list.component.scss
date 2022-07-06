@@ -135,32 +135,6 @@
   align-items: center;
 }
 
-.selectGrid {
-  display: inline-block;
-
-  label {
-    font-family: $fontFamily;
-    margin-right: 0.5rem;
-    font-style: italic;
-    @media (max-width: $breakpoint-mobile) {
-      display: block;
-      text-align: center;
-      padding-bottom: 0.5rem;
-    }
-  }
-
-  select {
-    padding: 0.5rem;
-    @include borderManager;
-  }
-
-  &.showSize {
-    @media (max-width: $breakpoint-tablet) {
-      display: none;
-    }
-  }
-}
-
 //compare mood
 
 .compareButton {

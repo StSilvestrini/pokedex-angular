@@ -42,8 +42,8 @@ export class PokemonListComponent implements OnDestroy {
   changeNumberSubscription: Subscription;
   pokemonDetailSubscription: Subscription;
   compareSubscription: Subscription;
-  gridLayout = 'regular';
   numberToShow = 'choose';
+  gridLayout = 'regular';
   applyPipe = false;
   compareMode = false;
   pokemonsToCompare: string[] = [];
@@ -144,6 +144,10 @@ export class PokemonListComponent implements OnDestroy {
       hostViewContainerRef.clear();
     });
   }
+
+  onChangeDimension = (value) => {
+    this.gridLayout = value;
+  };
 
   ngOnDestroy(): void {
     const { unsubscribeImproved } = this?.httpService || {};
