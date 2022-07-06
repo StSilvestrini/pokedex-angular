@@ -5,21 +5,10 @@
     <app-select-dimension
       (changeDimension)="onChangeDimension($event)"
     ></app-select-dimension>
-    <div class="selectGrid">
-      <label for="numberToShow">Show</label>
-      <select
-        name="numberToShow"
-        id="numberToShow"
-        [(ngModel)]="numberToShow"
-        (change)="onNumberChange($event.target.value)"
-        [disabled]="searchBar?.searchQuery?.length >= 3"
-      >
-        <option value="choose" defaultSelected="choose" disabled>choose</option>
-        <option value="20">20</option>
-        <option value="50">50</option>
-        <option value="100">100</option>
-      </select>
-    </div>
+    <app-select-number
+      [disabled]="searchBar?.searchQuery?.length >= 3"
+      (changeNumber)="onNumberChange($event)"
+    ></app-select-number>
   </div>
   <ul class="listContainer">
     <li

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, Output, ViewEncapsulation } from '@angular/core';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -7,10 +7,14 @@ import { Subject } from 'rxjs';
   styleUrls: ['./select-dimension.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SelectDimensionComponent {
+export class SelectDimensionComponent implements OnDestroy {
   @Output() changeDimension = new Subject<string>();
 
   onChange(e) {
     this.changeDimension.next(e?.target?.value);
+  }
+
+  ngOnDestroy(): void {
+    this.changeDimension?.unsubscribe();
   }
 }

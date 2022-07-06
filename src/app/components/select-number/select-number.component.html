@@ -1,0 +1,14 @@
+<div class="selectGrid">
+  <label for="numberToShow">Show</label>
+  <select
+    name="numberToShow"
+    id="numberToShow"
+    (change)="onChange($event)"
+    [disabled]="disabled"
+  >
+    <option value="choose" defaultSelected="choose" disabled>choose</option>
+    <option value="20">20</option>
+    <option value="50">50</option>
+    <option value="100">100</option>
+  </select>
+</div>

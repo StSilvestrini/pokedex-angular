@@ -36,18 +36,20 @@ export class PokemonListComponent implements OnDestroy {
       },
     });
   }
+
+  private initialSubscription: Subscription;
+  private loadSubscription: Subscription;
+  private changeNumberSubscription: Subscription;
+  private pokemonDetailSubscription: Subscription;
+  private closeSub: Subscription;
+
   pokemonList: IPokemonCardList[] = [];
-  initialSubscription: Subscription;
-  loadSubscription: Subscription;
-  changeNumberSubscription: Subscription;
-  pokemonDetailSubscription: Subscription;
-  compareSubscription: Subscription;
   numberToShow = 'choose';
   gridLayout = 'regular';
   applyPipe = false;
   compareMode = false;
   pokemonsToCompare: string[] = [];
-  private closeSub: Subscription;
+
   @ViewChild(PlaceholderDirective, { static: false })
   modalHost: PlaceholderDirective;
 

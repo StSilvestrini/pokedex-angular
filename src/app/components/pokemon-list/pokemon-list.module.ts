@@ -7,6 +7,7 @@ import { SortListPipe } from 'src/app/pipes/sort.pipe';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SearchBarComponent } from '../search-bar/search-bar.component';
 import { SelectDimensionComponent } from '../select-dimension/select-dimension.component';
+import { SelectNumberComponent } from '../select-number/select-number.component';
 import { PokemonListComponent } from './pokemon-list.component';
 
 @NgModule({
@@ -17,6 +18,7 @@ import { PokemonListComponent } from './pokemon-list.component';
     FilterListPipe,
     PlaceholderDirective,
     SelectDimensionComponent,
+    SelectNumberComponent,
   ],
   imports: [RouterModule, FormsModule, SharedModule],
 })
