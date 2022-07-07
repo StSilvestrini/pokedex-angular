@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription, switchMap, take } from 'rxjs';
+import { Subscription, switchMap } from 'rxjs';
 import type { IPokemonCard } from 'src/app/interfaces';
 import { UtilitiesService } from '../../services/utilities.service';
 import { HttpPokedexService } from '../../services/http.service';
@@ -23,22 +23,15 @@ import {
       transition('void => *', [
         style({
           transform: 'translateX(-200px)',
-          opacity: 0,
         }),
         animate(500),
       ]),
     ]),
     trigger('cardStats', [
-      state(
-        'in',
-        style({
-          opacity: 1,
-        })
-      ),
+      state('in', style({})),
       transition('void => *', [
         style({
           transform: 'translateX(200px)',
-          opacity: 0,
         }),
         animate(500),
       ]),
