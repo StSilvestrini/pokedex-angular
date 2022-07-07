@@ -1,4 +1,11 @@
 import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import {
   Component,
   EventEmitter,
   Input,
@@ -16,6 +23,17 @@ import { UtilitiesService } from 'src/app/services/utilities.service';
   selector: 'app-compare-modal',
   templateUrl: './compare-modal.component.html',
   styleUrls: ['./compare-modal.component.scss'],
+  animations: [
+    trigger('modalState', [
+      state('in', style({})),
+      transition('void => *', [
+        style({
+          transform: 'translateY(200px)',
+        }),
+        animate(500),
+      ]),
+    ]),
+  ],
 })
 export class CompareModalComponent implements OnInit, OnDestroy {
   @Output() close = new EventEmitter<void>();

@@ -1,5 +1,5 @@
 <div class="backdrop" (click)="onClose()"></div>
-<div class="modal-box">
+<div class="modal-box" [@modalState]>
   <div>
     <div class="compareContainer">
       <div class="pokemonCard" *ngFor="let pokemonCard of comparePokemons">
