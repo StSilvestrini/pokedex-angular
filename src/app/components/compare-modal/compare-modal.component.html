@@ -16,16 +16,7 @@
         </h3>
       </div>
     </div>
-    <div class="chartContainer">
-      <chart
-        *ngIf="showChart"
-        type="bar"
-        [data]="chartConfig.data"
-        [options]="chartConfig.options"
-        #myChart
-        (window:resize)="onResize()"
-      ></chart>
-    </div>
+    <app-chart [comparePokemons]="comparePokemons"></app-chart>
   </div>
   <div class="closeButton" (click)="onClose()">
     <img src="../../../assets/xSymbol.svg" />

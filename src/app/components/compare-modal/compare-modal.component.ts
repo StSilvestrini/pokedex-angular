@@ -1,15 +1,12 @@
 import {
-  AfterContentChecked,
   Component,
   EventEmitter,
   Input,
   OnDestroy,
   OnInit,
   Output,
-  ViewChild,
 } from '@angular/core';
 import { mergeMap, Subscription, take } from 'rxjs';
-import { IChartConfig } from 'src/app/interfaces';
 import { ArrayManipulationService } from 'src/app/services/arrayManipulation.service';
 import { HttpPokedexService } from 'src/app/services/http.service';
 import { StoreService } from 'src/app/services/store.service';
@@ -20,69 +17,17 @@ import { UtilitiesService } from 'src/app/services/utilities.service';
   templateUrl: './compare-modal.component.html',
   styleUrls: ['./compare-modal.component.scss'],
 })
-export class CompareModalComponent
-  implements OnInit, OnDestroy, AfterContentChecked
-{
+export class CompareModalComponent implements OnInit, OnDestroy {
   @Output() close = new EventEmitter<void>();
   @Input() comparePokemons: any[];
-  @ViewChild('myChart')
-  myChart: any;
-  showChart = false;
   compareSubscription: Subscription;
-  chartConfig: IChartConfig = {
-    data: {
-      labels: [], //pokemon name here
-      datasets: [
-        {
-          label: '% winning odds',
-          data: [], //winning chances here
-          backgroundColor: [
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-          ],
-          borderColor: ['rgba(54, 162, 235, 1)', 'rgba(54, 162, 235, 1)'],
-          borderWidth: 1,
-          barThickness: this.utilityService.isMobile() ? 20 : 50,
-        },
-        {
-          label: '% base points',
-          data: [], //winning chances here
-          backgroundColor: [
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-          ],
-          borderColor: ['rgba(75, 192, 192, 1)', 'rgba(75, 192, 192, 1)'],
-          borderWidth: 1,
-          barThickness: this.utilityService.isMobile() ? 20 : 50,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true,
-              max: 100,
-              stepSize: 20,
-            },
-          },
-        ],
-      },
-    },
-  };
-  isMobile: boolean;
 
   constructor(
     private httpService: HttpPokedexService,
     private storeService: StoreService,
     private arrayManipulationService: ArrayManipulationService,
     private utilityService: UtilitiesService
-  ) {
-    this.isMobile = this.utilityService.isMobile();
-  }
+  ) {}
 
   ngOnInit() {
     this.compareSubscription = this.httpService
@@ -111,36 +56,6 @@ export class CompareModalComponent
       });
   }
 
-  ngAfterContentChecked(): void {
-    const namesArray = [];
-    const winningChancesArray = [];
-    const baseExperiencesArray = [];
-    this.comparePokemons.forEach((pok) => {
-      namesArray.push(pok?.name?.toUpperCase());
-      winningChancesArray.push(pok?.winningChances);
-      baseExperiencesArray.push(pok?.base_experience);
-    });
-
-    if (
-      !this.utilityService.hasFalsyValues([
-        ...namesArray,
-        ...winningChancesArray,
-        ...baseExperiencesArray,
-      ])
-    ) {
-      this.chartConfig.data.labels = [...namesArray];
-      this.chartConfig.data.datasets[0].data = [...winningChancesArray];
-      this.chartConfig.data.datasets[1].data = [
-        ...this.utilityService.getAverage(
-          baseExperiencesArray[0],
-          baseExperiencesArray[1]
-        ),
-      ];
-
-      this.showChart = true;
-    }
-  }
-
   getWinningChance = (pokemonsToCompare: any[]) => {
     const { getTotal, getAverage } = this.utilityService;
     const { getTypeProps, getDamageRelationsName } =
@@ -161,22 +76,6 @@ export class CompareModalComponent
     ];
     return getAverage(...totals);
   };
-
-  changeBarThickness = (value) => {
-    this.chartConfig.data.datasets = this.chartConfig.data.datasets.map(
-      (el) => {
-        return { ...el, barThickness: value };
-      }
-    );
-  };
-
-  onResize() {
-    if (this.isMobile !== this.utilityService.isMobile()) {
-      this.changeBarThickness(this.utilityService?.isMobile() ? 20 : 50);
-      this.myChart.chart.update();
-      this.isMobile = this.utilityService.isMobile();
-    }
-  }
 
   onClose() {
     this.close.emit();
