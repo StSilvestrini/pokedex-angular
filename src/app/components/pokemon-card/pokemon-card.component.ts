@@ -5,11 +5,45 @@ import type { IPokemonCard } from 'src/app/interfaces';
 import { UtilitiesService } from '../../services/utilities.service';
 import { HttpPokedexService } from '../../services/http.service';
 import { StoreService } from 'src/app/services/store.service';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-pokemon-card',
   templateUrl: './pokemon-card.component.html',
   styleUrls: ['./pokemon-card.component.scss'],
+  animations: [
+    trigger('cardImage', [
+      state('in', style({})),
+      transition('void => *', [
+        style({
+          transform: 'translateX(-200px)',
+          opacity: 0,
+        }),
+        animate(500),
+      ]),
+    ]),
+    trigger('cardStats', [
+      state(
+        'in',
+        style({
+          opacity: 1,
+        })
+      ),
+      transition('void => *', [
+        style({
+          transform: 'translateX(200px)',
+          opacity: 0,
+        }),
+        animate(500),
+      ]),
+    ]),
+  ],
 })
 export class PokemonCardComponent implements OnInit, OnDestroy {
   pokemonCard: IPokemonCard;

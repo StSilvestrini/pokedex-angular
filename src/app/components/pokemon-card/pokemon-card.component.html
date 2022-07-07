@@ -20,8 +20,9 @@
           ? 'url(' + pokemonCard?.sprites?.front_default + ')'
           : null
       }"
+      [@cardImage]
     ></div>
-    <div class="cardStats">
+    <div class="cardStats" [@cardStats]>
       <ul class="cardContainer">
         <li>
           <div class="statName">Weight</div>
