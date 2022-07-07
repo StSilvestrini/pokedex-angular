@@ -44,4 +44,5 @@ export class UtilitiesService {
   };
 
   isMobile = () => !!(window.innerWidth <= 480);
+  isDesktop = () => !!(window.innerWidth >= 780);
 }

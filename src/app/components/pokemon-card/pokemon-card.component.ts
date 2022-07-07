@@ -23,6 +23,7 @@ import {
       transition('void => *', [
         style({
           transform: 'translateX(-200px)',
+          opacity: 0,
         }),
         animate(500),
       ]),
@@ -52,6 +53,11 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
     private storeService: StoreService
   ) {}
   ngOnInit(): void {
+    if (this.utilityService.isDesktop()) {
+      window.scrollTo(0, document.body.scrollHeight * 0.2);
+    } else {
+      window.scrollTo(0, 0);
+    }
     this.loadDataSubscription = this.route.params
       .pipe(
         switchMap((params) => {
