@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription, switchMap } from 'rxjs';
+import { of, Subscription, switchMap } from 'rxjs';
 import type { IPokemonCard } from 'src/app/interfaces';
 import { UtilitiesService } from '../../services/utilities.service';
 import { HttpPokedexService } from '../../services/http.service';
@@ -66,14 +66,20 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
           }
           this.routeId = params['pokemonId'];
           return this.httpService.getPokemonCard(params['pokemonId']);
+        }),
+        switchMap(({ pokemonCard }) => {
+          if (!pokemonCard?.types?.[0]?.damage_relations) {
+            return this.storeService.getDamageRelations(pokemonCard);
+          }
+          return of({ pokemonCard });
         })
       )
-      .subscribe((data) => {
+      .subscribe(({ pokemonCard }) => {
         if (this.sendAction) {
-          this.storeService.dispatchPokemonCard(data.pokemonCard);
+          this.storeService.dispatchPokemonCard(pokemonCard);
           this.sendAction = false;
         }
-        this.pokemonCard = { ...data.pokemonCard };
+        this.pokemonCard = pokemonCard;
       });
   }
 
