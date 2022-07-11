@@ -4,7 +4,7 @@
     <p
       *ngFor="let element of list | cutList; trackBy: getProperName"
       appTypesBackground
-      [type]="key === 'type' ? element?.name : null"
+      [type]="key === 'type' ? element?.[key]?.name || element?.name : null"
       [ngClass]="{ typeToken: key === 'type' }"
     >
       {{ (element?.[key]?.name ? element?.[key]?.name : element?.name) | titlecase }}
