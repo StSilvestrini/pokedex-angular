@@ -87,6 +87,13 @@ export class UtilitiesService {
               stepSize: 30,
             },
           },
+          x: {
+            ticks: {
+              font: {
+                size: 10,
+              },
+            },
+          },
         },
         plugins: {
           legend: {

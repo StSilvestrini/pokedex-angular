@@ -56,7 +56,7 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
   ) {}
   ngOnInit(): void {
     if (this.utilityService.isDesktop()) {
-      window.scrollTo(0, document.body.scrollHeight * 0.2);
+      window.scrollTo(0, document.body.scrollHeight * 0.05);
     } else {
       window.scrollTo(0, 0);
     }
@@ -89,7 +89,6 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
           data?.push(el?.base_stat);
         });
         if (JSON.stringify(data) !== JSON.stringify(this.chartData)) {
-          this.chartData = [...data];
           if (this.chart) {
             this.chart.destroy();
           }
@@ -99,6 +98,7 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
             data,
           });
           this.chart = chart;
+          this.chartData = [...data];
         }
       });
   }
