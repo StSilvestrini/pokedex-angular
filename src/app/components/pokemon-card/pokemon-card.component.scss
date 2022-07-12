@@ -106,3 +106,11 @@
 .typeToken {
   @include typeToken;
 }
+
+.chart {
+  width: 100%;
+  padding: 1rem 0;
+  @include borderManager;
+  @include box-shadow;
+  margin-bottom: 1rem;
+}
