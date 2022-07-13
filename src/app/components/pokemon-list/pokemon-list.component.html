@@ -24,7 +24,8 @@
       class="cardContainer"
       [ngClass]="{
         twoGrids: gridLayout === 'large',
-        threeGrids: gridLayout !== 'large',
+        threeGrids: gridLayout !== 'large' && gridLayout !== 'small',
+        fourGrids: gridLayout === 'small',
         cardContainerCompare: compareMode,
         cardContainerSelected: isSelected(pokemon?.id)
       }"

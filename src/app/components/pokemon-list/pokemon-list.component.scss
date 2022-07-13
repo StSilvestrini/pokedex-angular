@@ -25,6 +25,7 @@
   gap: 1.5rem;
   list-style: none;
   align-self: center;
+  justify-content: center;
   padding-left: 0;
   padding-top: 100px;
   @media (max-width: $breakpoint-tablet) {
@@ -60,6 +61,11 @@
 
 .threeGrids {
   width: 25%;
+  @include cardWidthResponsive();
+}
+
+.fourGrids {
+  width: 15%;
   @include cardWidthResponsive();
 }
 
