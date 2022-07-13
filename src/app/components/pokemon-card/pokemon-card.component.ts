@@ -37,6 +37,15 @@ import {
         animate(500),
       ]),
     ]),
+    trigger('chart', [
+      state('in', style({})),
+      transition('void => *', [
+        style({
+          transform: 'translateY(200px)',
+        }),
+        animate(500),
+      ]),
+    ]),
   ],
 })
 export class PokemonCardComponent implements OnInit, OnDestroy {
