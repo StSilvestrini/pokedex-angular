@@ -7,12 +7,14 @@ export interface State {
   types: any[];
   pokemonList: IPokemonCardList[];
   nextLink?: string;
+  error: any;
 }
 
 const initialState: State = {
   pokemonListByType: [],
   types: [],
   pokemonList: [],
+  error: null,
 };
 
 const _pokemonListReducer = createReducer(
@@ -46,6 +48,12 @@ const _pokemonListReducer = createReducer(
     return {
       ...state,
       pokemonList: [...pokemonListCopy, action.payload],
+    };
+  }),
+  on(PokemonListActions.errorPokemonList, (state, action) => {
+    return {
+      ...state,
+      error: action.error,
     };
   })
 );

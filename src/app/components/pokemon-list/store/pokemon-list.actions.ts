@@ -33,3 +33,8 @@ export const addPokemonList = createAction(
   '[Pokeon List] Add Pokemon To Pokemon List',
   props<{ payload: IPokemonCardList }>()
 );
+
+export const errorPokemonList = createAction(
+  '[Pokeon List] Error Relative To Pokemon List',
+  props<{ error: any }>()
+);
