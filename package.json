@@ -21,6 +21,7 @@
     "@ngrx/effects": "^13.2.0",
     "@ngrx/store": "^13.2.0",
     "@ngrx/store-devtools": "^13.2.0",
+    "@schematics/angular": "^14.0.6",
     "angular2-chartjs": "^0.5.1",
     "chart.js": "^3.8.0",
     "rxjs": "~7.5.0",
