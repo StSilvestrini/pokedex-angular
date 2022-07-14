@@ -59,18 +59,21 @@ export class CompareModalComponent implements OnInit, OnDestroy {
         }),
         take(1)
       )
-      .subscribe((data) => {
-        if (!data?.isInStore)
-          this.storeService.dispatchPokemonCard(data?.pokemonCard);
-        this.comparePokemons = [this.comparePokemons?.[0], data?.pokemonCard];
-        this.comparePokemons = this.comparePokemons?.map((el, index) => {
-          return {
-            ...el,
-            winningChances: this.getWinningChance(this.comparePokemons)?.[
-              index
-            ],
-          };
-        });
+      .subscribe({
+        next: (data) => {
+          if (!data?.isInStore)
+            this.storeService.dispatchPokemonCard(data?.pokemonCard);
+          this.comparePokemons = [this.comparePokemons?.[0], data?.pokemonCard];
+          this.comparePokemons = this.comparePokemons?.map((el, index) => {
+            return {
+              ...el,
+              winningChances: this.getWinningChance(this.comparePokemons)?.[
+                index
+              ],
+            };
+          });
+        },
+        error: (error) => this.httpService.errorManager(error),
       });
   }
 

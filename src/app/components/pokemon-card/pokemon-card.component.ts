@@ -85,30 +85,33 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
           return of({ pokemonCard });
         })
       )
-      .subscribe(({ pokemonCard }) => {
-        if (this.sendAction) {
-          this.storeService.dispatchPokemonCard(pokemonCard);
-          this.sendAction = false;
-        }
-        this.pokemonCard = pokemonCard;
-        const labels = [];
-        const data = [];
-        pokemonCard?.stats?.forEach((el) => {
-          labels?.push(el?.stat?.name);
-          data?.push(el?.base_stat);
-        });
-        if (JSON.stringify(data) !== JSON.stringify(this.chartData)) {
-          if (this.chart) {
-            this.chart.destroy();
+      .subscribe({
+        next: ({ pokemonCard }) => {
+          if (this.sendAction) {
+            this.storeService.dispatchPokemonCard(pokemonCard);
+            this.sendAction = false;
           }
-          const chart = this.utilityService.chartFactory({
-            selector: 'myChart',
-            labels,
-            data,
+          this.pokemonCard = pokemonCard;
+          const labels = [];
+          const data = [];
+          pokemonCard?.stats?.forEach((el) => {
+            labels?.push(el?.stat?.name);
+            data?.push(el?.base_stat);
           });
-          this.chart = chart;
-          this.chartData = [...data];
-        }
+          if (JSON.stringify(data) !== JSON.stringify(this.chartData)) {
+            if (this.chart) {
+              this.chart.destroy();
+            }
+            const chart = this.utilityService.chartFactory({
+              selector: 'myChart',
+              labels,
+              data,
+            });
+            this.chart = chart;
+            this.chartData = [...data];
+          }
+        },
+        error: (error) => this.httpService.errorManager(error),
       });
   }
 

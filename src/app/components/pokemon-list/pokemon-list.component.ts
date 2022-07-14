@@ -34,6 +34,7 @@ export class PokemonListComponent implements OnDestroy {
         });
         return;
       },
+      error: (error) => this.httpService.errorManager(error),
     });
   }
 
@@ -70,6 +71,7 @@ export class PokemonListComponent implements OnDestroy {
           this.storeService.dispatchPokemonList(this.pokemonList);
           this.storeService.dispatchNextLink(response?.next);
         },
+        error: (error) => this.httpService.errorManager(error),
       });
   };
 
@@ -100,6 +102,7 @@ export class PokemonListComponent implements OnDestroy {
               `https://pokeapi.co/api/v2/pokemon?offset=${this.pokemonList.length}&limit=20`
             );
           },
+          error: (error) => this.httpService.errorManager(error),
         });
     } else {
       this.applyPipe = true;
@@ -140,10 +143,13 @@ export class PokemonListComponent implements OnDestroy {
     );
 
     componentRef.instance.comparePokemons = compareArray;
-    this.closeSub = componentRef.instance.close.subscribe(() => {
-      this.compareMode = false;
-      this.closeSub.unsubscribe();
-      hostViewContainerRef.clear();
+    this.closeSub = componentRef.instance.close.subscribe({
+      next: () => {
+        this.compareMode = false;
+        this.closeSub.unsubscribe();
+        hostViewContainerRef.clear();
+      },
+      error: (error) => this.httpService.errorManager(error),
     });
   }
 

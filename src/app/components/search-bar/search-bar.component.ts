@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { IPokemonCardList } from 'src/app/interfaces';
 import { ArrayManipulationService } from 'src/app/services/arrayManipulation.service';
+import { HttpPokedexService } from 'src/app/services/http.service';
 import * as fromApp from '../../store/app.reducer';
 import * as PokemonListActions from '../pokemon-list/store/pokemon-list.actions';
 
@@ -48,6 +49,7 @@ export class SearchBarComponent {
           }
         });
       },
+      error: (error) => this.httpService.errorManager(error),
     });
     if (pokemonFound) {
       this.store.dispatch(
@@ -58,6 +60,7 @@ export class SearchBarComponent {
 
   constructor(
     private store: Store<fromApp.AppState>,
-    private ArrayManipulationService: ArrayManipulationService
+    private ArrayManipulationService: ArrayManipulationService,
+    private httpService: HttpPokedexService
   ) {}
 }
