@@ -83,10 +83,14 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
             return this.storeService.getDamageRelations(pokemonCard);
           }
           return of({ pokemonCard });
+        }),
+        switchMap(({ pokemonCard }) => {
+          return this.httpService.addEvolutionChain(pokemonCard);
         })
       )
       .subscribe({
         next: ({ pokemonCard }) => {
+          console.log('pokemonCard', pokemonCard);
           if (this.sendAction) {
             this.storeService.dispatchPokemonCard(pokemonCard);
             this.sendAction = false;

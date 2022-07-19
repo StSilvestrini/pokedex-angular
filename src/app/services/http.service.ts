@@ -105,6 +105,26 @@ export class HttpPokedexService {
         )
       );
 
+  addEvolutionChain = (pokemonCard) => {
+    return this.http
+      .get<any>(`https://pokeapi.co/api/v2/pokemon-species/${pokemonCard?.id}`)
+      .pipe(
+        switchMap(({ evolves_from_species: { url, name } }) => {
+          const evolutionId = url?.split('/')?.[url?.split('/').length - 2];
+          const evolutionImage = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${evolutionId}.png`;
+          pokemonCard = {
+            ...pokemonCard,
+            evolvesFrom: {
+              id: evolutionId,
+              image: evolutionImage,
+              name,
+            },
+          };
+          return of({ pokemonCard });
+        })
+      );
+  };
+
   genericGetRequest = (url: string) => this.http.get<any>(url);
 
   errorManager = (error) => {
