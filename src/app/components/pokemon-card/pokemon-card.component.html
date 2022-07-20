@@ -66,7 +66,13 @@
         </li>
       </ul>
     </div>
-    <div class="evolvesFromContainer">
+    <div
+      class="evolvesFromContainer"
+      *ngIf="
+        pokemonCard?.evolvesFrom?.name && pokemonCard?.evolvesFrom?.image;
+        else noEvolution
+      "
+    >
       <div>
         <span>Evolves from: </span>
         <span class="evolvesFromTitle">{{
@@ -83,6 +89,11 @@
         }"
       ></div>
     </div>
+    <ng-template #noEvolution
+      ><div class="evolvesFromContainer">
+        First in the evolution chain
+      </div></ng-template
+    >
     <div class="chart" [@chart]>
       <canvas id="myChart"></canvas>
     </div>

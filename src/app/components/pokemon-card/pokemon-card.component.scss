@@ -113,6 +113,10 @@
   @include borderManager;
   @include box-shadow;
   margin-left: 2rem;
+  @media (max-width: $breakpoint-tablet) {
+    margin-left: 0;
+    width: 100%;
+  }
 }
 
 .evolvesFromContainer {
@@ -123,6 +127,9 @@
   font-family: $fontFamily;
   justify-content: center;
   align-items: center;
+  @media (max-width: $breakpoint-tablet) {
+    min-height: 8rem;
+  }
 
   span:first-child {
     font-style: italic;

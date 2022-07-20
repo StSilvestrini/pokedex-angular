@@ -109,17 +109,22 @@ export class HttpPokedexService {
     return this.http
       .get<any>(`https://pokeapi.co/api/v2/pokemon-species/${pokemonCard?.id}`)
       .pipe(
-        switchMap(({ evolves_from_species: { url, name } }) => {
-          const evolutionId = url?.split('/')?.[url?.split('/').length - 2];
-          const evolutionImage = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${evolutionId}.png`;
-          pokemonCard = {
-            ...pokemonCard,
-            evolvesFrom: {
-              id: evolutionId,
-              image: evolutionImage,
-              name,
-            },
-          };
+        switchMap(({ evolves_from_species }) => {
+          if (evolves_from_species?.url && evolves_from_species?.name) {
+            const evolutionId =
+              evolves_from_species.url?.split('/')?.[
+                evolves_from_species.url?.split('/')?.length - 2
+              ];
+            const evolutionImage = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${evolutionId}.png`;
+            pokemonCard = {
+              ...pokemonCard,
+              evolvesFrom: {
+                id: evolutionId,
+                image: evolutionImage,
+                name: evolves_from_species.name,
+              },
+            };
+          }
           return of({ pokemonCard });
         })
       );
