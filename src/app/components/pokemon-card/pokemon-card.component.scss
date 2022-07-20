@@ -108,9 +108,35 @@
 }
 
 .chart {
-  width: 100%;
+  width: calc(100% - 2rem);
   padding: 1rem 0;
   @include borderManager;
   @include box-shadow;
-  margin-bottom: 1rem;
+  margin-left: 2rem;
+}
+
+.evolvesFromContainer {
+  @include borderManager;
+  @include box-shadow;
+  display: flex;
+  padding: 1rem;
+  font-family: $fontFamily;
+  justify-content: center;
+  align-items: center;
+
+  span:first-child {
+    font-style: italic;
+  }
+
+  .evolvesFromTitle {
+    font-weight: 600;
+    padding-top: 1rem;
+    display: inline-block;
+  }
+
+  .evolvesFromImage {
+    width: 100%;
+    height: 100%;
+    @include backgroundSetting;
+  }
 }

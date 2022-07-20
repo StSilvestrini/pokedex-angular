@@ -66,6 +66,23 @@
         </li>
       </ul>
     </div>
+    <div class="evolvesFromContainer">
+      <div>
+        <span>Evolves from: </span>
+        <span class="evolvesFromTitle">{{
+          pokemonCard?.evolvesFrom?.name | titlecase
+        }}</span>
+      </div>
+
+      <div
+        class="evolvesFromImage"
+        [ngStyle]="{
+          'background-image': pokemonCard?.evolvesFrom?.image
+            ? 'url(' + pokemonCard?.evolvesFrom?.image + ')'
+            : null
+        }"
+      ></div>
+    </div>
     <div class="chart" [@chart]>
       <canvas id="myChart"></canvas>
     </div>

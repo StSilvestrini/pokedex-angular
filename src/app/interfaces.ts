@@ -9,6 +9,11 @@ export interface IPokemonCard {
   sprites: { front_default: string };
   base_experience: number;
   stats: any[];
+  evolvesFrom: {
+    id: string;
+    image: string;
+    name: string;
+  };
 }
 
 export interface IGenericShortInfo {
