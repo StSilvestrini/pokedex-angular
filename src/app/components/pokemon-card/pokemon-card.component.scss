@@ -3,10 +3,10 @@
 .container {
   @include containerSettings;
   margin: 3rem;
-  @media (max-width: $breakpoint-tablet) {
+  @include forTablet {
     margin: 2rem;
   }
-  @media (max-width: $breakpoint-mobile) {
+  @include forMobile {
     margin: 1rem;
   }
 }
@@ -25,11 +25,11 @@
     }
   }
 
-  @media (max-width: $breakpoint-tablet) {
+  @include forTablet {
     margin-bottom: 1rem;
     font-size: small;
   }
-  @media (max-width: $breakpoint-mobile) {
+  @include forMobile {
     margin-top: 1rem;
     font-size: x-small;
   }
@@ -40,10 +40,10 @@
   @include backgroundSetting;
   @include borderManager;
   @include box-shadow;
-  @media (max-width: $breakpoint-tablet) {
+  @include forTablet {
     height: 60vh;
   }
-  @media (max-width: $breakpoint-mobile) {
+  @include forMobile {
     height: 40vh;
   }
 }
@@ -65,7 +65,7 @@
     margin: 0;
   }
 
-  @media (max-width: $breakpoint-tablet) {
+  @include forTablet {
     margin-left: 0;
     height: auto;
   }
@@ -75,7 +75,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-row-gap: 3rem;
-  @media (max-width: $breakpoint-tablet) {
+  @include forTablet {
     grid-template-columns: 1fr;
     width: 80%;
     margin: 0 auto;
@@ -93,11 +93,11 @@
   width: 30%;
   display: block;
   margin: 0 auto 3rem auto;
-  @media (max-width: $breakpoint-tablet) {
+  @include forTablet {
     margin-bottom: 2rem;
     width: 40%;
   }
-  @media (max-width: $breakpoint-mobile) {
+  @include forMobile {
     width: 50%;
   }
 }
@@ -112,7 +112,7 @@
   @include borderManager;
   @include box-shadow;
   margin-left: 2rem;
-  @media (max-width: $breakpoint-tablet) {
+  @include forTablet {
     margin-left: 0;
     width: 100%;
   }
@@ -126,7 +126,7 @@
   font-family: $fontFamily;
   justify-content: center;
   align-items: center;
-  @media (max-width: $breakpoint-tablet) {
+  @include forTablet {
     min-height: 8rem;
   }
 

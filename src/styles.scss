@@ -60,6 +60,24 @@ $fontFamily: "Flexo-Bold", "arial", "sans-serif";
   padding: $padding;
 }
 
+@mixin mediaQueries($size) {
+  @media (max-width: $size) {
+    @content;
+  }
+}
+
+@mixin forMobile {
+  @media (max-width: $breakpoint-mobile) {
+    @content;
+  }
+}
+
+@mixin forTablet {
+  @media (max-width: $breakpoint-tablet) {
+    @content;
+  }
+}
+
 canvas {
   width: 80% !important;
   margin: 0 auto;
