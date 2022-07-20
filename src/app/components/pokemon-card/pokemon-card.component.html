@@ -67,11 +67,12 @@
       </ul>
     </div>
     <div
-      class="evolvesFromContainer"
+      class="evolvesFromContainer cursorPointer"
       *ngIf="
         pokemonCard?.evolvesFrom?.name && pokemonCard?.evolvesFrom?.image;
         else noEvolution
       "
+      [routerLink]="['/card', pokemonCard?.evolvesFrom?.id]"
     >
       <div>
         <span>Evolves from: </span>
