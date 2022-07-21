@@ -45,7 +45,7 @@ import { WindowRef } from 'src/app/shared/WindowRef';
         animate(500),
       ]),
     ]),
-    trigger('chart', [
+    trigger('downEntrance', [
       state('in', style({})),
       transition('void => *', [
         style({

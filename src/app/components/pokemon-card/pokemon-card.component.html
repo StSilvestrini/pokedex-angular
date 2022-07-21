@@ -67,6 +67,7 @@
       </ul>
     </div>
     <div
+      [@downEntrance]
       class="evolvesFromContainer cursorPointer"
       *ngIf="
         pokemonCard?.evolvesFrom?.name && pokemonCard?.evolvesFrom?.image;
@@ -91,11 +92,11 @@
       ></div>
     </div>
     <ng-template #noEvolution
-      ><div class="evolvesFromContainer">
+      ><div class="evolvesFromContainer" [@downEntrance]>
         First in the evolution chain
       </div></ng-template
     >
-    <div class="chart" [@chart]>
+    <div class="chart" [@downEntrance]>
       <canvas id="myChart"></canvas>
     </div>
   </div>
