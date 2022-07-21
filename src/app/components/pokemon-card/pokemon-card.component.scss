@@ -126,10 +126,17 @@
   font-family: $fontFamily;
   justify-content: center;
   align-items: center;
+  @include mediaQueries(350px) {
+    padding: 0.2rem;
+  }
   @include forTablet {
     min-height: 8rem;
   }
-
+  span {
+    @include mediaQueries(350px) {
+      font-size: x-small;
+    }
+  }
   span:first-child {
     font-style: italic;
   }
