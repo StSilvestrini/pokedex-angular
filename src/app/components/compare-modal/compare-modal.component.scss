@@ -28,14 +28,14 @@
   .pokemonCard {
     text-align: center;
     font-family: $fontFamily;
-    @media (max-width: $breakpoint-mobile) {
+    @include forMobile {
       font-size: small;
     }
 
     .cardImage {
       min-height: 10rem;
       @include backgroundSetting;
-      @media (max-width: $breakpoint-mobile) {
+      @include forMobile {
         min-height: 8rem;
       }
     }

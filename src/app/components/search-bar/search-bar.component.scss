@@ -10,7 +10,7 @@
   }
 
   input {
-    @media (max-width: $breakpoint-mobile) {
+    @include forMobile {
       display: block;
       margin: 1rem auto;
     }
@@ -18,7 +18,7 @@
 
   .buttons {
     display: inline;
-    @media (max-width: $breakpoint-mobile) {
+    @include forMobile {
       display: block;
       text-align: center;
     }
@@ -28,7 +28,7 @@
     margin-left: 1rem;
     background-color: transparent;
     cursor: pointer;
-    @media (max-width: $breakpoint-mobile) {
+    @include forMobile {
       margin-left: 0;
     }
   }

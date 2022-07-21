@@ -82,7 +82,7 @@ canvas {
   width: 80% !important;
   margin: 0 auto;
   max-height: 220px !important;
-  @media (max-width: $breakpoint-mobile) {
+  @include forMobile {
     width: 90% !important;
     min-height: 250px;
   }

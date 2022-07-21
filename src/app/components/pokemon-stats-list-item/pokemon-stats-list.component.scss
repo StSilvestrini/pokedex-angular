@@ -16,7 +16,7 @@
   font-family: $fontFamily;
   font-size: large;
   margin: 0;
-  @media (max-width: $breakpoint-mobile) {
+  @include forMobile {
     font-size: small;
   }
 }
