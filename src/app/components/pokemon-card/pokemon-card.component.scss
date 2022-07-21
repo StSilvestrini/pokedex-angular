@@ -134,7 +134,7 @@
   }
   span {
     @include mediaQueries(350px) {
-      font-size: x-small;
+      font-size: small;
     }
   }
   span:first-child {
