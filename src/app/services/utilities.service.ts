@@ -1,8 +1,13 @@
-import { Injectable } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import Chart from 'chart.js/auto';
 
 @Injectable({ providedIn: 'root' })
 export class UtilitiesService {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId,
+    @Inject(DOCUMENT) private ngDocument: Document
+  ) {}
   getId = (index: number, item) => item?.id;
   getItem = (index: number, item) => item;
 
@@ -48,7 +53,8 @@ export class UtilitiesService {
   isDesktop = () => !!(window.innerWidth >= 780);
 
   chartFactory = ({ selector, labels, data }) => {
-    const ctx: any = document.getElementById(selector);
+    if (!isPlatformBrowser(this.platformId)) return; //new Chart at line 58 will not work for ssr otherwise
+    const ctx: any = this.ngDocument.getElementById(selector);
     const chart = new Chart(ctx, {
       type: 'bar',
       data: {

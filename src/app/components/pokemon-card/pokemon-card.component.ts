@@ -1,6 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { of, Subscription, switchMap, take } from 'rxjs';
+import { of, Subscription, switchMap } from 'rxjs';
 import type { IPokemonCard } from 'src/app/interfaces';
 import { UtilitiesService } from '../../services/utilities.service';
 import { HttpPokedexService } from '../../services/http.service';
@@ -12,6 +18,8 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { WindowRef } from 'src/app/shared/WindowRef';
 
 @Component({
   selector: 'app-pokemon-card',
@@ -61,13 +69,21 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
     private httpService: HttpPokedexService,
     private route: ActivatedRoute,
     private utilityService: UtilitiesService,
-    private storeService: StoreService
+    private storeService: StoreService,
+    @Inject(PLATFORM_ID) private platformId,
+    @Inject(DOCUMENT) private ngDocument: Document,
+    private winRef: WindowRef
   ) {}
   ngOnInit(): void {
-    if (this.utilityService.isDesktop()) {
-      window.scrollTo(0, document.body.scrollHeight * 0.05);
-    } else {
-      window.scrollTo(0, 0);
+    if (isPlatformBrowser(this.platformId)) {
+      if (this.utilityService.isDesktop()) {
+        this.winRef.nativeWindow.scrollTo(
+          0,
+          this.ngDocument.body.scrollHeight * 0.05
+        );
+      } else {
+        this.winRef.nativeWindow.scrollTo(0, 0);
+      }
     }
     this.loadDataSubscription = this.route.params
       .pipe(
@@ -90,7 +106,6 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: ({ pokemonCard }) => {
-          console.log('pokemonCard', pokemonCard);
           if (this.sendAction) {
             this.storeService.dispatchPokemonCard(pokemonCard);
             this.sendAction = false;
