@@ -16,8 +16,11 @@
     <div
       class="cardImage"
       [ngStyle]="{
-        'background-image': pokemonCard?.sprites?.front_default
-          ? 'url(' + pokemonCard?.sprites?.front_default + ')'
+        'background-image': pokemonCard?.id
+          ? 'url(' +
+            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' +
+            pokemonCard?.id +
+            '.png)'
           : null
       }"
       [@cardImage]

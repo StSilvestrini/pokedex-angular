@@ -85,7 +85,6 @@ export class HttpPokedexService {
             abilities,
             moves,
             types,
-            sprites,
             base_experience,
             stats,
           }) => {
@@ -97,7 +96,6 @@ export class HttpPokedexService {
               abilities,
               moves,
               types,
-              sprites,
               base_experience,
               stats,
             };
