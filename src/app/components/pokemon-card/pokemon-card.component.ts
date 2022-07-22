@@ -54,6 +54,15 @@ import { WindowRef } from 'src/app/shared/WindowRef';
         animate(500),
       ]),
     ]),
+    trigger('downEntranceDelayed', [
+      state('in', style({})),
+      transition('void => *', [
+        style({
+          transform: 'translateY(200px)',
+        }),
+        animate(350),
+      ]),
+    ]),
   ],
 })
 export class PokemonCardComponent implements OnInit, OnDestroy {
