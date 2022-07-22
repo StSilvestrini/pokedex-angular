@@ -67,7 +67,7 @@ import { WindowRef } from 'src/app/shared/WindowRef';
     ]),
   ],
 })
-export class PokemonCardComponent implements OnInit, OnDestroy, AfterViewInit {
+export class PokemonCardComponent implements OnInit, OnDestroy {
   pokemonCard: IPokemonCard;
   routeId: string;
   sendAction: boolean;
@@ -75,7 +75,6 @@ export class PokemonCardComponent implements OnInit, OnDestroy, AfterViewInit {
   actionSubscription: Subscription;
   chartData: any[];
   chart: any;
-  isAnimationDisabled = false;
 
   constructor(
     private httpService: HttpPokedexService,
@@ -147,9 +146,6 @@ export class PokemonCardComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
-  ngAfterViewInit(): void {
-    this.isAnimationDisabled = true;
-  }
   getProperName = this.utilityService.getName('type');
 
   ngOnDestroy(): void {
