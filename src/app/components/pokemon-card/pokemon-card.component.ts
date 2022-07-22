@@ -1,4 +1,6 @@
 import {
+  AfterContentInit,
+  AfterViewInit,
   Component,
   Inject,
   OnDestroy,
@@ -65,7 +67,7 @@ import { WindowRef } from 'src/app/shared/WindowRef';
     ]),
   ],
 })
-export class PokemonCardComponent implements OnInit, OnDestroy {
+export class PokemonCardComponent implements OnInit, OnDestroy, AfterViewInit {
   pokemonCard: IPokemonCard;
   routeId: string;
   sendAction: boolean;
@@ -73,6 +75,7 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
   actionSubscription: Subscription;
   chartData: any[];
   chart: any;
+  isAnimationDisabled = false;
 
   constructor(
     private httpService: HttpPokedexService,
@@ -83,6 +86,7 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
     @Inject(DOCUMENT) private ngDocument: Document,
     private winRef: WindowRef
   ) {}
+
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       if (this.utilityService.isDesktop()) {
@@ -143,6 +147,9 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
       });
   }
 
+  ngAfterViewInit(): void {
+    this.isAnimationDisabled = true;
+  }
   getProperName = this.utilityService.getName('type');
 
   ngOnDestroy(): void {

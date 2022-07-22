@@ -92,7 +92,11 @@
       ></div>
     </div>
     <ng-template #noEvolution
-      ><div class="evolvesFromContainer" [@downEntrance]>
+      ><div
+        class="evolvesFromContainer"
+        [@downEntrance]
+        [@.disabled]="isAnimationDisabled"
+      >
         First in the evolution chain
       </div></ng-template
     >
