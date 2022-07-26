@@ -50,21 +50,14 @@
         <li>
           <p class="statName">Weaknesses</p>
           <div class="flex-item">
-            <ng-container
-              *ngFor="let element of pokemonCard?.types; trackBy: getProperName"
+            <p
+              *ngFor="let weakness of weaknesses | cutList; trackBy: getItem"
+              appTypesBackground
+              [type]="weakness"
+              class="typeToken"
             >
-              <p
-                *ngFor="
-                  let weakness of element.weaknesses | cutList;
-                  trackBy: getItem
-                "
-                appTypesBackground
-                [type]="weakness"
-                class="typeToken"
-              >
-                {{ weakness | titlecase }}
-              </p>
-            </ng-container>
+              {{ weakness | titlecase }}
+            </p>
           </div>
         </li>
       </ul>

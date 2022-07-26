@@ -1,6 +1,4 @@
 import {
-  AfterContentInit,
-  AfterViewInit,
   Component,
   Inject,
   OnDestroy,
@@ -75,6 +73,7 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
   actionSubscription: Subscription;
   chartData: any[];
   chart: any;
+  weaknesses: string[] = [];
 
   constructor(
     private httpService: HttpPokedexService,
@@ -123,6 +122,14 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
             this.sendAction = false;
           }
           this.pokemonCard = pokemonCard;
+          console.log('pokemonCard', this.pokemonCard);
+          this?.pokemonCard?.types?.forEach((type) => {
+            this.weaknesses = [...this.weaknesses, ...type?.weaknesses];
+          });
+          if (this?.weaknesses?.length) {
+            this.weaknesses = [...new Set(this.weaknesses)];
+          }
+          console.log('weaknesses', this.weaknesses);
           const labels = [];
           const data = [];
           pokemonCard?.stats?.forEach((el) => {
@@ -146,7 +153,7 @@ export class PokemonCardComponent implements OnInit, OnDestroy {
       });
   }
 
-  getProperName = this.utilityService.getName('type');
+  getItem = this.utilityService.getItem;
 
   ngOnDestroy(): void {
     const { unsubscribeImproved } = this?.httpService || {};
