@@ -3,11 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 
 import { CardNavigationComponent } from './card-navigation.component';
 import { TestingModule } from 'src/app/shared/testing.module';
+import { of } from 'rxjs';
 
 describe('CardNavigationComponent', () => {
   let component: CardNavigationComponent;
   let fixture: ComponentFixture<CardNavigationComponent>;
   let compiled: any;
+  let route: any;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -15,13 +17,17 @@ describe('CardNavigationComponent', () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { params: { pokemonId: 2 } } },
+          useValue: {
+            snapshot: { params: { pokemonId: 2 } },
+            params: of({ pokemonId: 2 }),
+          },
         },
       ],
       imports: [TestingModule],
-    }).compileComponents();
+    });
 
     fixture = TestBed.createComponent(CardNavigationComponent);
+    route = TestBed.inject(ActivatedRoute);
     component = fixture.componentInstance;
     compiled = fixture.debugElement.nativeElement;
 
@@ -50,5 +56,22 @@ describe('CardNavigationComponent', () => {
     component.currentNumber = 1;
     fixture.detectChanges();
     expect(compiled.querySelectorAll('.arrow').length).toBe(1);
+  });
+
+  it('route subscription should be called after ngOnInit', () => {
+    const spyRoute = spyOn(route.params, 'subscribe');
+    component.ngOnInit();
+    expect(spyRoute).toHaveBeenCalled();
+  });
+
+  it('route subscription should be called after ngOnInit', () => {
+    const fakeFunc = (changes) => {
+      component.currentNumber = changes;
+    };
+    const spyRoute = spyOn(route.params, 'subscribe').and.callFake(() => {
+      fakeFunc(4);
+    });
+    component.ngOnInit();
+    expect(component.currentNumber).toBe(4);
   });
 });
