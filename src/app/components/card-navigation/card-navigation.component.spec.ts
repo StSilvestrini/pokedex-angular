@@ -9,14 +9,15 @@ describe('CardNavigationComponent', () => {
   let fixture: ComponentFixture<CardNavigationComponent>;
   let compiled: any;
 
-  let fakeActivatedRoute: any = {
-    snapshot: { params: { pokemonId: 2 } },
-  };
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CardNavigationComponent],
-      providers: [{ provide: ActivatedRoute, useValue: fakeActivatedRoute }],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: { snapshot: { params: { pokemonId: 2 } } },
+        },
+      ],
       imports: [TestingModule],
     }).compileComponents();
 
@@ -43,5 +44,11 @@ describe('CardNavigationComponent', () => {
 
   it('should render the proper number of the right arrow', () => {
     expect(compiled.querySelectorAll('.arrow')[1].textContent).toContain('003');
+  });
+
+  it('should not render the left arrow if pokemonId is <= 1', () => {
+    component.currentNumber = 1;
+    fixture.detectChanges();
+    expect(compiled.querySelectorAll('.arrow').length).toBe(1);
   });
 });
