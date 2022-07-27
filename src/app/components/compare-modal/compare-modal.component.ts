@@ -50,7 +50,7 @@ export class CompareModalComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.compareSubscription = this.httpService
       .getPokemonCard(this?.comparePokemons?.[0])
-      .pipe(
+      ?.pipe(
         mergeMap((data) => {
           this.comparePokemons = [data?.pokemonCard, this.comparePokemons[1]];
           if (!data?.isInStore)

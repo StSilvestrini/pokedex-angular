@@ -71,7 +71,7 @@ export class ChartComponent implements AfterContentChecked {
     const namesArray = [];
     const winningChancesArray = [];
     const baseExperiencesArray = [];
-    this.comparePokemons.forEach((pok) => {
+    this.comparePokemons?.forEach((pok) => {
       namesArray.push(pok?.name?.toUpperCase());
       winningChancesArray.push(pok?.winningChances);
       baseExperiencesArray.push(pok?.base_experience);

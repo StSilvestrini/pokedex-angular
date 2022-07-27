@@ -9,30 +9,27 @@ import { ChartModule } from 'angular2-chartjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
-  declarations: [
-    TypesBackgroundDirective,
-    CutListPipe,
-    FormatNumberPipe,
-    ChartComponent,
-  ],
+  declarations: [TypesBackgroundDirective, CutListPipe, FormatNumberPipe],
   imports: [
     StoreModule.forRoot({}),
     HttpClientTestingModule,
     RouterTestingModule,
     CommonModule,
     ChartModule,
+    BrowserAnimationsModule,
   ],
   exports: [
     StoreModule,
     HttpClientTestingModule,
     RouterTestingModule,
+    BrowserAnimationsModule,
     TypesBackgroundDirective,
     CutListPipe,
     FormatNumberPipe,
     ChartModule,
-    ChartComponent,
   ],
 })
 export class TestingModule {}
