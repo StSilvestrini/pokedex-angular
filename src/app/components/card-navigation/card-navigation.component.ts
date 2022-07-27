@@ -2,8 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HttpPokedexService } from 'src/app/services/http.service';
-import { UtilitiesService } from '../../services/utilities.service';
-
 @Component({
   selector: 'app-card-navigation',
   templateUrl: './card-navigation.component.html',
@@ -19,7 +17,7 @@ export class CardNavigationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.currentNumber = +this.route.snapshot.params['pokemonId'];
-    this.routeSubscription = this.route.params.subscribe({
+    this.routeSubscription = this?.route?.params?.subscribe({
       next: (changes) => {
         this.currentNumber = +changes['pokemonId'];
       },
@@ -28,6 +26,8 @@ export class CardNavigationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.routeSubscription.unsubscribe();
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
+    }
   }
 }
