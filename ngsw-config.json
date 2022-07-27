@@ -26,5 +26,20 @@
         ]
       }
     }
+  ],
+  "dataGroups": [
+    {
+      "name": "pics",
+      "urls": [
+        " https://pokeapi.co/api/v2/pokemon?offset=20&limit=20",
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/20.png"
+      ],
+      "cacheConfig": {
+        "maxSize": 5,
+        "maxAge": "6h",
+        "timeout": "10s",
+        "strategy": "freshness"
+      }
+    }
   ]
 }
