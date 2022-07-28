@@ -1,12 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UtilitiesService } from 'src/app/services/utilities.service';
 import { TestingModule } from 'src/app/shared/testing.module';
 import { ChartComponent } from './chart.component';
 
 describe('ChartComponent', () => {
   let component: ChartComponent;
   let fixture: ComponentFixture<ChartComponent>;
-  let compiled: any;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -17,7 +15,6 @@ describe('ChartComponent', () => {
 
     fixture = TestBed.createComponent(ChartComponent);
     component = fixture.componentInstance;
-    compiled = fixture.debugElement.nativeElement;
     fixture.detectChanges();
   });
 
