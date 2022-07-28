@@ -71,4 +71,17 @@ describe('CompareModalComponent', () => {
       'xSymbol.svg'
     );
   });
+  it('onClose() called when clicking the backdrop', () => {
+    const spy = spyOn(component, 'onClose');
+    const button = compiled.querySelector('.backdrop');
+    button.click();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('onClose() called when clicking the close button', () => {
+    const spy = spyOn(component, 'onClose');
+    const button = compiled.querySelector('.closeButton');
+    button.click();
+    expect(spy).toHaveBeenCalled();
+  });
 });
