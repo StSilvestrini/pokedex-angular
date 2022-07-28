@@ -21,6 +21,11 @@ describe('CompareModalComponent', () => {
     fixture = TestBed.createComponent(CompareModalComponent);
     component = fixture.componentInstance;
     compiled = fixture.debugElement.nativeElement;
+    component.comparePokemons = [
+      { name: 'charmender', id: 4 },
+      { name: 'bulbasaur', id: 1 },
+    ];
+
     httpService = TestBed.inject(HttpPokedexService);
     fixture.detectChanges();
   });
@@ -36,25 +41,34 @@ describe('CompareModalComponent', () => {
   });
 
   it('first pokemon name being showed properly', () => {
-    component.comparePokemons = [{ name: 'charmender' }, { name: 'bulbasaur' }];
-    fixture.detectChanges();
     expect(compiled.querySelectorAll('.pokemonName')[0].textContent).toContain(
       'Charmender'
     );
   });
   it('second pokemon name being showed properly', () => {
-    component.comparePokemons = [{ name: 'charmender' }, { name: 'bulbasaur' }];
-    fixture.detectChanges();
     expect(compiled.querySelectorAll('.pokemonName')[1].textContent).toContain(
       'Bulbasaur'
     );
   });
   it('showing correct number of pokemonCard divs', () => {
-    component.comparePokemons = [{ name: 'charmender' }, { name: 'bulbasaur' }];
-    fixture.detectChanges();
     expect(compiled.querySelectorAll('.pokemonCard').length).toBe(2);
   });
   it('chart rendered in the component', () => {
     expect(compiled.querySelectorAll('app-chart').length).toBe(1);
+  });
+  it('render the correct first pokemon image', () => {
+    expect(
+      compiled.querySelectorAll('.cardImage')[0].style['background-image']
+    ).toContain('pokemon/4.png');
+  });
+  it('render the correct second pokemon image', () => {
+    expect(
+      compiled.querySelectorAll('.cardImage')[1].style['background-image']
+    ).toContain('pokemon/1.png');
+  });
+  it('render the correct X image for onClose()', () => {
+    expect(compiled.querySelector('.closeButton > img').src).toContain(
+      'xSymbol.svg'
+    );
   });
 });
