@@ -21,14 +21,14 @@ export class SearchBarComponent {
   };
 
   onSearch = (searchQuery) => {
-    if (searchQuery.length < 3) return;
+    if (searchQuery?.length < 3) return;
     let pokemonFound: IPokemonCardList;
-    this.store.select('pokemonList').subscribe({
+    this.store?.select('pokemonList').subscribe({
       next: (pokemonListState) => {
         const pokemonByType = [...pokemonListState?.pokemonListByType];
         const pokemonList = [...pokemonListState?.pokemonList];
         const arrayOfTypes = [];
-        pokemonByType.forEach((typeObj) => {
+        pokemonByType?.forEach((typeObj) => {
           let found = typeObj.pokemon.find(
             (pokemon) =>
               pokemon?.pokemon?.name?.toLowerCase() ===
