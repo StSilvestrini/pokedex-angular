@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { FilterListPipe } from 'src/app/pipes/filterList.pipe';
 import { SortListPipe } from 'src/app/pipes/sort.pipe';
@@ -12,7 +13,6 @@ describe('PokemonListComponent', () => {
   let component: PokemonListComponent;
   let fixture: ComponentFixture<PokemonListComponent>;
   let compiled: any;
-  let route: any;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -31,7 +31,6 @@ describe('PokemonListComponent', () => {
     fixture = TestBed.createComponent(PokemonListComponent);
     component = fixture.componentInstance;
     compiled = fixture.debugElement.nativeElement;
-    route = TestBed.inject(ActivatedRoute);
     fixture.detectChanges();
   });
 
@@ -267,5 +266,63 @@ describe('PokemonListComponent', () => {
   it('onCompare button should display the correct text when compareMode is false', () => {
     const element = compiled.querySelector('.compareButton');
     expect(element.textContent).toBe(' Compare ');
+  });
+  it('select number should not be disabled if search query is longer than 2', () => {
+    fixture.debugElement.query(
+      By.directive(SearchBarComponent)
+    ).componentInstance.searchQuery = 'aaaa';
+    fixture.detectChanges();
+    expect(
+      compiled
+        .querySelector('app-select-number')
+        .getAttribute('ng-reflect-disabled')
+    ).toBe('true');
+  });
+  it('select number should be disabled if search query is longer than 2', () => {
+    fixture.debugElement.query(
+      By.directive(SearchBarComponent)
+    ).componentInstance.searchQuery = 'aa';
+    fixture.detectChanges();
+    expect(
+      compiled
+        .querySelector('app-select-number')
+        .getAttribute('ng-reflect-disabled')
+    ).toBe('false');
+  });
+  it('onLoad button should be disabled if search query is longer than 2', () => {
+    fixture.debugElement.query(
+      By.directive(SearchBarComponent)
+    ).componentInstance.searchQuery = 'aaaa';
+    fixture.detectChanges();
+    expect(
+      compiled.querySelector('.buttonContainer > button').disabled
+    ).toBeTrue();
+  });
+  it('onLoad button should not be disabled if search query is shorter than 2', () => {
+    fixture.debugElement.query(
+      By.directive(SearchBarComponent)
+    ).componentInstance.searchQuery = 'aa';
+    fixture.detectChanges();
+    expect(
+      compiled.querySelector('.buttonContainer > button').disabled
+    ).toBeFalse();
+  });
+  it('onLoad button should have enabled class if search query is shorter than 2', () => {
+    fixture.debugElement.query(
+      By.directive(SearchBarComponent)
+    ).componentInstance.searchQuery = 'aa';
+    fixture.detectChanges();
+    expect(
+      compiled.querySelector('.buttonContainer > button').classList
+    ).toContain('enabled');
+  });
+  it('onLoad button should not have enabled class if search query is longer than 2', () => {
+    fixture.debugElement.query(
+      By.directive(SearchBarComponent)
+    ).componentInstance.searchQuery = 'aaaa';
+    fixture.detectChanges();
+    expect(
+      compiled.querySelector('.buttonContainer > button').classList
+    ).not.toContain('enabled');
   });
 });
