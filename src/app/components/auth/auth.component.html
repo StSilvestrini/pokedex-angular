@@ -1,11 +1,49 @@
 <form (ngSubmit)="onSubmit()" #f="ngForm">
-  <div>
+  <div class="inputContainer">
     <label for="username">Username</label>
-    <input type="text" id="username" ngModel name="username" required />
+    <input
+      type="text"
+      id="username"
+      ngModel
+      name="username"
+      required
+      class="zoom"
+    />
   </div>
-  <div>
+  <div class="inputContainer" *ngIf="!loginMode">
+    <label for="email">Email</label>
+    <input
+      type="email"
+      id="email"
+      ngModel
+      name="email"
+      required
+      class="zoom"
+      email
+    />
+  </div>
+  <div class="inputContainer">
     <label for="password">Password</label>
-    <input type="text" id="password" ngModel name="password" required />
+    <input
+      type="text"
+      id="password"
+      ngModel
+      name="password"
+      required
+      class="zoom"
+    />
   </div>
-  <button type="submit" [disabled]="!f.valid">Submit</button>
+  <button
+    type="submit"
+    [disabled]="!f.valid"
+    [ngClass]="{ zoom: f.valid, disabled: !f.valid, enabled: f.valid }"
+  >
+    Submit
+  </button>
+  <div>
+    <span>Switch to: </span
+    ><u class="pointer" (click)="switchAuth()">{{
+      loginMode ? "Sign-up" : "Login"
+    }}</u>
+  </div>
 </form>
