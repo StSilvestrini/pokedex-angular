@@ -15,9 +15,10 @@ import { CompareModalComponent } from './components/compare-modal/compare-modal.
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { AuthComponent } from './components/auth/auth.component';
 
 @NgModule({
-  declarations: [AppComponent, CompareModalComponent],
+  declarations: [AppComponent, CompareModalComponent, AuthComponent],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
@@ -33,7 +34,7 @@ import { environment } from '../environments/environment';
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
+      registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
   providers: [],

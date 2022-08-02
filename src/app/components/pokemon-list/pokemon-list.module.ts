@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { PlaceholderDirective } from 'src/app/directives/placeholder.directive';
 import { FilterListPipe } from 'src/app/pipes/filterList.pipe';
@@ -20,6 +19,6 @@ import { PokemonListComponent } from './pokemon-list.component';
     SelectDimensionComponent,
     SelectNumberComponent,
   ],
-  imports: [RouterModule, FormsModule, SharedModule],
+  imports: [RouterModule, SharedModule],
 })
 export class PokemonListModule {}

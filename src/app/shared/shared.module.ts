@@ -5,6 +5,7 @@ import { CutListPipe } from '../pipes/cut-list.pipe';
 import { FormatNumberPipe } from '../pipes/formatNumber.pipe';
 import { ChartComponent } from '../components/chart/chart.component';
 import { ChartModule } from 'angular2-chartjs';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,7 @@ import { ChartModule } from 'angular2-chartjs';
     FormatNumberPipe,
     ChartComponent,
   ],
-  imports: [CommonModule, ChartModule],
+  imports: [CommonModule, ChartModule, FormsModule],
   exports: [
     CommonModule,
     TypesBackgroundDirective,
@@ -21,6 +22,7 @@ import { ChartModule } from 'angular2-chartjs';
     FormatNumberPipe,
     ChartComponent,
     ChartModule,
+    FormsModule,
   ],
 })
 export class SharedModule {}
