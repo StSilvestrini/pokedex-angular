@@ -5,9 +5,7 @@ import { IPokemonCardList } from '../interfaces';
   name: 'sortList',
 })
 export class SortListPipe implements PipeTransform {
-  transform(value: any[], sortBy: string): IPokemonCardList[] {
-    return value.sort(
-      (a: IPokemonCardList, b: IPokemonCardList) => a?.[sortBy] - b?.[sortBy]
-    );
+  transform<T>(value: T[], sortBy: string): T[] {
+    return value.sort((a: T, b: T) => a?.[sortBy] - b?.[sortBy]);
   }
 }
