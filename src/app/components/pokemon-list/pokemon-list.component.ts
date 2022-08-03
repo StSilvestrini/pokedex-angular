@@ -9,6 +9,7 @@ import { ArrayManipulationService } from 'src/app/services/arrayManipulation.ser
 import { StoreService } from 'src/app/services/store.service';
 import { CompareModalComponent } from '../compare-modal/compare-modal.component';
 import { PlaceholderDirective } from 'src/app/directives/placeholder.directive';
+import * as AuthAction from '../auth/store/auth.actions';
 
 @Component({
   selector: 'app-pokemon-list',
@@ -36,6 +37,11 @@ export class PokemonListComponent implements OnDestroy {
       },
       error: (error) => this.httpService.errorManager(error),
     });
+    this.store.select('auth').subscribe({
+      next: ({ isLogged }) => {
+        this.isLogged = isLogged;
+      },
+    });
   }
 
   private initialSubscription: Subscription;
@@ -50,6 +56,8 @@ export class PokemonListComponent implements OnDestroy {
   applyPipe = false;
   compareMode = false;
   pokemonsToCompare: string[] = [];
+  showAuthInfo = false;
+  isLogged: boolean;
 
   @ViewChild(PlaceholderDirective, { static: false })
   modalHost: PlaceholderDirective;
@@ -155,6 +163,15 @@ export class PokemonListComponent implements OnDestroy {
 
   onChangeDimension = (value) => {
     this.gridLayout = value;
+  };
+
+  onShowAuthInfo = () => {
+    this.showAuthInfo = !this.showAuthInfo;
+  };
+
+  onLogout = () => {
+    this.store.dispatch(AuthAction.Logout());
+    this.isLogged = false;
   };
 
   ngOnDestroy(): void {

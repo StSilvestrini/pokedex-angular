@@ -155,7 +155,34 @@
   @include zoom;
 }
 
-.personIcon {
-  width: 35px;
-  height: 35px;
+//Auth Info
+
+.authInfoContainer {
+  position: relative;
+  width: 80px;
+  .personIcon {
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+  }
+  .authInfo {
+    background-color: #fff;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding: 0.5rem;
+    border-radius: 10px;
+    div {
+      font-size: smaller;
+      font-family: $fontFamily;
+      &:first-child {
+        margin-bottom: 0.5rem;
+        color: green;
+      }
+    }
+    u {
+      cursor: pointer;
+      color: red;
+    }
+  }
 }

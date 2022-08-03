@@ -9,8 +9,16 @@
       [disabled]="searchBar?.searchQuery?.length >= 3"
       (changeNumber)="onNumberChange($event)"
     ></app-select-number>
-    <div>
-      <img src="../../../assets/persona-icon.svg" class="personIcon" />
+    <div class="authInfoContainer">
+      <img
+        src="../../../assets/persona-icon.svg"
+        class="personIcon"
+        (click)="onShowAuthInfo()"
+      />
+      <div class="authInfo" *ngIf="showAuthInfo">
+        <div>Logged in</div>
+        <div><u (click)="onLogout()">Log-out</u></div>
+      </div>
     </div>
   </div>
   <ul class="listContainer">
