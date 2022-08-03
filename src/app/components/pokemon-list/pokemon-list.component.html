@@ -16,8 +16,16 @@
         (click)="onShowAuthInfo()"
       />
       <div class="authInfo" *ngIf="showAuthInfo">
-        <div>Logged in</div>
-        <div><u (click)="onLogout()">Log-out</u></div>
+        <div [ngClass]="{ greenColor: isLogged, grayColor: !isLogged }">
+          {{ isLogged ? "Logged in" : "Not Logged" }}
+        </div>
+        <div>
+          <u
+            (click)="isLogged ? onLogout() : onLoginNavigate()"
+            [ngClass]="{ colorRed: isLogged }"
+            >{{ isLogged ? "Log-out" : "Login" }}</u
+          >
+        </div>
       </div>
     </div>
   </div>

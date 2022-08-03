@@ -10,6 +10,7 @@ import { StoreService } from 'src/app/services/store.service';
 import { CompareModalComponent } from '../compare-modal/compare-modal.component';
 import { PlaceholderDirective } from 'src/app/directives/placeholder.directive';
 import * as AuthAction from '../auth/store/auth.actions';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-pokemon-list',
@@ -22,7 +23,8 @@ export class PokemonListComponent implements OnDestroy {
     private storeService: StoreService,
     private utilityService: UtilitiesService,
     private store: Store<fromApp.AppState>,
-    private ArrayManipulationService: ArrayManipulationService
+    private ArrayManipulationService: ArrayManipulationService,
+    private router: Router
   ) {
     this.initialSubscription = this.store.select('pokemonList').subscribe({
       next: ({ pokemonList, pokemonListByType }) => {
@@ -37,7 +39,7 @@ export class PokemonListComponent implements OnDestroy {
       },
       error: (error) => this.httpService.errorManager(error),
     });
-    this.store.select('auth').subscribe({
+    this.authSubscription = this.store.select('auth').subscribe({
       next: ({ isLogged }) => {
         this.isLogged = isLogged;
       },
@@ -49,6 +51,7 @@ export class PokemonListComponent implements OnDestroy {
   private changeNumberSubscription: Subscription;
   private pokemonDetailSubscription: Subscription;
   private closeSub: Subscription;
+  private authSubscription: Subscription;
 
   pokemonList: IPokemonCardList[] = [];
   numberToShow = 'choose';
@@ -174,6 +177,10 @@ export class PokemonListComponent implements OnDestroy {
     this.isLogged = false;
   };
 
+  onLoginNavigate = () => {
+    this.router.navigate(['/auth']);
+  };
+
   ngOnDestroy(): void {
     const { unsubscribeImproved } = this?.httpService || {};
     unsubscribeImproved(this.initialSubscription);
@@ -181,5 +188,6 @@ export class PokemonListComponent implements OnDestroy {
     unsubscribeImproved(this.changeNumberSubscription);
     unsubscribeImproved(this.pokemonDetailSubscription);
     unsubscribeImproved(this.closeSub);
+    unsubscribeImproved(this.authSubscription);
   }
 }

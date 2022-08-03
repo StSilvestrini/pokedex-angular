@@ -139,6 +139,10 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  @include forMobile {
+    flex-direction: column-reverse;
+    padding: 0.5rem 0;
+  }
 }
 
 //compare mood
@@ -160,6 +164,10 @@
 .authInfoContainer {
   position: relative;
   width: 80px;
+  @include forMobile {
+    margin-top: 1rem;
+    text-align: center;
+  }
   .personIcon {
     width: 35px;
     height: 35px;
@@ -177,12 +185,22 @@
       font-family: $fontFamily;
       &:first-child {
         margin-bottom: 0.5rem;
-        color: green;
       }
     }
     u {
       cursor: pointer;
-      color: red;
     }
   }
+}
+
+.redColor {
+  color: red;
+}
+
+.greenColor {
+  color: green;
+}
+
+.grayColor {
+  color: gray;
 }

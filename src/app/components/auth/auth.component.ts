@@ -19,8 +19,6 @@ export class AuthComponent {
 
   onSubmit() {
     this.store.dispatch(AuthAction.Login());
-    setTimeout(() => {
-      this.router.navigate(['/']);
-    }, 1000);
+    this.router.navigate(['/']);
   }
 }
