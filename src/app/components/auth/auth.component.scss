@@ -1,35 +1,54 @@
 @use "../../../styles.scss" as *;
 
-form {
+.container {
+  width: 50%;
+  height: 50%;
   padding: 5rem;
+  margin: 0 auto;
+  @include forMobile {
+    width: 70%;
+    padding: 3rem;
+  }
+}
+form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  div.inputContainer {
+  background-color: $containerBackgroundColor;
+  padding: 1rem;
+  border: 0.5px solid $borderColor;
+  border-radius: 10px;
+  font-family: $fontFamily;
+  color: $buttonBackgroundColor;
+  @include box-shadow();
+  .inputContainer {
     width: 40%;
     text-align: center;
+    @include forTablet {
+      width: 70%;
+    }
   }
   label {
     display: block;
     text-align: center;
-    font-family: $fontFamily;
   }
   input {
     margin-bottom: 1rem;
-    padding: 0.3rem 0.1rem;
+    padding: 0.5rem 0.1rem;
     width: 100%;
     border-radius: 5px;
-    border-color: gray;
+    border-color: $borderColor;
   }
   button {
     padding: 0.5rem 1rem;
     border-radius: 10px;
-    border: 0.5px solid gray;
+    border: 0.5px solid $borderColor;
     color: #fff;
     margin-bottom: 1rem;
   }
-  u {
+  u,
+  span {
     font-size: smaller;
   }
 }
