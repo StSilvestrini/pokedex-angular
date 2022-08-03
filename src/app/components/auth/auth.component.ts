@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import * as fromApp from '../../store/app.reducer';
+import * as AuthAction from './store/auth.actions';
 
 @Component({
   selector: 'app-auth',
@@ -7,10 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AuthComponent {
   loginMode = true;
-  constructor() {}
+  constructor(private store: Store<fromApp.AppState>) {}
+
   switchAuth() {
     this.loginMode = !this.loginMode;
   }
 
-  onSubmit() {}
+  onSubmit() {
+    this.store.dispatch(AuthAction.Login());
+  }
 }
