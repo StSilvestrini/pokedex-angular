@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../store/app.reducer';
 import * as AuthAction from './store/auth.actions';
@@ -10,7 +11,7 @@ import * as AuthAction from './store/auth.actions';
 })
 export class AuthComponent {
   loginMode = true;
-  constructor(private store: Store<fromApp.AppState>) {}
+  constructor(private store: Store<fromApp.AppState>, private router: Router) {}
 
   switchAuth() {
     this.loginMode = !this.loginMode;
@@ -18,5 +19,8 @@ export class AuthComponent {
 
   onSubmit() {
     this.store.dispatch(AuthAction.Login());
+    setTimeout(() => {
+      this.router.navigate(['/']);
+    }, 1000);
   }
 }
