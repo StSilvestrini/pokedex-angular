@@ -70,3 +70,13 @@ form {
 .pointer {
   cursor: pointer;
 }
+
+.homeIcon {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  img {
+    width: 20px;
+    height: 20px;
+  }
+}
