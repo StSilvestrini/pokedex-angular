@@ -30,8 +30,8 @@ describe('SelectDimensionComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  it('should be three options', () => {
-    expect(compiled.querySelectorAll('#grids > option').length).toBe(3);
+  it('should be four options', () => {
+    expect(compiled.querySelectorAll('#grids > option').length).toBe(4);
   });
   it('the regular option should be the selected', () => {
     expect(compiled.querySelector('[value="regular"]').selected).toBeTruthy();
@@ -50,7 +50,7 @@ describe('SelectDimensionComponent', () => {
   it('value should change onChange', () => {
     select.value = select.options[2].value;
     select.dispatchEvent(new Event('change'));
-    expect(select.options[select.selectedIndex].label).toBe('Large');
+    expect(select.options[select.selectedIndex].label).toBe('Regular');
   });
 
   it('subject should be emitted when onChange is called', () => {
