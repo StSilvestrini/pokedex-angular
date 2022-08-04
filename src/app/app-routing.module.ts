@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './components/auth/auth.component';
 import { PokemonListComponent } from './components/pokemon-list/pokemon-list.component';
+import { AuthGuard } from './services/auth.guards';
 
 const routes: Routes = [
   { path: '', component: PokemonListComponent },
@@ -9,6 +10,7 @@ const routes: Routes = [
 
   {
     path: 'card/:pokemonId',
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./components/pokemon-card/pokemon-card.module').then(
         (m) => m.PokemonCardModule
